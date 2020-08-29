@@ -28,46 +28,13 @@ void str_replace(char *target, const char *needle, const char *replacement)
     strcpy(target, buffer);
 }
 
-void cd(char *path, char *home)
-{
-    printf("Path : %s\n", path);
-    path = strtok(NULL, " \t");
-
-    printf("Path : %s\n", path);
-    printf("Home : %s\n", home);
-    if(path == NULL)
-    {
-        path = "~";
-    }
-
-    char changePath[3*MAX_SIZE];
-
-    if(path[0] == '~')
-    {
-        char new[MAX_SIZE];
-        strcpy(new, home);
-        strcat(new, path+1);
-        strcpy(changePath, new);
-    }
-
-    else
-    {
-        strcpy(changePath, path);
-    }
-
-    if(chdir(changePath) < 0)
-    {
-        printf("cd: %s: No such file or directory\n", path);
-    }
-}
-
-
 int main() 
 {
     int exit=0;
     char hostname[HOST_NAME_MAX];
     char username[LOGIN_NAME_MAX];
     char cwd[PATH_MAX];
+    char tcwd[PATH_MAX];
     int result;
     char* home; 
     char fPath[3000];
@@ -89,6 +56,7 @@ int main()
         if(getcwd(cwd, PATH_MAX) == NULL) {
             perror("getcwd()");
         }
+        strcpy(tcwd,cwd);
         str_replace(cwd, home, "~");
         printf("<%s@%s:%s> : ", username, hostname, cwd);
         scanf("%[^\n]%*c", input);
@@ -101,7 +69,7 @@ int main()
         else if(!strcmp(inp, "cd")) {
             char* p = "~";
             char new[1000];
-            if(!(p =strtok(NULL, " \t")))
+            if(!(p = strtok(NULL, " \t")))
             {
                 p = "~";
             }
@@ -114,8 +82,12 @@ int main()
             strcpy(fPath, new);
             if(chdir(fPath) < 0)
             {
-                printf("cd: %s: Not a valid path\n", p);
+                printf("cd: Not a valid path\n");
             }
+        }
+
+        else if(!strcmp(inp, "pwd")) {
+            printf("%s\n", tcwd);
         }
 
         else {
