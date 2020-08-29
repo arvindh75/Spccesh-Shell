@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#define MAX_SIZE 1000
 
 void str_replace(char *target, const char *needle, const char *replacement)
 {
@@ -27,6 +28,39 @@ void str_replace(char *target, const char *needle, const char *replacement)
     strcpy(target, buffer);
 }
 
+void cd(char *path, char *home)
+{
+    printf("Path : %s\n", path);
+    path = strtok(NULL, " \t");
+
+    printf("Path : %s\n", path);
+    printf("Home : %s\n", home);
+    if(path == NULL)
+    {
+        path = "~";
+    }
+
+    char changePath[3*MAX_SIZE];
+
+    if(path[0] == '~')
+    {
+        char new[MAX_SIZE];
+        strcpy(new, home);
+        strcat(new, path+1);
+        strcpy(changePath, new);
+    }
+
+    else
+    {
+        strcpy(changePath, path);
+    }
+
+    if(chdir(changePath) < 0)
+    {
+        printf("cd: %s: No such file or directory\n", path);
+    }
+}
+
 
 int main() 
 {
@@ -36,8 +70,8 @@ int main()
     char cwd[PATH_MAX];
     int result;
     char* home; 
+    char fPath[3000];
     home = getenv("HOME");
-    printf("Home : %s\n", home);
     result = gethostname(hostname, HOST_NAME_MAX);
     if (result)
     {
@@ -57,10 +91,33 @@ int main()
         }
         str_replace(cwd, home, "~");
         printf("<%s@%s:%s> : ", username, hostname, cwd);
-        scanf("%s", input);
-        if(!strcmp(input, "exit")) {
+        scanf("%[^\n]%*c", input);
+        char* inp = strtok(input, " \t");
+        
+        if(!strcmp(inp, "exit")) {
             exit = 1;
         }
+
+        else if(!strcmp(inp, "cd")) {
+            char* p = "~";
+            char new[1000];
+            if(!(p =strtok(NULL, " \t")))
+            {
+                p = "~";
+            }
+            strcpy(new,p);
+            if(p[0] == '~')
+            {
+                strcpy(new, home);
+                strcat(new, p+1);
+            }
+            strcpy(fPath, new);
+            if(chdir(fPath) < 0)
+            {
+                printf("cd: %s: Not a valid path\n", p);
+            }
+        }
+
         else {
             printf("Command not found !\n");
         }
