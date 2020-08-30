@@ -1,10 +1,11 @@
-#include <linux/limits.h>
 #include <stdio.h>
 #include <limits.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#define MAX_SIZE 1000
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
 
 void str_replace(char *target, const char *needle, const char *replacement)
 {
@@ -61,7 +62,7 @@ int main()
         printf("<%s@%s:%s> : ", username, hostname, cwd);
         scanf("%[^\n]%*c", input);
         char* inp = strtok(input, " \t");
-        
+
         if(!strcmp(inp, "exit")) {
             exit = 1;
         }
@@ -90,9 +91,49 @@ int main()
             printf("%s\n", tcwd);
         }
 
+        else if(!strcmp(inp, "ls")) {
+            DIR *mydir;
+            DIR *ldir;
+            struct dirent *myfile;
+            struct stat mystat;
+            char buf[512];
+            mydir = opendir(tcwd);
+            ldir = opendir(tcwd);
+            int maxlen = 0;
+            while((myfile = readdir(ldir)) != NULL) {
+                if(myfile->d_name[0] != '.') {
+                    if(strlen(myfile->d_name) > maxlen) {
+                        maxlen = strlen(myfile->d_name);
+                    } 
+                }
+            }
+            int count = 0, pass=0;
+
+            while((myfile = readdir(mydir)) != NULL)
+            {
+                //printf("Reclen : %i\n",myfile->d_reclen);
+                //printf("Type : %c\n",myfile->d_type);
+                if(myfile->d_name[0] != '.') {
+                    if(count == 0 && pass == 1) {
+                        printf("\n");
+                    }
+                    printf("%-*s",maxlen + 1,myfile->d_name);
+                    count=(count+1)%4;
+                    pass=1;
+                }
+                //sprintf(buf, "%s/%s", tcwd, myfile->d_name);
+                //stat(buf, &mystat);
+                //printf("%zu",mystat.st_size);
+                //printf(" %s\n", myfile->d_name);
+            }
+            closedir(mydir);
+            printf("\n");
+        }
+
         else {
             printf("Command not found !\n");
         }
+            printf("\n");
     }
     return 0;
 }
