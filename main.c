@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <assert.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
@@ -62,7 +63,6 @@ int main()
         printf("<%s@%s:%s> : ", username, hostname, cwd);
         scanf("%[^\n]%*c", input);
         char* inp = strtok(input, " \t");
-
         if(!strcmp(inp, "exit")) {
             exit = 1;
         }
@@ -108,18 +108,47 @@ int main()
                 }
             }
             int count = 0, pass=0;
-
+            char commands[3][1000];
+            char *temp = "";
+            for(int j=0; j<3; j++)
+            {
+                temp = strtok(NULL, " \t");
+                if(temp == NULL)
+                {
+                    for(int k = j; k < 3; k++)
+                    {
+                        strcpy(commands[k], "\0");
+                    }
+                    break;
+                }
+                int i = 0;
+                for(i = 0; temp[i] != '\0'; i++)
+                {
+                    commands[j][i] = temp[i];
+                }
+                commands[j][i] = '\0';
+            }
             while((myfile = readdir(mydir)) != NULL)
             {
                 //printf("Reclen : %i\n",myfile->d_reclen);
                 //printf("Type : %c\n",myfile->d_type);
-                if(myfile->d_name[0] != '.') {
+                //printf("Name : %s\n",myfile->d_name);
+                if(!strcmp(commands[0],"-a" ) || !strcmp(commands[1],"-a" ) || !strcmp(commands[2],"-a" )) {
                     if(count == 0 && pass == 1) {
                         printf("\n");
                     }
                     printf("%-*s",maxlen + 1,myfile->d_name);
                     count=(count+1)%4;
                     pass=1;
+                }
+                else {if(myfile->d_name[0] != '.') {
+                    if(count == 0 && pass == 1) {
+                        printf("\n");
+                    }
+                    printf("%-*s",maxlen + 1,myfile->d_name);
+                    count=(count+1)%4;
+                    pass=1;
+                }
                 }
                 //sprintf(buf, "%s/%s", tcwd, myfile->d_name);
                 //stat(buf, &mystat);
@@ -133,7 +162,7 @@ int main()
         else {
             printf("Command not found !\n");
         }
-            printf("\n");
+        printf("\n");
     }
     return 0;
 }
