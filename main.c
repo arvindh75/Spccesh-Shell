@@ -56,6 +56,7 @@ int main()
     int a_ls = 0;
     int l_ls = 0;
     char* ls_dir;
+    int cnt_ls = 0;
 
     home = getenv("HOME");
     result = gethostname(hostname, HOST_NAME_MAX);
@@ -81,6 +82,7 @@ int main()
         scanf("%[^\n]%*c", input);
         char* inp = strtok(input, " \t");
         if(inp != NULL) {
+
             if(!strcmp(inp, "exit")) {
                 exit = 1;
             }
@@ -113,6 +115,7 @@ int main()
                 count = 0;
                 pass=0;
                 temp = "";
+                cnt_ls = 0;
 
                 for(int j=0; j < LS_SIZE; j++)
                 {
@@ -131,7 +134,7 @@ int main()
                         args[j][i] = temp[i];
                     }
                     args[j][i] = '\0';
-                    
+
                 }
 
                 for(int j=0; j < LS_SIZE; j++) {
@@ -151,7 +154,7 @@ int main()
 
                 for(int j=0;j < LS_SIZE; j++) {
                     if(args[j] != NULL) {
-                        if((args[j][0] >= 97 && args[j][0] <= 122) || (args[j][0] >= 65 && args[j][0] <= 90) || (args[j][0] == 46) || (args[j][0] == 47)) {
+                        if((args[j][0] >= 97 && args[j][0] <= 122) || (args[j][0] >= 65 && args[j][0] <= 90) || (args[j][0] == 46) || (args[j][0] == 47) || (args[j][0] == 126)) {
                             if(args[j][0] == '~')
                                 ls_dir = home;
                             else
@@ -162,6 +165,7 @@ int main()
                                 continue;
                             }
                             ldir = opendir(ls_dir);
+                            cnt_ls ++;
                             printf("\n%s :\n", ls_dir);
                             maxlen = 0;
                             while((myfile = readdir(ldir)) != NULL) {
@@ -200,7 +204,41 @@ int main()
                         }
                     }
                 }
+                if(cnt_ls == 0) {
+                    mydir = opendir(tcwd);
+                    ldir = opendir(tcwd);
+                    maxlen = 0;
+                    while((myfile = readdir(ldir)) != NULL) {
+                        if(myfile->d_name[0] != '.') {
+                            if(strlen(myfile->d_name) > maxlen) {
+                                maxlen = strlen(myfile->d_name);
+                            } 
+                        }
+                    }
 
+                    while((myfile = readdir(mydir)) != NULL)
+                    {
+                        if(a_ls == 1) {
+                            if(count == 0 && pass == 1) {
+                                printf("\n");
+                            }
+                            printf("%-*s",maxlen + 1,myfile->d_name);
+                            count=(count+1)%4;
+                            pass=1;
+                        }
+                        else { 
+                            if(myfile->d_name[0] != '.') {
+                                if(count == 0 && pass == 1) {
+                                    printf("\n");
+                                }
+                                printf("%-*s",maxlen + 1,myfile->d_name);
+                                count=(count+1)%4;
+                                pass=1;
+                            }
+                        }
+                    }
+                    closedir(mydir);
+                }
                 printf("\n");
             }
 
