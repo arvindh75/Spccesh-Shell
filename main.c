@@ -40,6 +40,20 @@ int main()
     int result;
     char* home; 
     char fPath[3000];
+    char* p = "~";
+    char new[1000];
+    DIR *mydir;
+    DIR *ldir;
+    struct dirent *myfile;
+    struct stat mystat;
+    char buf[512];
+    int maxlen=0;
+    int count,pass;
+    char args[3][1000];
+    char* temp;
+    int a_ls = 0;
+    int l_ls = 0;
+
     home = getenv("HOME");
     result = gethostname(hostname, HOST_NAME_MAX);
     if (result)
@@ -63,13 +77,12 @@ int main()
         printf("<%s@%s:%s> : ", username, hostname, cwd);
         scanf("%[^\n]%*c", input);
         char* inp = strtok(input, " \t");
+
         if(!strcmp(inp, "exit")) {
             exit = 1;
         }
 
         else if(!strcmp(inp, "cd")) {
-            char* p = "~";
-            char new[1000];
             if(!(p = strtok(NULL, " \t")))
             {
                 p = "~";
@@ -92,14 +105,11 @@ int main()
         }
 
         else if(!strcmp(inp, "ls")) {
-            DIR *mydir;
-            DIR *ldir;
-            struct dirent *myfile;
-            struct stat mystat;
-            char buf[512];
+            a_ls=0;
+            l_ls=0;
             mydir = opendir(tcwd);
             ldir = opendir(tcwd);
-            int maxlen = 0;
+            maxlen = 0;
             while((myfile = readdir(ldir)) != NULL) {
                 if(myfile->d_name[0] != '.') {
                     if(strlen(myfile->d_name) > maxlen) {
@@ -107,9 +117,9 @@ int main()
                     } 
                 }
             }
-            int count = 0, pass=0;
-            char commands[3][1000];
-            char *temp = "";
+            count = 0;
+            pass=0;
+            temp = "";
             for(int j=0; j<3; j++)
             {
                 temp = strtok(NULL, " \t");
@@ -117,23 +127,20 @@ int main()
                 {
                     for(int k = j; k < 3; k++)
                     {
-                        strcpy(commands[k], "\0");
+                        strcpy(args[k], "\0");
                     }
                     break;
                 }
                 int i = 0;
                 for(i = 0; temp[i] != '\0'; i++)
                 {
-                    commands[j][i] = temp[i];
+                    args[j][i] = temp[i];
                 }
-                commands[j][i] = '\0';
+                args[j][i] = '\0';
             }
             while((myfile = readdir(mydir)) != NULL)
             {
-                //printf("Reclen : %i\n",myfile->d_reclen);
-                //printf("Type : %c\n",myfile->d_type);
-                //printf("Name : %s\n",myfile->d_name);
-                if(!strcmp(commands[0],"-a" ) || !strcmp(commands[1],"-a" ) || !strcmp(commands[2],"-a" )) {
+                if(!strcmp(args[0],"-a" ) || !strcmp(args[1],"-a" ) || !strcmp(args[2],"-a" )) {
                     if(count == 0 && pass == 1) {
                         printf("\n");
                     }
@@ -141,14 +148,15 @@ int main()
                     count=(count+1)%4;
                     pass=1;
                 }
-                else {if(myfile->d_name[0] != '.') {
-                    if(count == 0 && pass == 1) {
-                        printf("\n");
+                else {
+                    if(myfile->d_name[0] != '.') {
+                        if(count == 0 && pass == 1) {
+                            printf("\n");
+                        }
+                        printf("%-*s",maxlen + 1,myfile->d_name);
+                        count=(count+1)%4;
+                        pass=1;
                     }
-                    printf("%-*s",maxlen + 1,myfile->d_name);
-                    count=(count+1)%4;
-                    pass=1;
-                }
                 }
                 //sprintf(buf, "%s/%s", tcwd, myfile->d_name);
                 //stat(buf, &mystat);
