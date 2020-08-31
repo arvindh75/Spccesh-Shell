@@ -3,13 +3,13 @@
 #include "str_util.h"
 
 void prompt_f() {
-    extern cwd;
-    extern tcwd;
-    extern username;
-    extern hostname;
-    extern home;
-    extern inp;
-    extern input;
+    // extern char cwd[];
+    // extern char tcwd[];
+    // extern char username[];
+    // extern char hostname[];
+    // extern char* home;
+    // extern char* inp;
+    // extern char input[];
     if(getcwd(cwd, PATH_MAX) == NULL) {
         perror("getcwd()");
     }

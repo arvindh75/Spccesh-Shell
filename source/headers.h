@@ -1,3 +1,6 @@
+#ifndef __HEADER_H
+#define __HEADER_H
+
 #include <stdio.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -10,12 +13,18 @@
 #include <dirent.h>
 #include <pwd.h>
 #include <grp.h>
+#include <sys/utsname.h> 
+#include <sys/wait.h>	
+#include <fcntl.h> 
+#include <signal.h>
+#include <unistd.h>
 
-#define LS_SIZE 10
+
+#define LS_SIZE 25
 #define BUF_SIZE 1024
 
 char args[LS_SIZE][1000];
-int count,pass;
+ 
 int a_ls = 0;
 int l_ls = 0;
 char* temp;
@@ -38,6 +47,8 @@ char hostname[HOST_NAME_MAX];
 char username[LOGIN_NAME_MAX];
 char cwd[PATH_MAX];
 char tcwd[PATH_MAX];
-int exit=0;
+int exit_loop=0;
 char input[100];
 char* inp;
+
+#endif

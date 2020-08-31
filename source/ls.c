@@ -4,29 +4,37 @@
 
 void ls_f() { 
     //str function
-    extern a_ls;
-    extern l_ls;
-    extern count;
-    extern pass;
-    extern temp;
-    extern cnt_ls;
-    extern args;
-    extern ls_dir;
-    extern tf; 
-    extern gf;
-    extern mydir;
-    extern ldir;
-    extern myfile;
-    extern mystat;
-    extern cwd;
-    extern tcwd;
-    extern result;
-    extern maxlen;
+    // extern int exit_loop;
+    // extern char hostname[];
+    // extern char username[];
+    // extern char cwd[];
+    // extern char tcwd[];
+    // extern int result;
+    // extern char* home; 
+    // extern char* p;
+    // extern char new[];
+    // extern DIR* mydir;
+    // extern DIR* ldir;
+    // extern struct dirent *myfile;
+    // extern struct stat mystat;
+    // extern char buf[];
+    // extern int maxlen;
+    // extern int count;
+    // extern int pass;
+    // extern char args[][1000];
+    // extern char* temp;
+    // extern int a_ls;
+    // extern int l_ls;
+    // extern char* ls_dir;
+    // extern int cnt_ls;
+    // extern struct passwd* tf; 
+    // extern struct group* gf;
+    // extern char input[];
     maxlen=0;
     a_ls=0;
     l_ls=0;
-    count = 0;
-    pass=0;
+    int count = 0;
+    int pass=0;
     temp = "";
     cnt_ls = 0;
 
@@ -132,11 +140,11 @@ void ls_f() {
 
                         printf(" %d ", mystat.st_nlink);
 
-                        tf = getpwuid(mystat.st_uid);
-                        printf(" %s ", tf->pw_name);
+                        //tf = getpwuid(mystat.st_uid);
+                        //printf(" %s ", ((getpwuid(mystat.st_uid))->pw_name));
 
-                        gf = getgrgid(mystat.st_gid);
-                        printf(" %s ", gf->gr_name);
+                        //gf = getgrgid(mystat.st_gid);
+                        //printf(" %s ", ((getgrgid(mystat.st_gid))->gr_name));
 
                         printf("%9zu ", mystat.st_size);
                         //printf("Blocks = %zu ", mystat.st_blocks);
@@ -231,11 +239,16 @@ void ls_f() {
 
                 printf(" %d ", mystat.st_nlink);
 
-                tf = getpwuid(mystat.st_uid);
-                printf(" %s ", tf->pw_name);
+                //tf = getpwuid(mystat.st_uid);
+                //printf(" %s ", tf->pw_name);
 
-                gf = getgrgid(mystat.st_gid);
-                printf(" %s ", gf->gr_name);
+                //gf = getgrgid(mystat.st_gid);
+                //printf(" %s ", gf->gr_name);
+                //tf = getpwuid(mystat.st_uid);
+                //printf(" %s ", ((getpwuid(mystat.st_uid))->pw_name));
+
+                        //gf = getgrgid(mystat.st_gid);
+                //printf(" %s ", ((getgrgid(mystat.st_gid))->gr_name));
 
                 printf("%9zu ", mystat.st_size);
                 //printf("Blocks = %zu ", mystat.st_blocks);

@@ -10,36 +10,36 @@
 
 int main() 
 {
-    extern exit;
-    extern hostname;
-    extern username;
-    extern cwd;
-    extern tcwd;
-    extern result;
-    extern home; 
-    extern p;
-    extern new;
-    extern mydir;
-    extern ldir;
-    extern myfile;
-    extern mystat;
-    extern buf;
-    extern maxlen;
-    extern count;
-    extern pass;
-    extern args;
-    extern temp;
-    extern a_ls;
-    extern l_ls;
-    extern ls_dir;
-    extern cnt_ls;
-    extern tf; 
-    extern gf;
-    extern input;
+    // extern int exit_loop;
+    // extern char hostname[];
+    // extern char username[];
+    // extern char cwd[];
+    // extern char tcwd[];
+    // extern int result;
+    // extern char* home; 
+    // extern char* p;
+    // extern char new[];
+    // extern DIR* mydir;
+    // extern DIR* ldir;
+    // extern struct dirent *myfile;
+    // extern struct stat mystat;
+    // extern char buf[];
+    // extern int maxlen;
+    // extern int count;
+    // extern int pass;
+    // extern char args[][1000];
+    // extern char* temp;
+    // extern int a_ls;
+    // extern int l_ls;
+    // extern char* ls_dir;
+    // extern int cnt_ls;
+    // extern struct passwd* tf; 
+    // extern struct group* gf;
+    // extern char input[];
 
     setname_f();
 
-    while(exit ==  0) {
+    while(exit_loop ==  0) {
         prompt_f();
         if(inp != NULL) {
 
@@ -48,7 +48,7 @@ int main()
             }
 
             else if(!strcmp(inp, "cd")) {
-                cd();
+                cd_f();
             }
 
             else if(!strcmp(inp, "pwd")) {

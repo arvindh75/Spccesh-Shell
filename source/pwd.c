@@ -2,6 +2,6 @@
 #include "headers.h"
 
 void pwd_f() {
-    extern tcwd;
+   // extern char tcwd[];
     printf("%s\n", tcwd);
 }

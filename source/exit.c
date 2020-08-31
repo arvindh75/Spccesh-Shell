@@ -2,6 +2,6 @@
 #include "headers.h"
 
 void exit_f() {
-    extern exit;
-    exit = 1;  
+    //extern int exit_loop;
+    exit_loop = 1;  
 }

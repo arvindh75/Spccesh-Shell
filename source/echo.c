@@ -2,9 +2,9 @@
 #include "headers.h"
 
 void echo_f() { 
-    extern temp;
+    //extern char* temp;
     temp = "";
-    extern args;
+    //extern char args[][1000];
     for(int j=0; j < LS_SIZE; j++)
     {
         temp = strtok(NULL, " \t");
