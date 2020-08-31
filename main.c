@@ -109,6 +109,33 @@ int main()
                 printf("%s\n", tcwd);
             }
 
+            else if(!strcmp(inp, "echo")) {
+                temp = "";
+                for(int j=0; j < LS_SIZE; j++)
+                {
+                    temp = strtok(NULL, " \t");
+                    if(temp == NULL)
+                    {
+                        for(int k = j; k < LS_SIZE; k++)
+                        {
+                            strcpy(args[k], "\0");
+                        }
+                        break;
+                    }
+                    int i = 0;
+                    for(i = 0; temp[i] != '\0'; i++)
+                    {
+                        args[j][i] = temp[i];
+                    }
+                    args[j][i] = '\0';
+                }
+                for(int j=0;j < LS_SIZE; j++) {
+                    if(args[j] != NULL) {
+                        printf("%s",args[j]);
+                    }
+                }
+            }
+
             else if(!strcmp(inp, "ls")) {
                 a_ls=0;
                 l_ls=0;
@@ -134,7 +161,6 @@ int main()
                         args[j][i] = temp[i];
                     }
                     args[j][i] = '\0';
-
                 }
 
                 for(int j=0; j < LS_SIZE; j++) {
