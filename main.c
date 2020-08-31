@@ -210,6 +210,11 @@ int main()
                             while((myfile = readdir(mydir)) != NULL)
                             {
                                 if(l_ls == 1) {
+                                    if(a_ls != 1) {
+                                        if (myfile->d_name[0] == '.') {
+                                            continue;
+                                        }
+                                    }
                                     sprintf(buf, "%s/%s", ls_dir, myfile->d_name);
                                     stat(buf, &mystat);
 
@@ -245,17 +250,22 @@ int main()
                                     printf( (mystat.st_mode & S_IWOTH) ? "w" : "-");
                                     printf( (mystat.st_mode & S_IXOTH) ? "x" : "-");
 
-                                    printf("\t%d ", mystat.st_nlink);
+                                    printf(" %d ", mystat.st_nlink);
 
                                     tf = getpwuid(mystat.st_uid);
-                                    printf("\t%s ", tf->pw_name);
+                                    printf(" %s ", tf->pw_name);
 
                                     gf = getgrgid(mystat.st_gid);
-                                    printf("\t%s ", gf->gr_name);
+                                    printf(" %s ", gf->gr_name);
 
-                                    printf("%zu", mystat.st_size);
-                                    printf(" %s", myfile->d_name);
-                                    printf(" %s", ctime(&mystat.st_mtime));
+                                    printf("%9zu ", mystat.st_size);
+                                    //printf("Blocks = %zu ", mystat.st_blocks);
+                                    //cprintf("%s ", ctime(&mystat.st_mtime));
+                                    char* c=ctime(&mystat.st_mtime);
+                                    for(int l=4;l<=15;l++)
+                                        printf("%c",c[l]);
+                                    printf(" ");
+                                    printf("%s\n", myfile->d_name);
 
                                 }
                                 else if(a_ls == 1) {
@@ -296,10 +306,68 @@ int main()
                             } 
                         }
                     }
-
                     while((myfile = readdir(mydir)) != NULL)
                     {
-                        if(a_ls == 1) {
+                        if(l_ls == 1) {
+                            if(a_ls != 1) {
+                                if (myfile->d_name[0] == '.') {
+                                    continue;
+                                }
+                            }
+                            sprintf(buf, "%s/%s", tcwd, myfile->d_name);
+                            stat(buf, &mystat);
+
+                            if((mystat.st_mode & S_IFMT) == S_IFBLK) {
+                                printf("b");
+                            }
+                            else if((mystat.st_mode & S_IFMT) == S_IFCHR) {
+                                printf("c");
+                            }
+                            else if((mystat.st_mode & S_IFMT) == S_IFDIR) {
+                                printf("d");
+                            }
+                            else if((mystat.st_mode & S_IFMT) == S_IFIFO) {
+                                printf("p");
+                            }
+                            else if((mystat.st_mode & S_IFMT) == S_IFLNK) {
+                                printf("l");
+                            }
+                            else if((mystat.st_mode & S_IFMT) == S_IFSOCK) {
+                                printf("s");
+                            }
+                            else {
+                                printf("-");
+                            }
+
+                            printf( (mystat.st_mode & S_IRUSR) ? "r" : " -");
+                            printf( (mystat.st_mode & S_IWUSR) ? "w" : "-");
+                            printf( (mystat.st_mode & S_IXUSR) ? "x" : "-");
+                            printf( (mystat.st_mode & S_IRGRP) ? "r" : "-");
+                            printf( (mystat.st_mode & S_IWGRP) ? "w" : "-");
+                            printf( (mystat.st_mode & S_IXGRP) ? "x" : "-");
+                            printf( (mystat.st_mode & S_IROTH) ? "r" : "-");
+                            printf( (mystat.st_mode & S_IWOTH) ? "w" : "-");
+                            printf( (mystat.st_mode & S_IXOTH) ? "x" : "-");
+
+                            printf(" %d ", mystat.st_nlink);
+
+                            tf = getpwuid(mystat.st_uid);
+                            printf(" %s ", tf->pw_name);
+
+                            gf = getgrgid(mystat.st_gid);
+                            printf(" %s ", gf->gr_name);
+
+                            printf("%9zu ", mystat.st_size);
+                            //printf("Blocks = %zu ", mystat.st_blocks);
+                            //cprintf("%s ", ctime(&mystat.st_mtime));
+                            char* c=ctime(&mystat.st_mtime);
+                            for(int l=4;l<=15;l++)
+                                printf("%c",c[l]);
+                            printf(" ");
+                            printf("%s\n", myfile->d_name);
+
+                        }
+                        else if(a_ls == 1) {
                             if(count == 0 && pass == 1) {
                                 printf("\n");
                             }
@@ -322,7 +390,6 @@ int main()
                 }
                 printf("\n");
             }
-
             else {
                 printf("Command not found !\n");
             }
