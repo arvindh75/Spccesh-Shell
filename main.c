@@ -187,10 +187,10 @@ int main()
                 for(int j=0;j < LS_SIZE; j++) {
                     if(args[j] != NULL) {
                         if((args[j][0] >= 97 && args[j][0] <= 122) || (args[j][0] >= 65 && args[j][0] <= 90) || (args[j][0] == 46) || (args[j][0] == 47) || (args[j][0] == 126)) {
-                            if(args[j][0] == '~')
-                                ls_dir = home;
-                            else
-                                ls_dir = args[j];
+                            if(args[j][0] == '~') {
+                                str_replace(args[j],"~", home);
+                            }
+                            ls_dir = args[j];
                             mydir = opendir(ls_dir);
                             if(mydir == NULL) {
                                 printf("\nCannot open the Directory %s",ls_dir);
