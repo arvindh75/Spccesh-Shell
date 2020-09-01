@@ -8,27 +8,31 @@
 #include "prompt.h"
 #include "str_util.h"
 
-#define LS_SIZE 25
-#define BUF_SIZE 1024
-
 int main() 
 {
-    setname_f();
-
+    int exit_loop = 0;
+    char* inp;
+    char* home;
+    char hostname[HOST_NAME_MAX]; //
+    char username[LOGIN_NAME_MAX]; //
+    char cwd[PATH_MAX]; //
+    char tcwd[PATH_MAX]; //
+    printf("here1\n");
+    setname_f(home, username, hostname);
     while(exit_loop ==  0) {
-        prompt_f();
+        inp = prompt_f(home, username, hostname, cwd, tcwd);
         if(inp != NULL) {
 
             if(!strcmp(inp, "exit")) {
-                exit_f();
+                exit_loop = exit_f();
             }
 
             else if(!strcmp(inp, "cd")) {
-                cd_f();
+                cd_f(home);
             }
 
             else if(!strcmp(inp, "pwd")) {
-                pwd_f();
+                pwd_f(tcwd);
             }
 
             else if(!strcmp(inp, "echo")) {
@@ -36,7 +40,7 @@ int main()
             }
 
             else if(!strcmp(inp, "ls")) {
-                ls_f();
+                ls_f(home, cwd, tcwd);
             }
                        
             else {

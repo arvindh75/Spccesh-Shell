@@ -2,6 +2,9 @@ spccesh: main.o cd.o prompt.o echo.o exit.o ls.o pwd.o setname.o str_util.o
 	gcc -o spccesh -g -Wall main.o cd.o prompt.o echo.o exit.o ls.o pwd.o setname.o str_util.o
 
 # DONOT USE THESE RULES DIRECTLY
+clean:
+	rm -f *.o spccesh
+
 cd.o: cd.c cd.h
 	gcc -g -Wall -c cd.c
 

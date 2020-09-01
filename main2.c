@@ -391,6 +391,11 @@ int main()
                 }
                 printf("\n");
             }
+
+            else if(!strcmp(inp, "pinfo")) {
+
+            }
+
             else {
                 char* c_args[LS_SIZE];
                 c_args[0] = inp;
@@ -432,11 +437,21 @@ int main()
                 }
                 else {
                     int forkret = fork();
-                    if(forkret == 0) {
-                        execvp(c_args[0], c_args);
+                    if(!strcmp(c_args[count-1],"&")) {
+                        if(forkret == 0) {
+                            execvp(c_args[0], c_args);
+                        }
+                        else {
+                            wait(NULL);
+                        }
                     }
                     else {
-                        wait(NULL);
+                        if(forkret == 0) {
+                            execvp(c_args[0], c_args);
+                        }
+                        else {
+                            continue;
+                        }
                     }
                 }
             }

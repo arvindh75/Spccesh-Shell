@@ -3,7 +3,7 @@
 #define LS_SIZE 25
 #define BUF_SIZE 1024
 
-void pwd_f() {
+void pwd_f(char* tcwd) {
    // extern char tcwd[];
     printf("%s\n", tcwd);
 }

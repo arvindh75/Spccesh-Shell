@@ -29,10 +29,10 @@ int a_ls = 0;
 int l_ls = 0;
 char* temp;
 int cnt_ls = 0;
-char* home; 
+char* home; //
 //char fPath[3000];
 char* p = "~";
-char new[1000];
+char news[1000];
 DIR *mydir;
 DIR *ldir;
 struct dirent *myfile;
@@ -43,9 +43,9 @@ char* ls_dir;
 struct passwd *tf; 
 struct group *gf;
 int result;
-char hostname[HOST_NAME_MAX];
-char username[LOGIN_NAME_MAX];
-char cwd[PATH_MAX];
+char hostname[HOST_NAME_MAX]; //
+char username[LOGIN_NAME_MAX]; //
+char cwd[PATH_MAX]; //
 char tcwd[PATH_MAX];
 int exit_loop=0;
 char input[100];

@@ -1,10 +1,8 @@
 #include "headers.h"
 #include "prompt.h"
 #include "str_util.h"
-#define LS_SIZE 25
-#define BUF_SIZE 1024
 
-void prompt_f() {
+char* prompt_f(char* home, char* username, char* hostname, char* cwd, char* tcwd) {
     // extern char cwd[];
     // extern char tcwd[];
     // extern char username[];
@@ -12,6 +10,7 @@ void prompt_f() {
     // extern char* home;
     // extern char* inp;
     // extern char input[];
+    char input[500];
     if(getcwd(cwd, PATH_MAX) == NULL) {
         perror("getcwd()");
     }
@@ -19,5 +18,6 @@ void prompt_f() {
     str_replace(cwd, home, "~");
     printf("<%s@%s:%s> : ", username, hostname, cwd);
     scanf("%[^\n]%*c", input);
-    inp = strtok(input, " \t");
+    char* inp = strtok(input, " \t");
+    return inp;
 }

@@ -1,10 +1,8 @@
 #include "headers.h"
 #include "ls.h"
 #include "str_util.h"
-#define LS_SIZE 25
-#define BUF_SIZE 1024
 
-void ls_f() { 
+void ls_f(char* home, char* cwd, char* tcwd) { 
     //str function
     // extern int exit_loop;
     // extern char hostname[];
@@ -32,13 +30,22 @@ void ls_f() {
     // extern struct passwd* tf; 
     // extern struct group* gf;
     // extern char input[];
-    maxlen=0;
-    a_ls=0;
-    l_ls=0;
+    int maxlen=0;
+    int a_ls=0;
+    int l_ls=0;
     int count = 0;
     int pass=0;
-    temp = "";
-    cnt_ls = 0;
+    char* temp = "";
+    int cnt_ls = 0;
+    DIR *mydir;
+    DIR *ldir;
+    struct dirent *myfile;
+    struct stat mystat;
+    char buf[BUF_SIZE];
+    char* ls_dir;
+    struct passwd *tf; 
+    struct group *gf;
+    char args[LS_SIZE][1000];
 
     for(int j=0; j < LS_SIZE; j++)
     {

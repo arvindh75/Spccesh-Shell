@@ -1,15 +1,13 @@
 #include "headers.h"
 #include "setname.h"
-#define LS_SIZE 25
-#define BUF_SIZE 1024
 
-void setname_f() {
+void setname_f(char* home, char* username, char* hostname) {
     // extern char* home;
     // extern int result;
     // extern char username[];
     // extern char hostname[];
     home = getenv("HOME");
-    result = gethostname(hostname, HOST_NAME_MAX);
+    int result = gethostname(hostname, HOST_NAME_MAX);
     if (result)
     {
         perror("gethostname");
