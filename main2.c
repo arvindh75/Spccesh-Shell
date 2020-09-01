@@ -137,7 +137,7 @@ int main()
                 }
                 for(int j=0;j < LS_SIZE; j++) {
                     if(args[j] != NULL) {
-                        printf("%s",args[j]);
+                        printf("%s ",args[j]);
                     }
                 }
             }
