@@ -74,30 +74,46 @@ void exec_proc_f(char *inp, char *home)
     }
     else
     {
-        int forkret = fork();
-        if (forkret == 0)
-        {
-            execvp(c_args[0], c_args);
+        if(!strcmp(c_args[count-1], "&")) {
+            printf("BG process");
+            //int forkret = fork();
+            //if (forkret == 0)
+            //{
+            //    if(execvp(c_args[0], c_args) == -1) {
+            //        printf("Command not found !\n");
+            //    }
+            //    exit(1);
+            //}
         }
-        else
-        {
-            wait(NULL);
+        else {
+            int forkret = fork();
+            if (forkret == 0)
+            {
+                if(execvp(c_args[0], c_args) == -1) {
+                    printf("Command not found !\n");
+                }
+                exit(1);
+            }
+            else
+            {
+                wait(NULL);
+            }
         }
 
-      //  if (strcmp(c_args[count - 1], "&"))
-      //  {
-      //      if (forkret == 0)
-      //      {
-      //          execvp(c_args[0], c_args);
-      //      }
-      //      else
-      //      {
-      //          wait(NULL);
-      //      }
-      //  }
-      //  else
-      //  {
-      //      printf("BG process\n");
-      //  }
+        //  if (strcmp(c_args[count - 1], "&"))
+        //  {
+        //      if (forkret == 0)
+        //      {
+        //          execvp(c_args[0], c_args);
+        //      }
+        //      else
+        //      {
+        //          wait(NULL);
+        //      }
+        //  }
+        //  else
+        //  {
+        //      printf("BG process\n");
+        //  }
     }
 }
