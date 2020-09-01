@@ -3,7 +3,7 @@
 #define LS_SIZE 25
 #define BUF_SIZE 1024
 
-void str_replace(char *target, const char *needle, const char *replacement)
+char* str_replace(char *target, const char *needle, const char *replacement)
 {
     char buffer[1024] = { 0 };
     char *insert_point = &buffer[0];
@@ -23,4 +23,5 @@ void str_replace(char *target, const char *needle, const char *replacement)
         tmp = p + needle_len;
     }
     strcpy(target, buffer);
+    return target;
 }

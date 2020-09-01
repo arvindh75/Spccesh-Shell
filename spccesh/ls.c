@@ -1,6 +1,28 @@
 #include "headers.h"
 #include "ls.h"
-#include "str_util.h"
+//#include "str_util.h"
+
+void str_replace_ls(char* target, const char* needle, const char* replacement)
+{
+    char buffer[1024] = { 0 };
+    char *insert_point = &buffer[0];
+    const char *tmp = target;
+    size_t needle_len = strlen(needle);
+    size_t repl_len = strlen(replacement);
+    while (1) {
+        const char *p = strstr(tmp, needle);
+        if (p == NULL) {
+            strcpy(insert_point, tmp);
+            break;
+        }
+        memcpy(insert_point, tmp, p - tmp);
+        insert_point += p - tmp;
+        memcpy(insert_point, replacement, repl_len);
+        insert_point += repl_len;
+        tmp = p + needle_len;
+    }
+    strcpy(target, buffer);
+}
 
 void ls_f(char* home, char* cwd, char* tcwd) { 
     //str function
@@ -85,7 +107,7 @@ void ls_f(char* home, char* cwd, char* tcwd) {
         if(args[j] != NULL) {
             if((args[j][0] >= 97 && args[j][0] <= 122) || (args[j][0] >= 65 && args[j][0] <= 90) || (args[j][0] == 46) || (args[j][0] == 47) || (args[j][0] == 126)) {
                 if(args[j][0] == '~') {
-                    str_replace(args[j],"~", home);
+                    str_replace_ls(args[j],"~", home);
                 }
                 ls_dir = args[j];
                 mydir = opendir(ls_dir);
@@ -150,10 +172,10 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                         printf(" %d ", mystat.st_nlink);
 
                         //tf = getpwuid(mystat.st_uid);
-                        //printf(" %s ", ((getpwuid(mystat.st_uid))->pw_name));
+                        printf(" %s ", ((getpwuid(mystat.st_uid))->pw_name));
 
                         //gf = getgrgid(mystat.st_gid);
-                        //printf(" %s ", ((getgrgid(mystat.st_gid))->gr_name));
+                        printf(" %s ", ((getgrgid(mystat.st_gid))->gr_name));
 
                         printf("%9zu ", mystat.st_size);
                         //printf("Blocks = %zu ", mystat.st_blocks);
@@ -254,10 +276,10 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                 //gf = getgrgid(mystat.st_gid);
                 //printf(" %s ", gf->gr_name);
                 //tf = getpwuid(mystat.st_uid);
-                //printf(" %s ", ((getpwuid(mystat.st_uid))->pw_name));
+                printf(" %s ", ((getpwuid(mystat.st_uid))->pw_name));
 
                         //gf = getgrgid(mystat.st_gid);
-                //printf(" %s ", ((getgrgid(mystat.st_gid))->gr_name));
+                printf(" %s ", ((getgrgid(mystat.st_gid))->gr_name));
 
                 printf("%9zu ", mystat.st_size);
                 //printf("Blocks = %zu ", mystat.st_blocks);

@@ -2,5 +2,6 @@
 #define __LS_H
 
 void ls_f(char*, char*, char*);
+void str_replace(char *, const char *, const char *);
 
 #endif

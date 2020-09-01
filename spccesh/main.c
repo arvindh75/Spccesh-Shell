@@ -6,21 +6,25 @@
 #include "ls.h"
 #include "setname.h"
 #include "prompt.h"
-#include "str_util.h"
+//#include "str_util.h"
 
 int main() 
 {
     int exit_loop = 0;
     char* inp;
-    char* home;
+    char home_m[PATH_MAX];
     char hostname[HOST_NAME_MAX]; //
     char username[LOGIN_NAME_MAX]; //
     char cwd[PATH_MAX]; //
     char tcwd[PATH_MAX]; //
-    printf("here1\n");
-    setname_f(home, username, hostname);
+    //printf("here1\n");
+    if(getcwd(home_m, PATH_MAX) == NULL) {
+        perror("getcwd()");
+    }
+    //printf("Home main: %s\n", home_m);
+    setname_f(username, hostname);
     while(exit_loop ==  0) {
-        inp = prompt_f(home, username, hostname, cwd, tcwd);
+        inp = prompt_f(home_m, username, hostname, cwd, tcwd);
         if(inp != NULL) {
 
             if(!strcmp(inp, "exit")) {
@@ -28,7 +32,7 @@ int main()
             }
 
             else if(!strcmp(inp, "cd")) {
-                cd_f(home);
+                cd_f(home_m);
             }
 
             else if(!strcmp(inp, "pwd")) {
@@ -40,13 +44,13 @@ int main()
             }
 
             else if(!strcmp(inp, "ls")) {
-                ls_f(home, cwd, tcwd);
+                ls_f(home_m, cwd, tcwd);
             }
                        
             else {
                 printf("Command not found !\n");
             }
-        }
+         }
         printf("\n");
     }
     return 0;
