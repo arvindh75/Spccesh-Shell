@@ -1,5 +1,5 @@
-spccesh: main.o cd.o prompt.o echo.o exit.o ls.o pwd.o setname.o
-	gcc -o spccesh -g -Wall main.o cd.o prompt.o echo.o exit.o ls.o pwd.o setname.o
+spccesh: main.o cd.o prompt.o echo.o exit.o ls.o pwd.o setname.o exec_proc.o
+	gcc -o spccesh -g -Wall main.o cd.o prompt.o echo.o exit.o ls.o pwd.o setname.o exec_proc.o
 
 # DONOT USE THESE RULES DIRECTLY
 clean:
@@ -25,6 +25,9 @@ exit.o: exit.c exit.h
 
 setname.o: setname.c setname.h
 	gcc -g -Wall -c setname.c
+
+exec_proc.o: exec_proc.c exec_proc.h
+	gcc -g -Wall -c exec_proc.c
 
 main.o: main.c 
 	gcc -g -Wall -c main.c
