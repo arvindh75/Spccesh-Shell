@@ -65,8 +65,8 @@ void ls_f(char* home, char* cwd, char* tcwd) {
     struct stat mystat;
     char buf[BUF_SIZE];
     char* ls_dir;
-    struct passwd *tf; 
-    struct group *gf;
+    //struct passwd *tf; 
+    //struct group *gf;
     char args[LS_SIZE][1000];
 
     for(int j=0; j < LS_SIZE; j++)
@@ -105,18 +105,18 @@ void ls_f(char* home, char* cwd, char* tcwd) {
 
     for(int j=0;j < LS_SIZE; j++) {
         if(args[j] != NULL) {
-            if((args[j][0] >= 97 && args[j][0] <= 122) || (args[j][0] >= 65 && args[j][0] <= 90) || (args[j][0] == 46) || (args[j][0] == 47) || (args[j][0] == 126)) {
+            if((args[j][0] >= 48 && args[j][0] <= 57) || (args[j][0] >= 97 && args[j][0] <= 122) || (args[j][0] >= 65 && args[j][0] <= 90) || (args[j][0] == 46) || (args[j][0] == 47) || (args[j][0] == 126)) {
                 if(args[j][0] == '~') {
                     str_replace_ls(args[j],"~", home);
                 }
+                cnt_ls ++;
                 ls_dir = args[j];
                 mydir = opendir(ls_dir);
                 if(mydir == NULL) {
                     printf("\nCannot open the Directory %s",ls_dir);
-                    continue;
+                    break;
                 }
                 ldir = opendir(ls_dir);
-                cnt_ls ++;
                 printf("\n%s :\n", ls_dir);
                 maxlen = 0;
                 while((myfile = readdir(ldir)) != NULL) {
@@ -169,7 +169,7 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                         printf( (mystat.st_mode & S_IWOTH) ? "w" : "-");
                         printf( (mystat.st_mode & S_IXOTH) ? "x" : "-");
 
-                        printf(" %d ", mystat.st_nlink);
+                        printf(" %ld ", mystat.st_nlink);
 
                         //tf = getpwuid(mystat.st_uid);
                         printf(" %s ", ((getpwuid(mystat.st_uid))->pw_name));
@@ -268,7 +268,7 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                 printf( (mystat.st_mode & S_IWOTH) ? "w" : "-");
                 printf( (mystat.st_mode & S_IXOTH) ? "x" : "-");
 
-                printf(" %d ", mystat.st_nlink);
+                printf(" %ld ", mystat.st_nlink);
 
                 //tf = getpwuid(mystat.st_uid);
                 //printf(" %s ", tf->pw_name);
