@@ -1,6 +1,30 @@
 #include "headers.h"
 #include "prompt.h"
 
+void red() {
+  printf("\033[0;31m");
+}
+
+void blue() {
+  printf("\033[0;34m");
+}
+
+void cyan() {
+  printf("\033[1;36m");
+}
+
+void yellow() {
+  printf("\033[0;33m");
+}
+
+void green() {
+  printf("\033[1;32m");
+}
+
+void reset() {
+  printf("\033[0m");
+}
+
 void str_replace(char* target, const char* needle, const char* replacement)
 {
     char buffer[1024] = { 0 };
@@ -33,5 +57,25 @@ void prompt_f(char* home, char* username, char* hostname, char* cwd, char* tcwd)
     }
     strcpy(tcwd,cwd);
     str_replace(cwd, home, "~");
-    printf("<%s@%s:%s> : ", username, hostname, cwd);
+    green();
+    printf("<");
+    reset();
+    cyan();
+    printf("%s",username);
+    reset();
+    green();
+    printf("@");
+    reset();
+    cyan();
+    printf("%s", hostname);
+    reset();
+    green();
+    printf(":");
+    reset();
+    cyan();
+    printf("%s", cwd);
+    reset();
+    green();
+    printf("> : ");
+    reset();
 }

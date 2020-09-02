@@ -11,32 +11,6 @@
 #define MAX_BUF_LEN 500
 //#include "str_util.h"
 
-
-char* read_cmdline() {
-    int len=0,c;            
-    char* cmd = malloc(sizeof(char)*MAX_BUF_LEN);
-    while(1) {
-        c = getchar();
-        if(c == '\n') {
-            cmd[len++] = '\0';
-            break;
-        }
-        else
-            cmd[len++] = c;
-    }
-    return cmd;
-}
-
-int parse_cmd_line(char* cmdline, char** cmds) {
-    int num_cmds = 0;
-    char* token = strtok(cmdline, ";");
-    while(token!=NULL) {
-        cmds[num_cmds++] = token;
-        token = strtok(NULL, ";");
-    }
-    return num_cmds;
-}
-
 int main()
 {
     int exit_loop = 0;
@@ -46,10 +20,14 @@ int main()
     char username[LOGIN_NAME_MAX]; //
     char cwd[PATH_MAX];            //
     char tcwd[PATH_MAX];           //
-    char input[500];
-    int len=0,c;
+    int len = 0;
+    int c;
     char* temp = "";
-    char args[LS_SIZE][1000];
+    int i,j;
+    char* input = malloc(sizeof(char)*MAX_BUF_LEN);
+    int num_args = 0;
+    int exit_read = 0;
+    char** args = malloc((sizeof(char)*MAX_BUF_LEN)*MAX_BUF_LEN); 
     //printf("here1\n");
     if (getcwd(home_m, PATH_MAX) == NULL)
     {
@@ -59,19 +37,36 @@ int main()
     setname_f(username, hostname);
     while (exit_loop == 0)
     {
+        len=0;
+        num_args=0;
+        exit_read=0;
         prompt_f(home_m, username, hostname, cwd, tcwd);
-        int i,j;
+        while(exit_read == 0) {
+            c = getchar();
+            if(c != '\n') {
+                input[len] = c;
+                len++;
+            }
+            else {
+                input[len] = '\0';
+                len++;
+                exit_read=1;
+            }
+        }
 
-        char** cmds = malloc((sizeof(char)*MAX_BUF_LEN)*MAX_BUF_LEN); // array of semi-colon separated commands
+        // for(j = 0; j < MAX_BUF_LEN; j++) { 
+         //   args[j] = '\0';
+        //}
+        char* token = strtok(input, ";");
+        while(token!=NULL) {
+            args[num_args] = token;
+            num_args++;
+            token = strtok(NULL, ";");
+        }
 
-        for(j = 0; j < MAX_BUF_LEN; j++) cmds[j] = '\0';
-
-        char* cmdline = read_cmdline(); // read command line
-        int num_cmds = parse_cmd_line(cmdline, cmds); // parse command line
-
-        for(int j=0;j<num_cmds;j++) {
-            if(cmds[j] != NULL) {
-                char* inp = strtok(cmds[j], " \t");
+        for(int j=0;j<num_args;j++) {
+            if(args[j] != NULL) {
+                char* inp = strtok(args[j], " \t");
                 if (inp != NULL)
                 {
 

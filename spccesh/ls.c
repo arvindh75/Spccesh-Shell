@@ -1,6 +1,5 @@
 #include "headers.h"
 #include "ls.h"
-//#include "str_util.h"
 
 void str_replace_ls(char* target, const char* needle, const char* replacement)
 {
@@ -25,33 +24,7 @@ void str_replace_ls(char* target, const char* needle, const char* replacement)
 }
 
 void ls_f(char* home, char* cwd, char* tcwd) { 
-    //str function
-    // extern int exit_loop;
-    // extern char hostname[];
-    // extern char username[];
-    // extern char cwd[];
-    // extern char tcwd[];
-    // extern int result;
-    // extern char* home; 
-    // extern char* p;
-    // extern char news[];
-    // extern DIR* mydir;
-    // extern DIR* ldir;
-    // extern struct dirent *myfile;
-    // extern struct stat mystat;
-    // extern char buf[];
-    // extern int maxlen;
-    // extern int count;
-    // extern int pass;
-    // extern char args[][1000];
-    // extern char* temp;
-    // extern int a_ls;
-    // extern int l_ls;
-    // extern char* ls_dir;
-    // extern int cnt_ls;
-    // extern struct passwd* tf; 
-    // extern struct group* gf;
-    // extern char input[];
+    
     int maxlen=0;
     int a_ls=0;
     int l_ls=0;
@@ -65,9 +38,13 @@ void ls_f(char* home, char* cwd, char* tcwd) {
     struct stat mystat;
     char buf[BUF_SIZE];
     char* ls_dir;
-    //struct passwd *tf; 
-    //struct group *gf;
     char args[LS_SIZE][1000];
+    if(getcwd(cwd, PATH_MAX) == NULL) {
+        perror("getcwd()");
+    }
+    strcpy(tcwd,cwd);
+    str_replace_ls(cwd, home, "~");
+
 
     for(int j=0; j < LS_SIZE; j++)
     {
@@ -171,15 +148,11 @@ void ls_f(char* home, char* cwd, char* tcwd) {
 
                         printf(" %ld ", mystat.st_nlink);
 
-                        //tf = getpwuid(mystat.st_uid);
                         printf(" %s ", ((getpwuid(mystat.st_uid))->pw_name));
 
-                        //gf = getgrgid(mystat.st_gid);
                         printf(" %s ", ((getgrgid(mystat.st_gid))->gr_name));
 
                         printf("%9zu ", mystat.st_size);
-                        //printf("Blocks = %zu ", mystat.st_blocks);
-                        //cprintf("%s ", ctime(&mystat.st_mtime));
                         char* c=ctime(&mystat.st_mtime);
                         for(int l=4;l<=15;l++)
                             printf("%c",c[l]);
@@ -205,10 +178,6 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                             pass=1;
                         }
                     }
-                    //sprintf(buf, "%s/%s", tcwd, myfile->d_name);
-                    //stat(buf, &mystat);
-                    //printf("%zu",mystat.st_size);
-                    //printf(" %s\n", myfile->d_name);
                 }
                 closedir(mydir);
             }
@@ -270,20 +239,11 @@ void ls_f(char* home, char* cwd, char* tcwd) {
 
                 printf(" %ld ", mystat.st_nlink);
 
-                //tf = getpwuid(mystat.st_uid);
-                //printf(" %s ", tf->pw_name);
-
-                //gf = getgrgid(mystat.st_gid);
-                //printf(" %s ", gf->gr_name);
-                //tf = getpwuid(mystat.st_uid);
                 printf(" %s ", ((getpwuid(mystat.st_uid))->pw_name));
 
-                        //gf = getgrgid(mystat.st_gid);
                 printf(" %s ", ((getgrgid(mystat.st_gid))->gr_name));
 
                 printf("%9zu ", mystat.st_size);
-                //printf("Blocks = %zu ", mystat.st_blocks);
-                //cprintf("%s ", ctime(&mystat.st_mtime));
                 char* c=ctime(&mystat.st_mtime);
                 for(int l=4;l<=15;l++)
                     printf("%c",c[l]);
