@@ -7,6 +7,7 @@
 #include "setname.h"
 #include "prompt.h"
 #include "exec_proc.h"
+#include "pinfo.h"
 //#include "str_util.h"
 
 int main()
@@ -54,6 +55,11 @@ int main()
             else if (!strcmp(inp, "ls"))
             {
                 ls_f(home_m, cwd, tcwd);
+            }
+
+            else if (!strcmp(inp, "pinfo"))
+            {
+                pinfo_f(inp, home_m);
             }
 
             else
