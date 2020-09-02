@@ -31,6 +31,7 @@ void exec_proc_f(char *inp, char *home)
     char *temp = "";
     char args[LS_SIZE][1000];
     int count = 0;
+    int bg = 0;
     c_args[0] = inp;
     for (int j = 0; j < LS_SIZE; j++)
     {
@@ -60,7 +61,12 @@ void exec_proc_f(char *inp, char *home)
                 str_replace_ep(args[j], "~", home);
             }
             //printf("Here: %s\n", args[j]);
-            c_args[count++] = args[j];
+            if(args[j][0] == 38) {
+                bg=1;
+            }
+            else {
+                c_args[count++] = args[j];
+            }
         }
     }
     //printf("Command: %s\n", c_args[0]);
@@ -74,16 +80,18 @@ void exec_proc_f(char *inp, char *home)
     }
     else
     {
-        if(!strcmp(c_args[count-1], "&")) {
-            printf("BG process");
-            //int forkret = fork();
-            //if (forkret == 0)
-            //{
-            //    if(execvp(c_args[0], c_args) == -1) {
-            //        printf("Command not found !\n");
-            //    }
-            //    exit(1);
-            //}
+        if(bg == 1) {
+            int forkret = fork();
+            if (forkret == 0)
+            {
+                if(execvp(c_args[0], c_args) == -1) {
+                    printf("Command not found !\n");
+                }
+                exit(1);
+            }
+            else {
+                printf("[%d]\n", forkret);
+            }
         }
         else {
             int forkret = fork();
