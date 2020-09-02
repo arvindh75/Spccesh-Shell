@@ -30,21 +30,21 @@ void str_replace(char* target, const char* needle, const char* replacement)
 //     int i, cnt = 0; 
 //     int newWlen = strlen(newW); 
 //     int oldWlen = strlen(oldW); 
-  
+
 //     // Counting the number of times old word 
 //     // occur in the string 
 //     for (i = 0; s[i] != '\0'; i++) { 
 //         if (strstr(&s[i], oldW) == &s[i]) { 
 //             cnt++; 
-  
+
 //             // Jumping to index after the old word. 
 //             i += oldWlen - 1; 
 //         } 
 //     } 
-  
+
 //     // Making new string of enough length 
 //     result = (char*)malloc(i + cnt * (newWlen - oldWlen) + 1); 
-  
+
 //     i = 0; 
 //     while (*s) { 
 //         // compare the substring with the result 
@@ -56,7 +56,7 @@ void str_replace(char* target, const char* needle, const char* replacement)
 //         else
 //             result[i++] = *s++; 
 //     } 
-  
+
 //     result[i] = '\0'; 
 //     return result; 
 // } 
@@ -70,6 +70,7 @@ char* prompt_f(char* home, char* username, char* hostname, char* cwd, char* tcwd
     // extern char* inp;
     // extern char input[];
     char input[500];
+    int len=0,c;            
     if(getcwd(cwd, PATH_MAX) == NULL) {
         perror("getcwd()");
     }
@@ -88,21 +89,21 @@ char* prompt_f(char* home, char* username, char* hostname, char* cwd, char* tcwd
     // int i, cnt = 0; 
     // int newWlen = strlen("~"); 
     // int oldWlen = sizeof(home)/sizeof(home[0]); 
-  
+
     // // Counting the number of times old word 
     // // occur in the string 
     // for (i = 0; s[i] != '\0'; i++) { 
     //     if (strstr(&s[i], oldW) == &s[i]) { 
     //         cnt++; 
-  
+
     //         // Jumping to index after the old word. 
     //         i += oldWlen - 1; 
     //     } 
     // } 
-  
+
     // // Making new string of enough length 
     // result = (char*)malloc(i + cnt * (newWlen - oldWlen) + 1); 
-  
+
     // i = 0; 
     // while (*s) { 
     //     // compare the substring with the result 
@@ -114,7 +115,7 @@ char* prompt_f(char* home, char* username, char* hostname, char* cwd, char* tcwd
     //     else
     //         result[i++] = *s++; 
     // } 
-  
+
     // result[i] = '\0'; 
     // cwd = result; 
 
@@ -139,7 +140,20 @@ char* prompt_f(char* home, char* username, char* hostname, char* cwd, char* tcwd
 
 
     printf("<%s@%s:%s> : ", username, hostname, cwd);
-    scanf("%[^\n]%*c", input);
+    //scanf("%[^\n]%*c", input);
+    while(1) {
+        c = getchar();
+        if(c == '\n') {
+            input[len] = '\0';
+            len++;
+            break;
+        }
+        else{
+            input[len] = c;
+            len++;
+        }
+    }
+    //while(getchar() != '\n');
     char* inp = strtok(input, " \t");
     return inp;
 }
