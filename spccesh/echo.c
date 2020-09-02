@@ -28,4 +28,5 @@ void echo_f() {
             printf("%s ",args[j]);
         }
     }
+    printf("\n");
 }
