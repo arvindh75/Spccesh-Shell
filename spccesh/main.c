@@ -8,8 +8,8 @@
 #include "prompt.h"
 #include "exec_proc.h"
 #include "pinfo.h"
+#include "history.h"
 #define MAX_BUF_LEN 500
-//#include "str_util.h"
 
 int main()
 {
@@ -66,6 +66,8 @@ int main()
 
         for(int j=0;j<num_args;j++) {
             if(args[j] != NULL) {
+                char inp_his[100];
+                strcpy(inp_his,args[j]);
                 char* inp = strtok(args[j], " \t");
                 if (inp != NULL)
                 {
@@ -100,10 +102,17 @@ int main()
                         pinfo_f(inp, home_m);
                     }
 
+                    else if (!strcmp(inp, "history"))
+                    {
+                        view_his_f(home_m);
+                    }
+
                     else
                     {
                         exec_proc_f(inp, home_m);
                     }
+                    
+                   add_his_f(home_m, inp_his);
                 }
             }
         }

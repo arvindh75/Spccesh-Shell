@@ -65,7 +65,7 @@ void exec_proc_f(char *inp, char *home)
             else {
                 c_args[count++] = args[j];
             }
-            printf("Here: %s %d\n", args[j],(int)args[j][0]);
+            //printf("Here: %s %d\n", args[j],(int)args[j][0]);
             if(args[j][0] == 38) {
                 bg=1;
             }
