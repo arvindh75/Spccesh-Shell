@@ -34,8 +34,8 @@ void pinfo_f(char * inp, char* home) {
     char args[LS_SIZE][1000];
     char pstatus;
     long int mem; 
-    char pname[100];
     char buff[1000];
+    char pname[100];
     int x =1;
     int ret=-1;
     for(int j=0; j < LS_SIZE; j++)
@@ -62,7 +62,6 @@ void pinfo_f(char * inp, char* home) {
                 x=1;
                 cnt ++;
                 id = atoi(args[j]);
-                printf("\npid -- %d\n", id);
                 strcpy(fpath,"/proc/");
                 strcat(fpath, args[j]);
                 strcpy(tpath, fpath);
@@ -73,12 +72,13 @@ void pinfo_f(char * inp, char* home) {
                     perror("pinfo ");
                     return;
                 }
+                printf("\nPid -- %d\n", id);
                 while(x <= 23) {
                     fscanf(f,"%s",buff);
                     if(x == 3)
-                        printf("process status -- %s\n", buff);
+                        printf("Process status -- %s\n", buff);
                     if(x == 23)
-                        printf("memory -- %s\n", buff);
+                        printf("Memory -- %s\n", buff);
                     x++;
                 }
                 strcpy(tpath, fpath);
@@ -88,6 +88,7 @@ void pinfo_f(char * inp, char* home) {
                     printf("Error finding the executable\n");
                 }
                 else {
+                    buff[ret] = '\0';
                     str_replace_pinfo(buff,home,"~");
                     printf("Executable Path -- %s\n", buff);
                 }
@@ -96,7 +97,6 @@ void pinfo_f(char * inp, char* home) {
     }
     if(cnt == 0) {
         id = getpid();
-        printf("pid -- %d\n", id);
         char buf1[10];
         sprintf(buf1, "%d", id);
         strcpy(fpath,"/proc/");
@@ -109,12 +109,13 @@ void pinfo_f(char * inp, char* home) {
             perror("pinfo ");
             return;
         }
+        printf("\nPid -- %d\n", id);
         while(x <= 23) {
             fscanf(f,"%s",buff);
             if(x == 3)
-                printf("process status -- %s\n", buff);
+                printf("Process Status -- %s\n", buff);
             if(x == 23)
-                printf("memory -- %s\n", buff);
+                printf("Memory -- %s\n", buff);
             x++;
         } 
         strcpy(tpath, fpath);
@@ -124,6 +125,7 @@ void pinfo_f(char * inp, char* home) {
             printf("Error finding the executable\n");
         }
         else {
+            buff[ret] = '\0';
             str_replace_pinfo(buff,home,"~");
             printf("Executable Path -- %s\n", buff);
         }   
