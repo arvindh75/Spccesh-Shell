@@ -9,6 +9,41 @@ void add_his_f(char* home, char* inp, int dis) {
     char* temp = "";
     int count = 0;
     char out[100];
+    int number;
+    int no_arg=1;
+    int cnt_number;
+    for(int j=0; j < LS_SIZE; j++)
+    {
+        temp = strtok(NULL, " \t");
+        if(temp == NULL)
+        {
+            for(int k = j; k < LS_SIZE; k++)
+            {
+                strcpy(args[k], "\0");
+            }
+            break;
+        }
+        int i = 0;
+        for(i = 0; temp[i] != '\0'; i++)
+        {
+            args[j][i] = temp[i];
+        }
+        args[j][i] = '\0';
+    }
+    for(int j=0; j < LS_SIZE; j++) {
+        if(args[j][0] >=48 && args[j][0] <=57) {
+            number = atoi(args[j]);
+            no_arg=0;
+            if(number > 10 || number <=0) {
+                printf("Argument must be less than 10 and positive");
+                return;
+            }
+        }    
+    }
+    if(no_arg) {
+        number = 10;
+    }
+    cnt_number = 0;
     strcpy(pathh,home);
     strcat(pathh, "/spccesh_history.txt");
     f= fopen(pathh, "r");
@@ -22,7 +57,9 @@ void add_his_f(char* home, char* inp, int dis) {
             if(((int)out[1] >= 97 && (int)out[1] <=122) ||((int)out[1] >= 65 && (int)out[1] <=90) ) {
         //printf("COUNTING: %s\n", out);
         if(dis == 1) {
-            printf("%s", out);
+            if(cnt_number >= 10 - number)
+                printf("%s", out);
+            cnt_number++;
         }
             count++;
             }
@@ -32,7 +69,7 @@ void add_his_f(char* home, char* inp, int dis) {
         return;
     }
     //printf("PATH: %s\n", pathh);
-    if(count < 5) {
+    if(count < 10) {
         f= fopen(pathh, "a");
         if(f == NULL) {
             perror("History File");
@@ -74,7 +111,7 @@ void add_his_f(char* home, char* inp, int dis) {
     }
     else {
         f= fopen(pathh, "r");
-        for(int i=0;i < 5;) {
+        for(int i=0;i < 10;) {
             fgets (out, 20, f);
             //printf("READING: %s\n", out);
             strcpy(his[i],out);
@@ -91,7 +128,7 @@ void add_his_f(char* home, char* inp, int dis) {
         }
 
         //printf("--------------------\n");
-        for(int i=1;i<5;) {
+        for(int i=1;i<10;) {
             //printf("ADDING: %s\n", his[i]);
             fprintf(f,"%s\n",his[i]);
             if(((int)his[i][1] >= 97 && (int)his[i][1] <=122) ||((int)his[i][1] >= 65 && (int)his[i][1] <=90) ) {
@@ -129,65 +166,3 @@ void add_his_f(char* home, char* inp, int dis) {
     }
 }
 
-void view_his_f(char* home) { 
-    FILE* f;
-    char pathh[100];
-    char* temp = "";
-    int number;
-    int no_arg=1;
-    char args[LS_SIZE][1000];
-    for(int j=0; j < LS_SIZE; j++)
-    {
-        temp = strtok(NULL, " \t");
-        if(temp == NULL)
-        {
-            for(int k = j; k < LS_SIZE; k++)
-            {
-                strcpy(args[k], "\0");
-            }
-            break;
-        }
-        int i = 0;
-        for(i = 0; temp[i] != '\0'; i++)
-        {
-            args[j][i] = temp[i];
-        }
-        args[j][i] = '\0';
-    }
-    for(int j=0; j < LS_SIZE; j++) {
-        if(args[j][0] >=48 && args[j][0] <=57) {
-            number = atoi(args[j]);
-            no_arg=0;
-            if(number > 5 || number <=0) {
-                printf("Argument must be less than 10 and positive");
-                return;
-            }
-        }    
-    }
-    if(no_arg) {
-        number = 5;
-    }
-    strcpy(pathh,home);
-    strcat(pathh, "/spccesh_history.txt");
-    //printf("PATH: %s\n", pathh);
-    char out[100];
-    int count=0;
-    f= fopen(pathh, "r");
-    while(fgets (out, sizeof(out), f)) {
-        count++;
-    }
-    fclose(f);
-    if(count < number) {
-        number = count;
-    }
-    f= fopen(pathh, "r");
-    char his[20][100];
-    for(int i=0;i < number;i++) {
-        //fscanf(f,"%s", out);
-        fgets (out, 100, f);
-        strcpy(his[i],out);
-    }
-    for(int i=number-1;i>=0;i--)
-        printf("%s", his[i]);
-    fclose(f);
-}

@@ -1,5 +1,10 @@
+ pa                
+ history           
+ ls                
+ history           
+ history           
+history            
 ls                 
 history            
-exit               
-history            
+history 2          
 exit                          
