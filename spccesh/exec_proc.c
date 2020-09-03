@@ -1,5 +1,6 @@
 #include "headers.h"
 #include "exec_proc.h"
+#include <unistd.h>
 
 void str_replace_ep(char *target, const char *needle, const char *replacement)
 {
@@ -54,7 +55,8 @@ void exec_proc_f(char *inp, char *home)
     count = 1;
     for (int j = 0; j < LS_SIZE; j++)
     {
-        if (((args[j][0] >= 97 && args[j][0] <= 122) || (args[j][0] >= 65 && args[j][0] <= 90) || (args[j][0] == 46) || (args[j][0] == 47) || (args[j][0] == 126) || (args[j][0] == 38)) && args[j] != NULL)
+//        if (( (args[j][0] >= 48 && args[j][0] <= 57)|| (args[j][0] >= 97 && args[j][0] <= 122) || (args[j][0] >= 65 && args[j][0] <= 90) || (args[j][0] == 46) || (args[j][0] == 47) || (args[j][0] == 126) || (args[j][0] == 38) || args[j][0] == 45) && args[j] != NULL)
+        if(args[j][0])
         {
             if (args[j][0] == '~')
             {
@@ -84,10 +86,12 @@ void exec_proc_f(char *inp, char *home)
             int forkret = fork();
             if (forkret == 0)
             {
+                setpgid(0,0);
                 if(execvp(c_args[0], c_args) == -1) {
                     printf("Command not found !\n");
+                    exit(1);
                 }
-                exit(1);
+                exit(0);
             }
             else {
                 printf("[%d]\n", forkret);
@@ -99,8 +103,9 @@ void exec_proc_f(char *inp, char *home)
             {
                 if(execvp(c_args[0], c_args) == -1) {
                     printf("Command not found !\n");
+                    exit(1);
                 }
-                exit(1);
+                exit(0);
             }
             else
             {
