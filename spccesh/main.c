@@ -104,7 +104,7 @@ int main()
 
                     else if (!strcmp(inp, "history"))
                     {
-                        view_his_f(home_m);
+                        add_his_f(home_m, inp_his, 1);
                     }
 
                     else
@@ -112,7 +112,7 @@ int main()
                         exec_proc_f(inp, home_m);
                     }
                     
-                   add_his_f(home_m, inp_his);
+                   add_his_f(home_m, inp_his, 0);
                 }
             }
         }

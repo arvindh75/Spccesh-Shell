@@ -1,36 +1,5 @@
-ls -l -a                        
-cd ..                         
-ls -l -a Shell                       
-cd ..                         
-ls -l -la Shell                       
-ls                          
-cat output.txt                         
-ls                          
-exit                          
-ls                          
-cd ..                         
-ls                          
-exit                          
-history                          
-history 7                         
-exit                          
-history 1                         
-history                          
-exut                          
-exit                          
-history                          
-exit                          
-ls                          
-history                          
-exit                          
-ls                          
-history                          
-exit                          
-history                          
-exit                          
-history                          
-exit                          
-history                          
-exit                          
-history 2                         
+ls                 
+history            
+exit               
+history            
 exit                          
