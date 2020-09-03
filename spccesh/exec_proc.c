@@ -55,19 +55,19 @@ void exec_proc_f(char *inp, char *home)
     count = 1;
     for (int j = 0; j < LS_SIZE; j++)
     {
-//        if (( (args[j][0] >= 48 && args[j][0] <= 57)|| (args[j][0] >= 97 && args[j][0] <= 122) || (args[j][0] >= 65 && args[j][0] <= 90) || (args[j][0] == 46) || (args[j][0] == 47) || (args[j][0] == 126) || (args[j][0] == 38) || args[j][0] == 45) && args[j] != NULL)
-        if(args[j][0])
+        //        if (( (args[j][0] >= 48 && args[j][0] <= 57)|| (args[j][0] >= 97 && args[j][0] <= 122) || (args[j][0] >= 65 && args[j][0] <= 90) || (args[j][0] == 46) || (args[j][0] == 47) || (args[j][0] == 126) || (args[j][0] == 38) || args[j][0] == 45) && args[j] != NULL)
+        if(args[j][0] != 0)
         {
             if (args[j][0] == '~')
             {
                 str_replace_ep(args[j], "~", home);
             }
-            //printf("Here: %s\n", args[j]);
-            if(args[j][0] == 38) {
-                bg=1;
-            }
             else {
                 c_args[count++] = args[j];
+            }
+            printf("Here: %s %d\n", args[j],(int)args[j][0]);
+            if(args[j][0] == 38) {
+                bg=1;
             }
         }
     }
@@ -109,8 +109,17 @@ void exec_proc_f(char *inp, char *home)
             }
             else
             {
-                wait(NULL);
+                int status;
+                waitpid(forkret, &status, WUNTRACED);
+                while (!WIFEXITED(status) && !WIFSIGNALED(status))
+                {
+                    waitpid(forkret, &status, WUNTRACED);
+                } 
             }
+            //tcsetpgrp(STDIN_FILENO, forkret);
+            //tcsetpgrp(STDOUT_FILENO, forkret);
+            //int status;
+            //waitpid(forkret, &status, WUNTRACED);
         }
 
         //  if (strcmp(c_args[count - 1], "&"))
