@@ -1,28 +1,51 @@
 #include "headers.h"
 #include "exec_proc.h"
 #include "prompt.h"
+#include <linux/limits.h>
 #include <unistd.h>
-char *home_t;
+
+#define MAX_BG 100
+
+char* home_t;
 char* username_t;
 char* hostname_t; 
 char* cwd_t;
 char* tcwd_t;
 
-void proc_end(int num) {//,char* home, char* username, char* hostname, char* cwd, char* tcwd) {
+struct bgp {
+    int pid;
+    int over;
+    char name[32];
+} procs[MAX_BG];
+
+int proc_count =0;
+
+void proc_end(int num) {
     int status;
     pid_t pid = waitpid(-1,&status, WNOHANG);
     if(pid <= 0)
         return;
-
+    char name[100];
+    int index;
+    for(int i=0;i<MAX_BG;i++) {
+        if(procs[i].over == 0) {
+            if(procs[i].pid == pid) {
+                strcpy(name, procs[i].name);
+                index=i;
+            }
+        }
+    }
     if(WIFEXITED(status)) {
         if(WEXITSTATUS(status) == EXIT_SUCCESS) {
-            fprintf(stderr,"\033[0;31m");
-            fprintf(stderr, "\nProcess with pid [%d] exited normally.\n\n", pid);
+            procs[index].over=1;
+            fprintf(stderr,"\033[1;32m");
+            fprintf(stderr, "\n%s with pid [%d] exited normally.\n\n",name, pid);
             fprintf(stderr,"\033[0m");
         }
         else {
-            fprintf(stderr,"\033[0;31m");
-            fprintf(stderr, "\nProcess with pid [%d] exited abnormally.\n\n", pid);
+            procs[index].over=1;
+            fprintf(stderr,"\033[1;31m");
+            fprintf(stderr, "\n%s with pid [%d] exited abnormally.\n\n",name, pid);
             fprintf(stderr,"\033[0m");
         }
     }
@@ -103,15 +126,9 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 else
                     c_args[count++] = args[j];
             }
-            //printf("Here: %s %d\n", args[j],(int)args[j][0]);
         }
     }
-    //printf("Command: %s\n", c_args[0]);
-    //for(int k=0;k<count;k++) {
-    //    printf("Arg: %s\n", c_args[k]);
-    //}
     c_args[count] = NULL;
-    int bg_over=0;
     if (c_args[0] == NULL)
     {
         printf("Command not found !\n");
@@ -130,6 +147,10 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 exit(EXIT_SUCCESS);
             }
             else {
+                procs[proc_count].pid = forkret;
+                procs[proc_count].over = 0;
+                strcpy(procs[proc_count].name, c_args[0]);
+                proc_count++;
                 printf("[%d]\n", forkret);
                 signal(SIGCHLD, proc_end);
             }
@@ -159,26 +180,6 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                     waitpid(forkret, &status, WUNTRACED);
                 } 
             }
-            //tcsetpgrp(STDIN_FILENO, forkret);
-            //tcsetpgrp(STDOUT_FILENO, forkret);
-            //int status;
-            //waitpid(forkret, &status, WUNTRACED);
         }
-
-        //  if (strcmp(c_args[count - 1], "&"))
-        //  {
-        //      if (forkret == 0)
-        //      {
-        //          execvp(c_args[0], c_args);
-        //      }
-        //      else
-        //      {
-        //          wait(NULL);
-        //      }
-        //  }
-        //  else
-        //  {
-        //      printf("BG process\n");
-        //  }
     }
 }
