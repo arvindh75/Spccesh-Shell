@@ -109,7 +109,7 @@ int main()
 
                     else
                     {
-                        exec_proc_f(inp, home_m);
+                        exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
                     }
                     
                    add_his_f(home_m, inp_his, 0);

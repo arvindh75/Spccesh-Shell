@@ -1,8 +1,10 @@
-ls                         
- ls -la                        
- ls -l                        
- ls                         
- l                         
- echo -o                        
- exit                         
- 
+ls                 
+exit               
+ps                 
+cd ..              
+vim 1.c            
+exit               
+exit               
+ls                 
+cd ..              
+exit                          

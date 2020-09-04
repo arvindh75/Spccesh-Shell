@@ -1,6 +1,35 @@
 #include "headers.h"
 #include "exec_proc.h"
+#include "prompt.h"
 #include <unistd.h>
+char *home_t;
+char* username_t;
+char* hostname_t; 
+char* cwd_t;
+char* tcwd_t;
+
+void proc_end(int num) {//,char* home, char* username, char* hostname, char* cwd, char* tcwd) {
+    int status;
+    pid_t pid = waitpid(-1,&status, WNOHANG);
+    if(pid <= 0)
+        return;
+
+    if(WIFEXITED(status)) {
+        if(WEXITSTATUS(status) == EXIT_SUCCESS) {
+            fprintf(stderr,"\033[0;31m");
+            fprintf(stderr, "\nProcess with pid [%d] exited normally.\n\n", pid);
+            fprintf(stderr,"\033[0m");
+        }
+        else {
+            fprintf(stderr,"\033[0;31m");
+            fprintf(stderr, "\nProcess with pid [%d] exited abnormally.\n\n", pid);
+            fprintf(stderr,"\033[0m");
+        }
+    }
+    prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t);
+    fflush(stdout);
+    return;
+}
 
 void str_replace_ep(char *target, const char *needle, const char *replacement)
 {
@@ -26,8 +55,13 @@ void str_replace_ep(char *target, const char *needle, const char *replacement)
     strcpy(target, buffer);
 }
 
-void exec_proc_f(char *inp, char *home)
+void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cwd, char* tcwd)
 {
+    home_t = home;
+    username_t = username;
+    hostname_t = hostname;
+    cwd_t = cwd;
+    tcwd_t = tcwd;
     char *c_args[LS_SIZE];
     char *temp = "";
     char args[LS_SIZE][1000];
@@ -63,12 +97,13 @@ void exec_proc_f(char *inp, char *home)
                 str_replace_ep(args[j], "~", home);
             }
             else {
-                c_args[count++] = args[j];
+                if(args[j][0] == 38) {
+                    bg=1;
+                }
+                else
+                    c_args[count++] = args[j];
             }
             //printf("Here: %s %d\n", args[j],(int)args[j][0]);
-            if(args[j][0] == 38) {
-                bg=1;
-            }
         }
     }
     //printf("Command: %s\n", c_args[0]);
@@ -76,6 +111,7 @@ void exec_proc_f(char *inp, char *home)
     //    printf("Arg: %s\n", c_args[k]);
     //}
     c_args[count] = NULL;
+    int bg_over=0;
     if (c_args[0] == NULL)
     {
         printf("Command not found !\n");
@@ -89,12 +125,13 @@ void exec_proc_f(char *inp, char *home)
                 setpgid(0,0);
                 if(execvp(c_args[0], c_args) == -1) {
                     printf("Command not found !\n");
-                    exit(1);
+                    exit(EXIT_FAILURE);
                 }
-                exit(0);
+                exit(EXIT_SUCCESS);
             }
             else {
                 printf("[%d]\n", forkret);
+                signal(SIGCHLD, proc_end);
             }
         }
         else {
@@ -110,6 +147,12 @@ void exec_proc_f(char *inp, char *home)
             else
             {
                 int status;
+                if (!tcsetpgrp(STDIN_FILENO, getpid())) {
+                    //perror("tcsetpgrp");
+                }
+                if (!tcsetpgrp(STDOUT_FILENO, getpid())) {
+                    //perror("tcsetpgrp stdout");
+                }
                 waitpid(forkret, &status, WUNTRACED);
                 while (!WIFEXITED(status) && !WIFSIGNALED(status))
                 {
