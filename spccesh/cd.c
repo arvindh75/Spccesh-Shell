@@ -2,9 +2,6 @@
 #include "cd.h"
 
 void cd_f(char* home) { 
-    // extern char* home;
-    // extern char* p;
-    // extern char news[];
     char fPath[3000];
     char news[1000];
     char* p ;

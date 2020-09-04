@@ -2,11 +2,6 @@
 #include "setname.h"
 
 void setname_f(char* username, char* hostname) {
-    // extern char* home;
-    // extern int result;
-    // extern char username[];
-    // extern char hostname[];
-    //home = getenv("HOME");
     int result = gethostname(hostname, HOST_NAME_MAX);
     if (result)
     {

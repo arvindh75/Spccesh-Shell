@@ -2,7 +2,6 @@
 #include "echo.h"
 
 void echo_f() { 
-    //extern char* temp;
     char* temp = "";
     char args[LS_SIZE][1000];
     for(int j=0; j < LS_SIZE; j++)

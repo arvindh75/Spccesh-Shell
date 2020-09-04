@@ -3,7 +3,6 @@
 #include "prompt.h"
 #include <linux/limits.h>
 #include <unistd.h>
-
 #define MAX_BG 100
 
 char* home_t;

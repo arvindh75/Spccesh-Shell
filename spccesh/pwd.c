@@ -7,6 +7,5 @@ void pwd_f(char* tcwd) {
     if(getcwd(tcwd, PATH_MAX) == NULL) {
         perror("getcwd()");
     }
-   // extern char tcwd[];
     printf("%s\n", tcwd);
 }
