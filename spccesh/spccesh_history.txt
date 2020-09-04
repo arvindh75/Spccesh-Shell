@@ -1,10 +1,8 @@
- pa                
- history           
- ls                
- history           
- history           
-history            
-ls                 
-history            
-history 2          
-exit                          
+ls                         
+ ls -la                        
+ ls -l                        
+ ls                         
+ l                         
+ echo -o                        
+ exit                         
+ 

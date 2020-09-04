@@ -24,7 +24,7 @@ void str_replace_ls(char* target, const char* needle, const char* replacement)
 }
 
 void ls_f(char* home, char* cwd, char* tcwd) { 
-    
+
     int maxlen=0;
     int a_ls=0;
     int l_ls=0;
@@ -34,6 +34,7 @@ void ls_f(char* home, char* cwd, char* tcwd) {
     int cnt_ls = 0;
     DIR *mydir;
     DIR *ldir;
+    DIR *sdir;
     struct dirent *myfile;
     struct stat mystat;
     char buf[BUF_SIZE];
@@ -94,6 +95,7 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                     break;
                 }
                 ldir = opendir(ls_dir);
+                sdir = opendir(ls_dir);
                 printf("\n%s :\n", ls_dir);
                 maxlen = 0;
                 while((myfile = readdir(ldir)) != NULL) {
@@ -103,6 +105,21 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                         } 
                     }
                 }
+                int size_b=0;
+                while((myfile = readdir(sdir)) != NULL){
+                    sprintf(buf, "%s/%s", tcwd, myfile->d_name);
+                    stat(buf, &mystat);
+                    if(a_ls == 1){
+                        size_b += mystat.st_blocks;
+                    }
+                    else if(l_ls==1){
+                        if(myfile->d_name[0] != '.') {
+                            size_b += mystat.st_blocks;
+                        }
+                    }
+                }
+                if(a_ls ==1 || l_ls ==1)
+                    printf("total %d\n", size_b);
                 while((myfile = readdir(mydir)) != NULL)
                 {
                     if(l_ls == 1) {
@@ -186,6 +203,7 @@ void ls_f(char* home, char* cwd, char* tcwd) {
     if(cnt_ls == 0) {
         mydir = opendir(tcwd);
         ldir = opendir(tcwd);
+        sdir = opendir(tcwd);
         maxlen = 0;
         while((myfile = readdir(ldir)) != NULL) {
             if(myfile->d_name[0] != '.') {
@@ -194,6 +212,21 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                 } 
             }
         }
+        int size_b=0;
+        while((myfile = readdir(sdir)) != NULL){
+            sprintf(buf, "%s/%s", tcwd, myfile->d_name);
+            stat(buf, &mystat);
+            if(a_ls == 1){
+                size_b += mystat.st_blocks;
+            }
+            else if(l_ls==1) {
+                if(myfile->d_name[0] != '.') {
+                    size_b += mystat.st_blocks;
+                }
+            }
+        }
+        if(a_ls ==1 || l_ls ==1)
+            printf("total %d\n", size_b);
         while((myfile = readdir(mydir)) != NULL)
         {
             if(l_ls == 1) {
