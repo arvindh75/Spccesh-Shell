@@ -1,10 +1,19 @@
+history            
+
+echo "ertyuhjbnnbnj
+
+history            
+
 ls                 
-ls ..              
-cd ..              
-ls shell spccesh   
-exit               
-ls                 
-exit               
-ls                 
-cd ..              
-ls source spccesh                        
+
+history                          
+
+ls                          
+
+echo "wer67yghujhgvbhjnnjkjhbg"                         
+
+history                          
+
+history                          
+
+exit                          

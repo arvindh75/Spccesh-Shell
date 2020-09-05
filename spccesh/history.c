@@ -52,7 +52,7 @@ void add_his_f(char* home, char* inp, int dis) {
         fclose(f);
         f= fopen(pathh, "r");
     }
-    char his[21][20];
+    char his[21][100];
     while(fgets (out, sizeof(out), f)) {
             if(((int)out[1] >= 97 && (int)out[1] <=122) ||((int)out[1] >= 65 && (int)out[1] <=90) ) {
         //printf("COUNTING: %s\n", out);
@@ -112,7 +112,7 @@ void add_his_f(char* home, char* inp, int dis) {
     else {
         f= fopen(pathh, "r");
         for(int i=0;i < 10;) {
-            fgets (out, 20, f);
+            fgets (out, 90, f);
             //printf("READING: %s\n", out);
             strcpy(his[i],out);
             //printf("WRITING: %s\n", his[i]);
