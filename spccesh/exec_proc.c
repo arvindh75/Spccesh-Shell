@@ -47,9 +47,11 @@ void proc_end(int num) {
             fprintf(stderr, "\n%s with pid [%d] exited abnormally.\n\n",name, pid);
             fprintf(stderr,"\033[0m");
         }
+        prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t);
+        fflush(stdout);
     }
-    prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t);
-    fflush(stdout);
+    //prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t);
+    //fflush(stdout);
     return;
 }
 
@@ -109,21 +111,28 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
         args[j][i] = '\0';
     }
     count = 1;
+    int str_len=0;
     for (int j = 0; j < LS_SIZE; j++)
     {
         //        if (( (args[j][0] >= 48 && args[j][0] <= 57)|| (args[j][0] >= 97 && args[j][0] <= 122) || (args[j][0] >= 65 && args[j][0] <= 90) || (args[j][0] == 46) || (args[j][0] == 47) || (args[j][0] == 126) || (args[j][0] == 38) || args[j][0] == 45) && args[j] != NULL)
         if(args[j][0] != 0)
         {
+            str_len = strlen(args[j]);
             if (args[j][0] == '~')
             {
                 str_replace_ep(args[j], "~", home);
             }
             else {
-                if(args[j][0] == 38) {
+                if(args[j][str_len-1] == 38) {
+                    bg=1;
+                    args[j][str_len-1]='\0';
+                }
+                else if(args[j][0] == 38) {
                     bg=1;
                 }
-                else
+                else {
                     c_args[count++] = args[j];
+                }
             }
         }
     }

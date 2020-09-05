@@ -1,13 +1,10 @@
-gcc loop.c &       
-touch 1.cpp        
-exit               
-cd .               
+ls                 
+ls -la             
 cd ..              
-gcc -o b loop.c &  
+vim loop.c &       
 exit               
+ls                 
 cd ..              
-gcc -o b loop.c &  
-g++ 1.cpp                         
-g++ 1.cpp &                       
- exit                         
- 
+vim loop.c &       
+ps                 
+exit                          
