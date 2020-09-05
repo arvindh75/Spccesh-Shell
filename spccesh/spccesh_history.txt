@@ -1,9 +1,5 @@
 history            
 
-echo "ertyuhjbnnbnj
-
-history            
-
 ls                 
 
 history                          
@@ -15,5 +11,9 @@ echo "wer67yghujhgvbhjnnjkjhbg"
 history                          
 
 history                          
+
+exit                          
+
+ls                          
 
 exit                          

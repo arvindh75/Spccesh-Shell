@@ -76,6 +76,6 @@ void prompt_f(char* home, char* username, char* hostname, char* cwd, char* tcwd)
     printf("%s", cwd);
     reset();
     green();
-    printf("> : ");
+    printf("> $ ");
     reset();
 }
