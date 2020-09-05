@@ -68,16 +68,30 @@ void ls_f(char* home, char* cwd, char* tcwd) {
 
     for(int j=0; j < LS_SIZE; j++) {
         if(args[j] != NULL) {
-            if(!strcmp(args[j], "-la")) {
-                a_ls = 1;
-                l_ls = 1;
+            if(args[j][0] == '-') {
+                for(int i=0;i<strlen(args[j]);i++) {
+                    if(args[j][i] == 'l') {
+                        l_ls =1;
+                    }
+                    if(args[j][i] == 'a') {
+                        a_ls =1;
+                    }
+                }
             }
-            if(!strcmp(args[j], "-a")) {
-                a_ls = 1;
-            }
-            if(!strcmp(args[j], "-l")) {
-                l_ls = 1;
-            }
+            //if(!strcmp(args[j], "-la")) {
+            //    a_ls = 1;
+            //    l_ls = 1;
+            //}
+            //if(!strcmp(args[j], "-al")) {
+            //    a_ls = 1;
+            //    l_ls = 1;
+            //}
+            //if(!strcmp(args[j], "-a")) {
+            //    a_ls = 1;
+            //}
+            //if(!strcmp(args[j], "-l")) {
+            //    l_ls = 1;
+            //}
         }
     }
 

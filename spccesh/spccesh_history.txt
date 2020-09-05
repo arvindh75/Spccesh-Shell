@@ -1,10 +1,10 @@
-ls                 
 ls -la             
-cd ..              
-vim loop.c &       
+ls -a              
+ls -al             
+ls -lalalal        
+ls -llllllllllllll 
 exit               
 ls                 
-cd ..              
-vim loop.c &       
-ps                 
+ls -               
+ls 97'             
 exit                          
