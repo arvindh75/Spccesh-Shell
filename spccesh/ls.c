@@ -106,11 +106,13 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                 mydir = opendir(ls_dir);
                 if(mydir == NULL) {
                     printf("\nCannot open the Directory %s",ls_dir);
-                    break;
+                    continue;
                 }
                 ldir = opendir(ls_dir);
                 sdir = opendir(ls_dir);
+                printf("\033[1;34m");
                 printf("\n%s :\n", ls_dir);
+                printf("\033[0m");
                 maxlen = 0;
                 while((myfile = readdir(ldir)) != NULL) {
                     if(myfile->d_name[0] != '.') {
@@ -210,6 +212,7 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                         }
                     }
                 }
+                printf("\n");
                 closedir(mydir);
             }
         }

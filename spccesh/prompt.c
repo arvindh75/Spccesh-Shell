@@ -6,7 +6,7 @@ void red() {
 }
 
 void blue() {
-  printf("\033[0;34m");
+  printf("\033[1;34m");
 }
 
 void cyan() {

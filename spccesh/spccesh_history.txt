@@ -1,10 +1,10 @@
-ls -la             
-ls -a              
-ls -al             
-ls -lalalal        
-ls -llllllllllllll 
+ls                 
+ls ..              
+cd ..              
+ls shell spccesh   
 exit               
 ls                 
-ls -               
-ls 97'             
-exit                          
+exit               
+ls                 
+cd ..              
+ls source spccesh                        
