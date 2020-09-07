@@ -1,20 +1,20 @@
-if (c == 'q') {                     
+nightswatch -n 2 interrupts                      
 
-return true                        
-
-}nightswatch -n 4 newborn                      
+nightswatch -n 2 newborn                      
 
 exit                         
 
-nightswatch -n 4 newborn                      
+nightswatch -n 2 interrupts                      
 
 ls                         
 
-exit                         
+nightswatch -n 2 interrupts                      
 
-nightswatch -n 4 newborn                      
+nightswatch -n 2 newborn                      
 
-nightswatch -n 4 interrupt                      
+nightswatch -n 2 interrupts                      
+
+nightswatch -n 2 interrupt                      
 
 exit                         
  

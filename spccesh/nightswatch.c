@@ -2,9 +2,30 @@
 #include "nightswatch.h"
 clock_t start; 
 
+void str_replace_nsw(char* target, const char* needle, const char* replacement)
+{
+    char buffer[1024] = { 0 };
+    char *insert_point = &buffer[0];
+    const char *tmp = target;
+    size_t needle_len = strlen(needle);
+    size_t repl_len = strlen(replacement);
+    while (1) {
+        const char *p = strstr(tmp, needle);
+        if (p == NULL) {
+            strcpy(insert_point, tmp);
+            break;
+        }
+        memcpy(insert_point, tmp, p - tmp);
+        insert_point += p - tmp;
+        memcpy(insert_point, replacement, repl_len);
+        insert_point += repl_len;
+        tmp = p + needle_len;
+    }
+    strcpy(target, buffer);
+}
+
 int wait_f(int sec) {
     start= clock();
-    char ch;
     struct termios t1, t2;
     int num_b;
     while(clock() - start - (sec*CLOCKS_PER_SEC) < 0) {
@@ -84,8 +105,12 @@ void nw_f() {
             else {
                 fgets(cpus, sizeof(cpus),f);
                 fgets(timer_i, sizeof(timer_i),f);
+                fgets(timer_i, sizeof(timer_i),f);
+                fgets(timer_i, sizeof(timer_i),f);
                 fgets(keyb_i, sizeof(keyb_i),f);
                 printf("%s\n", cpus);
+                str_replace_nsw(keyb_i, "1:", "  ");
+                str_replace_nsw(keyb_i, "IR-I", " ");
                 printf("%s\n", keyb_i);
             }
             fclose(f);
@@ -99,8 +124,13 @@ void nw_f() {
                     else {
                         fgets(cpus, sizeof(cpus),f);
                         fgets(timer_i, sizeof(timer_i),f);
+                        fgets(timer_i, sizeof(timer_i),f);
+                        fgets(timer_i, sizeof(timer_i),f);
                         fgets(keyb_i, sizeof(keyb_i),f);
+                        str_replace_nsw(keyb_i, "1:", "  ");
+                        str_replace_nsw(keyb_i, "IR-I", " ");
                         printf("%s\n", keyb_i);
+
                     }
                     fclose(f);
                 }
@@ -119,7 +149,6 @@ void nw_f() {
                 temp = strtok(newp, " ");
                 while(temp != NULL) {
                     strcpy(newpid, temp);
-                    //mprintf("%s", newpid);
                     temp = strtok(NULL, " ");
                 }
                 printf("%s", newpid);
@@ -135,7 +164,6 @@ void nw_f() {
                         fgets(newp, sizeof(newp),f);
                         temp = strtok(newp, " ");
                         while(temp != NULL) {
-                            //printf("%s\n", temp);
                             strcpy(newpid, temp);
                             temp = strtok(NULL, " ");
                         }

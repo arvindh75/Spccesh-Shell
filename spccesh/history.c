@@ -115,7 +115,6 @@ void add_his_f(char* home, char* inp, int dis) {
         //    printf("%d th char: %c\n",i+1, command[i]);
         //}
         if(!strcmp(last,command) || (!strcmp(last+1, command)) || (!strcmp(last,command+1))) {
-            printf("Here for command: %s\n last:%s\n", command, last);
             return;
         }
         if(count < 10) {
