@@ -2,6 +2,7 @@
 #define __HEADER_H
 
 #include <stdio.h>
+#include <termios.h>
 #include <limits.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -18,6 +19,7 @@
 #include <fcntl.h> 
 #include <signal.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
 
 
 #define LS_SIZE 25
