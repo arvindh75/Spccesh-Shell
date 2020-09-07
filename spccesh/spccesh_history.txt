@@ -1,20 +1,20 @@
-pkill vim                        
+exit                         
 
-ps                         
+nightwatch 7iq                        
 
-kill -9 2780521                       
+nightswatch 678                        
 
-ps                         
+nightswatch -n 10 jss                      
 
 exit                         
 
-emacs -nw &                       
+nightswatch -n 1 interrupt                      
 
-ps                         
+exit                         
 
-kill -9 2780961                       
+nightswatch -n 1 interrupt                      
 
-ps                         
+nightswatch -n 1 interrup                      
 
 exit                         
  

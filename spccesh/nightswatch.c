@@ -96,6 +96,9 @@ void nw_f() {
     if(!num_arg || !n_arg) {
         printf("Correct Arguments are not provided!\n");
     }
+    if(!inter && !nb) {
+        printf("Can execute only [interrupt/newborn]\n");
+    }
     else {
         if(inter) { 
             f = fopen("/proc/interrupts", "r");
