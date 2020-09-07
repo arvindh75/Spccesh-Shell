@@ -1,19 +1,20 @@
-history            
+ ls                         
 
-ls                 
+ pwd                         
 
-history                          
+ ps                         
 
-ls                          
+ pinfo                         
 
-echo "wer67yghujhgvbhjnnjkjhbg"                         
+ ps                         
 
-history                          
+ pinfo                         
 
-history                          
+ echo hello                        
 
-exit                          
+ sjk                         
 
-ls                          
+pwd                         
 
-exit                          
+ps                         
+ 
