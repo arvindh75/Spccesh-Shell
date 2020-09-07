@@ -1,6 +1,8 @@
 #include "headers.h"
 #include "exec_proc.h"
 #include "prompt.h"
+#include <termios.h>
+#include <unistd.h>
 #define MAX_BG 100
 
 char* home_t;
@@ -85,6 +87,7 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
     username_t = username;
     hostname_t = hostname;
     cwd_t = cwd;
+    pid_t par;
     tcwd_t = tcwd;
     char *c_args[LS_SIZE];
     char *temp = "";
@@ -159,6 +162,9 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 exit(EXIT_SUCCESS);
             }
             else {
+                // MIGHT BE NECESSARY
+                //  par = getpid();
+                //  setpgid(par,par);
                 procs[proc_count].pid = forkret;
                 procs[proc_count].over = 0;
                 strcpy(procs[proc_count].name, c_args[0]);

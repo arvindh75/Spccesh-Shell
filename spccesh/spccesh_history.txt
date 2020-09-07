@@ -1,18 +1,18 @@
+pkill vim                        
+
+ps                         
+
+kill -9 2780521                       
+
+ps                         
+
 exit                         
 
-history                         
-
-vim&                         
+emacs -nw &                       
 
 ps                         
 
- exit                         
-
-vim&                         
-
-ps                         
-
-kill -9 2775116                       
+kill -9 2780961                       
 
 ps                         
 
