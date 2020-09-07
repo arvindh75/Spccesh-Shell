@@ -1,20 +1,20 @@
-nightswatch -n 2 interrupts                      
-
-nightswatch -n 2 newborn                      
-
 exit                         
 
-nightswatch -n 2 interrupts                      
+history                         
 
-ls                         
+vim&                         
 
-nightswatch -n 2 interrupts                      
+ps                         
 
-nightswatch -n 2 newborn                      
+ exit                         
 
-nightswatch -n 2 interrupts                      
+vim&                         
 
-nightswatch -n 2 interrupt                      
+ps                         
+
+kill -9 2775116                       
+
+ps                         
 
 exit                         
  

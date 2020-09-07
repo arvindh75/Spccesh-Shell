@@ -91,6 +91,10 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
     char args[LS_SIZE][1000];
     int count = 0;
     int bg = 0;
+    if(inp[strlen(inp)-1] == 38) {
+        bg=1;
+        inp[strlen(inp)-1]='\0';
+    }
     c_args[0] = inp;
     for (int j = 0; j < LS_SIZE; j++)
     {
