@@ -57,7 +57,6 @@ void add_his_f(char* home, char* inp, int dis) {
     char his[11][100];
     while(fgets (out, sizeof(out), f)) {
         if(((int)out[1] >= 97 && (int)out[1] <=122) ||((int)out[1] >= 65 && (int)out[1] <=90) ) {
-            //printf("COUNTING: %s\n", out);
             strcpy(last,out);
             if(dis == 1) {
                 if(cnt_number >= 10 - number)
@@ -72,83 +71,14 @@ void add_his_f(char* home, char* inp, int dis) {
         return;
     }
     int length =0;
-    int w_t=0;
     char main_c[100];
-    //printf("PATH: %s\n", pathh);
-    if(count < 10) {
-        f= fopen(pathh, "a");
-        if(f == NULL) {
-            perror("History File");
-            return;
-        }
-        else {
-            //printf("--------------------\n");
-            char* inpt = strtok(inp, " \t");
-            //printf("ADDING: %s\n", inpt);
-            strcpy(main_c, inpt);
-            length += sprintf(command + length, " %s ", inpt);
-            for(int j=0; j < LS_SIZE; j++)
-            {
-                temp = strtok(NULL, " \t");
-                if(temp == NULL)
-                {
-                    for(int k = j; k < LS_SIZE; k++)
-                    {
-                        strcpy(args[k], "\0");
-                    }
-                    break;
-                }
-                int i = 0;
-                for(i = 0; temp[i] != '\0'; i++)
-                {
-                    args[j][i] = temp[i];
-                }
-                args[j][i] = '\0';
-            }
-            for(int j=0; j < LS_SIZE; j++) {
-                if(j== LS_SIZE -1) {
-                    length += sprintf(command+length, "%s\n", args[j]);
-                }
-                length += sprintf(command+length, "%s ", args[j]);
-            }
-            command[strlen(command)-1] = '\0';
-            //printf("LAST:\n");
-            //for(int i=0;i<strlen(last);i++) {
-            //    printf("%d th char: %c\n",i+1, last[i]);
-            //}
-            //printf("LAST+1: %ld %s\n",strlen(last+1), last+1);
-            //printf("COMMAND:\n");
-            // for(int i=0;i<strlen(command);i++) {
-            //    printf("%d th char: %c\n",i+1, command[i]);
-            //}
-            if(!strcmp(last,command) || (!strcmp(last+1, command)) || (!strcmp(last,command+1))) {
-                printf("Here for command: %s\n last:%s\n", command, last);
-                w_t = 1;
-                return;
-            }
-            if(w_t == 0) {
-                fprintf(f, "%s ", main_c);
-                for(int j=0; j < LS_SIZE; j++) {
-                    //printf("ADDING: %s\n", args[j]);
-                    if(j== LS_SIZE -1) {
-                        fprintf(f, "%s\n", args[j]);
-                    }
-                    fprintf(f, "%s ", args[j]);
-                }
-            }
-            else {
-                fclose(f);
-                return;
-            }
-            //printf("--------------------\n");
-        }
-        fclose(f);
+    f= fopen(pathh, "a");
+    if(f == NULL) {
+        perror("History File");
+        return;
     }
     else {
-        length=0;
-        w_t=0;
         char* inpt = strtok(inp, " \t");
-        //printf("ADDING: %s\n", inpt);
         strcpy(main_c, inpt);
         length += sprintf(command + length, " %s ", inpt);
         for(int j=0; j < LS_SIZE; j++)
@@ -176,20 +106,31 @@ void add_his_f(char* home, char* inp, int dis) {
             length += sprintf(command+length, "%s ", args[j]);
         }
         command[strlen(command)-1] = '\0';
-        printf("LAST:\n");
-        for(int i=0;i<strlen(last);i++) {
-            printf("%d th char: %c\n",i+1, last[i]);
-        }
-        printf("LAST+1: %ld %s\n",strlen(last+1), last+1);
-        printf("COMMAND:\n");
-        for(int i=0;i<strlen(command);i++) {
-            printf("%d th char: %c\n",i+1, command[i]);
-        }
+        //printf("LAST:\n");
+        //for(int i=0;i<strlen(last);i++) {
+        //    printf("%d th char: %c\n",i+1, last[i]);
+        //}
+        //printf("LAST+1: %ld %s\n",strlen(last+1), last+1);
+        //printf("COMMAND:\n");
+        // for(int i=0;i<strlen(command);i++) {
+        //    printf("%d th char: %c\n",i+1, command[i]);
+        //}
         if(!strcmp(last,command) || (!strcmp(last+1, command)) || (!strcmp(last,command+1))) {
-            printf("Here2 for command: %s\n last:%s\n", command, last);
-            w_t = 1;
+            printf("Here for command: %s\n last:%s\n", command, last);
+            return;
         }
-        if(w_t == 0) {
+        if(count < 10) {
+            fprintf(f, "%s ", main_c);
+            for(int j=0; j < LS_SIZE; j++) {
+                //printf("ADDING: %s\n", args[j]);
+                if(j== LS_SIZE -1) {
+                    fprintf(f, "%s\n", args[j]);
+                }
+                fprintf(f, "%s ", args[j]);
+            }
+            fclose(f);
+        }
+        else {
             f= fopen(pathh, "r");
             for(int i=0;i < 10;) {
                 fgets (out, 90, f);
@@ -222,11 +163,7 @@ void add_his_f(char* home, char* inp, int dis) {
                 }
                 fprintf(f, "%s ", args[j]);
             }            //printf("--------------------\n");
+            fclose(f);
         }
-        else {
-            printf("Hereeugiwiauhdhv");
-        }
-        fclose(f);
     }
 }
-

@@ -1,20 +1,20 @@
- ls                         
-
- pwd                         
-
- ps                         
-
- pinfo                         
-
- ps                         
-
- pinfo                         
-
- echo hello                        
-
- sjk                         
-
 pwd                         
 
 ps                         
+
+pinfo                         
+
+history                         
+
+pinfo                         
+
+history                         
+
+pinfo                         
+
+pifno                         
+
+history                         
+
+exit                         
  
