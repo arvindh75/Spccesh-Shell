@@ -1,13 +1,13 @@
 #include "headers.h"
 #include "exec_proc.h"
 #include "prompt.h"
-#include <linux/limits.h>
-#include <unistd.h>
 #define MAX_BG 100
 
 char* home_t;
+
 char* username_t;
 char* hostname_t; 
+
 char* cwd_t;
 char* tcwd_t;
 

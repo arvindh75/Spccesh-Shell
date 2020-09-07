@@ -1,6 +1,5 @@
 #include "headers.h"
 #include "history.h"
-#include <stdio.h>
 
 void add_his_f(char* home, char* inp, int dis) {
     FILE* f;

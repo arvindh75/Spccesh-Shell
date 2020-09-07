@@ -9,6 +9,8 @@
 #include "exec_proc.h"
 #include "pinfo.h"
 #include "history.h"
+#include "nightswatch.h"
+
 #define MAX_BUF_LEN 500
 
 int main()
@@ -105,6 +107,11 @@ int main()
                     else if (!strcmp(inp, "history"))
                     {
                         add_his_f(home_m, inp_his, 1);
+                    }
+
+                    else if (!strcmp(inp, "nightswatch"))
+                    {
+                        nw_f();
                     }
 
                     else

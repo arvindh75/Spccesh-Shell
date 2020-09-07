@@ -1,6 +1,5 @@
 #include "headers.h"
 #include "pinfo.h"
-#include <unistd.h>
 
 void str_replace_pinfo(char* target, const char* needle, const char* replacement)
 {
