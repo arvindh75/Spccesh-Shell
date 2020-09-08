@@ -16,7 +16,6 @@
 int main()
 {
     int exit_loop = 0;
-    char *inp;
     char home_m[PATH_MAX];
     char hostname[HOST_NAME_MAX];  //
     char username[LOGIN_NAME_MAX]; //
@@ -24,8 +23,7 @@ int main()
     char tcwd[PATH_MAX];           //
     int len = 0;
     int c;
-    char* temp = "";
-    int i,j;
+    int j;
     char* input = malloc(sizeof(char)*MAX_BUF_LEN);
     int num_args = 0;
     int exit_read = 0;
@@ -66,7 +64,7 @@ int main()
             token = strtok(NULL, ";");
         }
 
-        for(int j=0;j<num_args;j++) {
+        for(j=0;j<num_args;j++) {
             if(args[j] != NULL) {
                 char inp_his[100];
                 strcpy(inp_his,args[j]);

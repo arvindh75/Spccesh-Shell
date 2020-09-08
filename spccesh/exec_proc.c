@@ -102,7 +102,7 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
     tcwd_t = tcwd;
     char *c_args[LS_SIZE];
     char *temp = "";
-    char args[LS_SIZE][1000];
+    char args[LS_SIZE][COM_LEN];
     int count = 0;
     int bg = 0;
     if(inp[strlen(inp)-1] == 38) {

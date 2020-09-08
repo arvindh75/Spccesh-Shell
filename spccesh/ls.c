@@ -39,7 +39,7 @@ void ls_f(char* home, char* cwd, char* tcwd) {
     struct stat mystat;
     char buf[BUF_SIZE];
     char* ls_dir;
-    char args[LS_SIZE][1000];
+    char args[LS_SIZE][COM_LEN];
     if(getcwd(cwd, PATH_MAX) == NULL) {
         perror("getcwd()");
     }
@@ -246,7 +246,7 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                 }
             }
         }
-        if(a_ls ==1 || l_ls ==1)
+        if(l_ls ==1)
             printf("total %d\n", size_b);
         while((myfile = readdir(mydir)) != NULL)
         {

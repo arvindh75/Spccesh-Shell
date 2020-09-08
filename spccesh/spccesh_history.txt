@@ -1,20 +1,20 @@
-emacs&                         
-
-pkill 5435                        
-
-ps                         
-
-pkill emacs                        
-
-emacs&                         
-
-kill -9 5459                       
+sl                         
 
 ls                         
 
-cd                         
+pinfo                         
 
-history                         
+cd ..                        
+
+pwd                         
+
+cd ..                        
+
+pwd                         
+
+nightswatch -n 1 interrupt                      
+
+cd ~                        
 
 exit                         
  

@@ -131,7 +131,7 @@ void add_his_f(char* home, char* inp, int dis) {
         else {
             f= fopen(pathh, "r");
             for(int i=0;i < 10;) {
-                fgets (out, 90, f);
+                fgets (out, 99, f);
                 //printf("READING: %s\n", out);
                 strcpy(his[i],out);
                 //printf("WRITING: %s\n", his[i]);

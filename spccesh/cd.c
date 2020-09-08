@@ -2,7 +2,7 @@
 #include "cd.h"
 
 void cd_f(char* home) { 
-    char fPath[3000];
+    char fPath[2000];
     char news[1000];
     char* p ;
     if(!(p = strtok(NULL, " \t")))

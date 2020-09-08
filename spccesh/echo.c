@@ -3,7 +3,7 @@
 
 void echo_f() { 
     char* temp = "";
-    char args[LS_SIZE][1000];
+    char args[LS_SIZE][COM_LEN];
     for(int j=0; j < LS_SIZE; j++)
     {
         temp = strtok(NULL, " \t");

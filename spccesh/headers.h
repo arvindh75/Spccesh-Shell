@@ -24,6 +24,7 @@
 
 #define LS_SIZE 25
 #define BUF_SIZE 1024
+#define COM_LEN 1000
 
 //char args[LS_SIZE][1000];
  
