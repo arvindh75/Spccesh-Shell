@@ -39,10 +39,10 @@ int main()
 {
     int exit_loop = 0;
     char home_m[PATH_MAX];
-    char hostname[HOST_NAME_MAX];  //
-    char username[LOGIN_NAME_MAX]; //
-    char cwd[PATH_MAX];            //
-    char tcwd[PATH_MAX];           //
+    char hostname[HOST_NAME_MAX];  
+    char username[LOGIN_NAME_MAX]; 
+    char cwd[PATH_MAX];            
+    char tcwd[PATH_MAX];           
     int len = 0;
     int c;
     int j;
@@ -50,13 +50,11 @@ int main()
     int num_args = 0;
     int exit_read = 0;
     char** args = malloc((sizeof(char)*MAX_BUF_LEN)*MAX_BUF_LEN); 
-    //printf("here1\n");
     if (getcwd(home_m, PATH_MAX) == NULL)
     {
         perror("getcwd()");
     }
-    //printf("Home main: %s\n", home_m);
-    printf("\e[1;1H\e[2J");
+    printf("\e[1;1H\e[2J"); // Clear Screen
     setname_f(username, hostname);
     while (exit_loop == 0)
     {
@@ -77,10 +75,6 @@ int main()
             }
         }
         str_replace_main(input,"&","&;");
-
-        // for(j = 0; j < MAX_BUF_LEN; j++) { 
-         //   args[j] = '\0';
-        //}
         char* token = strtok(input, ";");
         while(token!=NULL) {
             args[num_args] = token;

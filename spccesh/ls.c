@@ -81,20 +81,6 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                     }
                 }
             }
-            //if(!strcmp(args[j], "-la")) {
-            //    a_ls = 1;
-            //    l_ls = 1;
-            //}
-            //if(!strcmp(args[j], "-al")) {
-            //    a_ls = 1;
-            //    l_ls = 1;
-            //}
-            //if(!strcmp(args[j], "-a")) {
-            //    a_ls = 1;
-            //}
-            //if(!strcmp(args[j], "-l")) {
-            //    l_ls = 1;
-            //}
         }
     }
 

@@ -1,20 +1,20 @@
-cd..                         
+nightswatch -n 1 interrupt                      
 
-exita                         
+nightswatch -n 1 newborn                      
 
-exit JKK                        
+echo ""hello there                       
+
+pwd                         
+
+pwd hkk                        
+
+pwd                         
+
+cd ..                        
+
+vim loop.c                        
 
 ls                         
-
-cd..                         
-
-history                         
-
-exit                         
-
-ls                         
-
-cd..                         
 
 exit                         
  

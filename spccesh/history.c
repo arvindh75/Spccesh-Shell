@@ -105,22 +105,12 @@ void add_his_f(char* home, char* inp, int dis) {
             length += sprintf(command+length, "%s ", args[j]);
         }
         command[strlen(command)-1] = '\0';
-        //printf("LAST:\n");
-        //for(int i=0;i<strlen(last);i++) {
-        //    printf("%d th char: %c\n",i+1, last[i]);
-        //}
-        //printf("LAST+1: %ld %s\n",strlen(last+1), last+1);
-        //printf("COMMAND:\n");
-        // for(int i=0;i<strlen(command);i++) {
-        //    printf("%d th char: %c\n",i+1, command[i]);
-        //}
         if(!strcmp(last,command) || (!strcmp(last+1, command)) || (!strcmp(last,command+1))) {
             return;
         }
         if(count < 10) {
             fprintf(f, "%s ", main_c);
             for(int j=0; j < LS_SIZE; j++) {
-                //printf("ADDING: %s\n", args[j]);
                 if(j== LS_SIZE -1) {
                     fprintf(f, "%s\n", args[j]);
                 }
@@ -132,9 +122,7 @@ void add_his_f(char* home, char* inp, int dis) {
             f= fopen(pathh, "r");
             for(int i=0;i < 10;) {
                 fgets (out, 99, f);
-                //printf("READING: %s\n", out);
                 strcpy(his[i],out);
-                //printf("WRITING: %s\n", his[i]);
                 if(((int)out[1] >= 97 && (int)out[1] <=122) ||((int)out[1] >= 65 && (int)out[1] <=90) ) {
                     i++;
                 }
@@ -145,9 +133,7 @@ void add_his_f(char* home, char* inp, int dis) {
                 perror("History File");
                 return;
             }
-            //printf("--------------------\n");
             for(int i=1;i<10;) {
-                //printf("ADDING: %s\n", his[i]);
                 fprintf(f,"%s\n",his[i]);
                 if(((int)his[i][1] >= 97 && (int)his[i][1] <=122) ||((int)his[i][1] >= 65 && (int)his[i][1] <=90) ) {
                     i++;
@@ -155,12 +141,11 @@ void add_his_f(char* home, char* inp, int dis) {
             }
             fprintf(f, "%s ", main_c);
             for(int j=0; j < LS_SIZE; j++) {
-                //printf("ADDING: %s\n", args[j]);
                 if(j== LS_SIZE -1) {
                     fprintf(f, "%s\n", args[j]);
                 }
                 fprintf(f, "%s ", args[j]);
-            }            //printf("--------------------\n");
+            }            
             fclose(f);
         }
     }
