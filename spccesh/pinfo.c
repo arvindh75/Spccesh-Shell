@@ -56,7 +56,7 @@ void pinfo_f(char * inp, char* home) {
         args[j][i] = '\0';
     }
     for(int j=0;j<LS_SIZE;j++) {
-        if(args[j] != NULL) {
+        if(args[j][0] != 0) {
             if(args[j][0] >= 48 && args[j][0] <= 57) {
                 x=1;
                 cnt ++;
@@ -68,8 +68,8 @@ void pinfo_f(char * inp, char* home) {
                 strcat(tpath, "/stat");
                 f = fopen(tpath, "r");
                 if(f == NULL) {
-                    perror("pinfo ");
-                    return;
+                    perror("\npinfo ");
+                    continue;
                 }
                 printf("\nPid -- %d\n", id);
                 while(x <= 23) {
@@ -91,6 +91,9 @@ void pinfo_f(char * inp, char* home) {
                     str_replace_pinfo(buff,home,"~");
                     printf("Executable Path -- %s\n", buff);
                 }
+            }
+            else {
+                printf("Process %s not found. Displaying default.\n", args[j]);
             }
         }
     }

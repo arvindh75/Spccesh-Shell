@@ -96,8 +96,11 @@ void nw_f() {
     if(!num_arg || !n_arg) {
         printf("Correct Arguments are not provided!\n");
     }
-    if(!inter && !nb) {
+    else if(!inter && !nb) {
         printf("Can execute only [interrupt/newborn]\n");
+    }
+    else if(inter && nb) {
+        printf("Provide only ONE of [interrupt/newborn]\n");
     }
     else {
         if(inter) { 

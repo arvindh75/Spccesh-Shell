@@ -24,7 +24,6 @@ void str_replace_ls(char* target, const char* needle, const char* replacement)
 }
 
 void ls_f(char* home, char* cwd, char* tcwd) { 
-
     int maxlen=0;
     int a_ls=0;
     int l_ls=0;

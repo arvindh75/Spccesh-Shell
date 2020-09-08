@@ -1,20 +1,20 @@
-git status                        
+cd..                         
 
-vim&                         
+exita                         
 
-emacs&                         
+exit JKK                        
 
-vim&                         
+ls                         
 
-ps                         
+cd..                         
 
-kill -9 13950                       
+history                         
 
-kill -9 13952                       
+exit                         
 
-ps                         
+ls                         
 
-pinfo                         
+cd..                         
 
 exit                         
  

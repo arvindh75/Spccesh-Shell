@@ -36,7 +36,7 @@ void add_his_f(char* home, char* inp, int dis) {
             number = atoi(args[j]);
             no_arg=0;
             if(number > 10 || number <=0) {
-                printf("Argument must be less than 10 and positive");
+                printf("\nArgument must be less than or equal to 10 and positive");
                 return;
             }
         }    

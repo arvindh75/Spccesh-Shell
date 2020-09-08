@@ -157,7 +157,7 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
     c_args[count] = NULL;
     if (c_args[0] == NULL)
     {
-        printf("Command not found!\n");
+        printf("\nCommand not found!\n");
     }
     else
     {
@@ -167,7 +167,7 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
             {
                 setpgid(0,0);
                 if(execvp(c_args[0], c_args) == -1) {
-                    printf("Command not found!\n");
+                    printf("\nCommand not found!\n");
                     exit(EXIT_FAILURE);
                 }
                 exit(EXIT_SUCCESS);
@@ -189,7 +189,7 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
             if (forkret == 0)
             {
                 if(execvp(c_args[0], c_args) == -1) {
-                    printf("Command not found!\n");
+                    printf("\nCommand not found!\n");
                     exit(1);
                 }
                 exit(0);
