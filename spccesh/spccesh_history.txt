@@ -1,20 +1,20 @@
-sl                         
+git status                        
 
-ls                         
+vim&                         
+
+emacs&                         
+
+vim&                         
+
+ps                         
+
+kill -9 13950                       
+
+kill -9 13952                       
+
+ps                         
 
 pinfo                         
-
-cd ..                        
-
-pwd                         
-
-cd ..                        
-
-pwd                         
-
-nightswatch -n 1 interrupt                      
-
-cd ~                        
 
 exit                         
  

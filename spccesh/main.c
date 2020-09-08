@@ -11,6 +11,28 @@
 #include "history.h"
 #include "nightswatch.h"
 
+void str_replace_main(char* target, const char* needle, const char* replacement)
+{
+    char buffer[1024] = { 0 };
+    char *insert_point = &buffer[0];
+    const char *tmp = target;
+    size_t needle_len = strlen(needle);
+    size_t repl_len = strlen(replacement);
+    while (1) {
+        const char *p = strstr(tmp, needle);
+        if (p == NULL) {
+            strcpy(insert_point, tmp);
+            break;
+        }
+        memcpy(insert_point, tmp, p - tmp);
+        insert_point += p - tmp;
+        memcpy(insert_point, replacement, repl_len);
+        insert_point += repl_len;
+        tmp = p + needle_len;
+    }
+    strcpy(target, buffer);
+}
+
 #define MAX_BUF_LEN 500
 
 int main()
@@ -34,6 +56,7 @@ int main()
         perror("getcwd()");
     }
     //printf("Home main: %s\n", home_m);
+    printf("\e[1;1H\e[2J");
     setname_f(username, hostname);
     while (exit_loop == 0)
     {
@@ -53,6 +76,7 @@ int main()
                 exit_read=1;
             }
         }
+        str_replace_main(input,"&","&;");
 
         // for(j = 0; j < MAX_BUF_LEN; j++) { 
          //   args[j] = '\0';
