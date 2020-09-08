@@ -1,1 +1,19 @@
-# Shell
+# Spccesh
+A basic shell that executes bash commands. It can create and run Foreground and Background processes. It can also display history. It is fully written in C.
+
+## Files
+- `cd.c` : Implements *cd* command.
+- `echo.c` : Implements *echo* command.
+- `exec_proc.c` : Creates and executes foreground and background processes.
+- `exit.c` : Implements *exit* command.
+- `history.c` : Implements *history* command.
+- `ls.c` : Implements *ls* command.
+- `main.c` : The main component which calls other components.
+- `nightswatch.c` : Implements a feature similar to *watch*. Accepts [interrupt/newborn] as the arguement.
+- `pinfo.c` : Provides information about a process. PID should be passed the argument.
+- `prompt.c` : Prints Hostname and Username.
+- `pwd.c` : Implements *pwd* command.
+- `setname.c` : Extracts Hostname and Username.
+
+## Procedure
+Execute `make` in the cloned directory. Spccesh can be run by executing `./spccesh`.
