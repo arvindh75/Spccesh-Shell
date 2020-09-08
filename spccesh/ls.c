@@ -73,8 +73,12 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                     if(args[j][i] == 'l') {
                         l_ls =1;
                     }
-                    if(args[j][i] == 'a') {
+                    else if(args[j][i] == 'a') {
                         a_ls =1;
+                    }
+                    else if(args[j][i] != '-'){
+                        printf("Flag not found!\n");
+                        return;
                     }
                 }
             }

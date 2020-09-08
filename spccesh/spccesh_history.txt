@@ -1,20 +1,20 @@
-exit                         
+emacs&                         
 
-nightwatch 7iq                        
+pkill 5435                        
 
-nightswatch 678                        
+ps                         
 
-nightswatch -n 10 jss                      
+pkill emacs                        
 
-exit                         
+emacs&                         
 
-nightswatch -n 1 interrupt                      
+kill -9 5459                       
 
-exit                         
+ls                         
 
-nightswatch -n 1 interrupt                      
+cd                         
 
-nightswatch -n 1 interrup                      
+history                         
 
 exit                         
  

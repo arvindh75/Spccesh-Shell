@@ -40,15 +40,26 @@ void proc_end(int num) {
         if(WEXITSTATUS(status) == EXIT_SUCCESS) {
             procs[index].over=1;
             fprintf(stderr,"\033[1;32m");
-            fprintf(stderr, "\n%s with pid [%d] exited normally.\n\n",name, pid);
+            fprintf(stderr, "\n%s with pid [%d] exited normally.\n",name, pid);
             fprintf(stderr,"\033[0m");
+            fprintf(stderr,"\n");
         }
         else {
             procs[index].over=1;
             fprintf(stderr,"\033[1;31m");
-            fprintf(stderr, "\n%s with pid [%d] exited abnormally.\n\n",name, pid);
+            fprintf(stderr, "\n%s with pid [%d] exited abnormally.\n",name, pid);
             fprintf(stderr,"\033[0m");
+            fprintf(stderr,"\n");
         }
+        prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t);
+        fflush(stdout);
+    }
+    else {
+        procs[index].over=1;
+        fprintf(stderr,"\033[1;31m");
+        fprintf(stderr, "\n%s with pid [%d] exited abnormally.\n",name, pid);
+        fprintf(stderr,"\033[0m");
+        fprintf(stderr,"\n");
         prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t);
         fflush(stdout);
     }
