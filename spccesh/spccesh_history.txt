@@ -1,20 +1,21 @@
-nightswatch -n 1 interrupt                      
+history 10                        
 
-nightswatch -n 1 newborn                      
+exit                         
 
-echo ""hello there                       
+vim&                         
 
-pwd                         
-
-pwd hkk                        
-
-pwd                         
-
-cd ..                        
-
-vim loop.c                        
+kill -9 7363 7364 7365 7366                    
 
 ls                         
 
-exit                         
+ps                         
+
+ sls                         
+
+ls                         
+
+history                         
+
+l                         
+ exit                         
  

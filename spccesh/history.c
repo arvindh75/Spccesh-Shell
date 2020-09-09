@@ -31,15 +31,23 @@ void add_his_f(char* home, char* inp, int dis) {
         }
         args[j][i] = '\0';
     }
+    int val_num=0;
     for(int j=0; j < LS_SIZE; j++) {
         if(args[j][0] >=48 && args[j][0] <=57) {
             number = atoi(args[j]);
+            val_num=1;
             no_arg=0;
             if(number > 10 || number <=0) {
-                printf("\nArgument must be less than or equal to 10 and positive");
+                printf("\nArgument must be less than or equal to 10 and positive!\n");
                 return;
             }
-        }    
+        }
+        else if (args[j][0] != 0){
+            if(dis == 1 && !val_num) {
+                printf("\nWrong Arguments!\n");
+                return;
+            }
+        }
     }
     if(no_arg) {
         number = 10;
@@ -57,12 +65,35 @@ void add_his_f(char* home, char* inp, int dis) {
     while(fgets (out, sizeof(out), f)) {
         if(((int)out[1] >= 97 && (int)out[1] <=122) ||((int)out[1] >= 65 && (int)out[1] <=90) ) {
             strcpy(last,out);
+            count++;
+        }
+    }
+    fclose(f);
+    int smol=0;
+    if(count < number) {
+        number = count;
+        smol=1;
+    }
+    f= fopen(pathh, "r");
+    if(f==NULL) {
+        f= fopen(pathh, "a");
+        fclose(f);
+        f= fopen(pathh, "r");
+    }
+    while(fgets (out, sizeof(out), f)) {
+        if(((int)out[1] >= 97 && (int)out[1] <=122) ||((int)out[1] >= 65 && (int)out[1] <=90) ) {
+            strcpy(last,out);
             if(dis == 1) {
-                if(cnt_number >= 10 - number)
-                    printf("%s", out);
+                if(count < 10) {
+                    if(cnt_number < 10)
+                        printf("%s", out);
+                }
+                else if (smol == 0){
+                    if(cnt_number >= 10 - number)
+                        printf("%s", out);
+                }
                 cnt_number++;
             }
-            count++;
         }
     }
     fclose(f);
