@@ -24,3 +24,5 @@ Execute `make` in the cloned directory. Spccesh can be run by executing `./spcce
 
 ## Implementation
 - `history` : History can display maximum of 10 commands and it displays only the **previous** commands (excluding the current one like ZSH). Continuously repeated commands are stored only once in the history.
+
+### The shell was developed in Linux(Manjaro), some features may not work in other distros or other OS(s).
