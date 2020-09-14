@@ -1,11 +1,20 @@
-setenv bruh                        
- exit                         
- setenv bruh                        
- printenv                         
- setenv moment 69                       
- printenv                         
- exit                         
- ls                         
- quit                         
- exit                         
+printenv                         
+
+setenv bruh 69                       
+
+setenv kenobi 420                       
+
+print env                        
+
+printenv                         
+
+unsetenv bruh                        
+
+printenv                         
+
+unsetenv kenobi                        
+
+printenv                         
+
+quit                         
  

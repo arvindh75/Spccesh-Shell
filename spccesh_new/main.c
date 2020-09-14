@@ -12,6 +12,7 @@
 #include "nightswatch.h"
 
 #include "setenv.h"
+#include "unsetenv.h"
 
 void str_replace_main(char* target, const char* needle, const char* replacement)
 {
@@ -135,6 +136,11 @@ int main()
                     else if (!strcmp(inp, "setenv"))
                     {
                         setenv_f();
+                    }
+
+                    else if (!strcmp(inp, "unsetenv"))
+                    {
+                        unsetenv_f();
                     }
 
                     else
