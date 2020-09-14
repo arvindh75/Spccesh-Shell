@@ -92,7 +92,7 @@ int main()
                 if (inp != NULL)
                 {
 
-                    if (!strcmp(inp, "exit"))
+                    if ((!strcmp(inp, "exit")) || (!strcmp(inp, "quit")))
                     {
                         exit_loop = exit_f();
                     }

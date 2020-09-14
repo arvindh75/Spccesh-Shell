@@ -5,4 +5,7 @@ setenv bruh
  setenv moment 69                       
  printenv                         
  exit                         
+ ls                         
+ quit                         
+ exit                         
  
