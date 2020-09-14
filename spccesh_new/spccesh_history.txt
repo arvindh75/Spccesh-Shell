@@ -1,0 +1,8 @@
+setenv bruh                        
+ exit                         
+ setenv bruh                        
+ printenv                         
+ setenv moment 69                       
+ printenv                         
+ exit                         
+ 

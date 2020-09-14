@@ -11,6 +11,8 @@
 #include "history.h"
 #include "nightswatch.h"
 
+#include "setenv.h"
+
 void str_replace_main(char* target, const char* needle, const char* replacement)
 {
     char buffer[1024] = { 0 };
@@ -128,6 +130,11 @@ int main()
                     else if (!strcmp(inp, "nightswatch"))
                     {
                         nw_f();
+                    }
+
+                    else if (!strcmp(inp, "setenv"))
+                    {
+                        setenv_f();
                     }
 
                     else

@@ -1,8 +1,11 @@
-spccesh: main.o cd.o prompt.o echo.o exit.o ls.o pwd.o setname.o exec_proc.o pinfo.o history.o nightswatch.o
-	gcc -o spccesh -g -Wall main.o cd.o prompt.o echo.o exit.o ls.o pwd.o setname.o exec_proc.o pinfo.o history.o nightswatch.o
+spccesh: main.o cd.o prompt.o echo.o exit.o ls.o pwd.o setname.o exec_proc.o pinfo.o history.o nightswatch.o setenv.o
+	gcc -o spccesh -g -Wall main.o cd.o prompt.o echo.o exit.o ls.o pwd.o setname.o exec_proc.o pinfo.o history.o nightswatch.o setenv.o
 
 cd.o: cd.c cd.h
 	gcc -g -Wall -c cd.c
+
+setenv.o: setenv.c setenv.h
+	gcc -g -Wall -c setenv.c
 
 pinfo.o: pinfo.c pinfo.h
 	gcc -g -Wall -c pinfo.c
