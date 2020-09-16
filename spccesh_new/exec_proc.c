@@ -86,9 +86,55 @@ void jobs_f() {
 void overkill_f() {
     for(int i=0;i<MAX_BG; i++) {
         if(procs[i].over == -1) {
-            kill(procs[i].pid, SIGKILL);
+            kill(procs[i].pid, 9);
         }
     }
+}
+
+void kjob_f() {
+    char *temp = "";
+    char args[LS_SIZE][COM_LEN];
+    for (int j = 0; j < LS_SIZE; j++)
+    {
+        temp = strtok(NULL, " \t");
+        if (temp == NULL)
+        {
+            for (int k = j; k < LS_SIZE; k++)
+            {
+                strcpy(args[k], "\0");
+            }
+            break;
+        }
+        int i = 0;
+        for (i = 0; temp[i] != '\0'; i++)
+        {
+            args[j][i] = temp[i];
+        }
+        args[j][i] = '\0';
+    }
+    int count_args=0;
+    int pid = -1;
+    int signum = -1;
+    for(int j=0;j<LS_SIZE; j++) {
+        if(args[j][0] >= 48 && args[j][0] <=57) {
+            if(count_args > 1) {
+                printf("Wrong Arguments!\n");
+                return;
+            }
+            if(count_args == 0) {
+                pid = atoi(args[j]);
+            }
+            if(count_args == 1) {
+                signum = atoi(args[j]);
+            }
+            count_args++;
+        }
+    }
+    if(pid == -1 || signum == -1) {
+        printf("Wrong Arguments!\n");
+        return;
+    }
+    kill(pid, signum);
 }
 
 void str_replace_ep(char *target, const char *needle, const char *replacement)

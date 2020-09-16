@@ -152,6 +152,11 @@ int main()
                     {
                         overkill_f();
                     }
+                    
+                    else if (!strcmp(inp, "kjob"))
+                    {
+                        kjob_f();
+                    }
 
                     else
                     {

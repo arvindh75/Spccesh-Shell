@@ -1,20 +1,20 @@
-overkill                         
-
-jobs                         
-
 vim&                         
 
+kjob 1315109 9                       
+
+kjob 1315110 1                       
+
+ps                         
+
 jobs                         
-
-overkill                         
-
-jobs                         
-
-emacs&                         
 
 overkill                         
 
 jobs                         
 
 exit                         
+
+kjob 78q s akjsa                      
+
+quit                         
  
