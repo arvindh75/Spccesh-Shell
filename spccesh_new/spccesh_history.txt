@@ -1,20 +1,20 @@
-printenv                         
+jobs                         
 
-setenv bruh 69                       
+ls                         
 
-setenv kenobi 420                       
+kill -9 1311925                       
 
-print env                        
+jobs                         
 
-printenv                         
+exit                         
 
-unsetenv bruh                        
+ls ../                        
 
-printenv                         
+gcc -o a ../main2.c                      
 
-unsetenv kenobi                        
+vim&                         
 
-printenv                         
+jobs                         
 
 quit                         
  

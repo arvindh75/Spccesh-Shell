@@ -143,6 +143,11 @@ int main()
                         unsetenv_f();
                     }
 
+                    else if (!strcmp(inp, "jobs"))
+                    {
+                        jobs_f();
+                    }
+
                     else
                     {
                         exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);

@@ -29,7 +29,7 @@ void proc_end(int num) {
     char name[100];
     int index;
     for(int i=0;i<MAX_BG;i++) {
-        if(procs[i].over == 0) {
+        if(procs[i].over == -1) {
             if(procs[i].pid == pid) {
                 strcpy(name, procs[i].name);
                 index=i;
@@ -64,6 +64,23 @@ void proc_end(int num) {
         fflush(stdout);
     }
     return;
+}
+
+void jobs_f() {
+    int count=0;
+    char str[25];
+    for(int i=0;i<MAX_BG;i++) {
+        if(procs[i].over == -1){
+            count++;
+            strcpy(str,"Running");
+            printf("[%d] %s %s [%d]\n",count, str, procs[i].name, procs[i].pid);
+        }
+        if(procs[i].over == 1){
+            count++;
+            strcpy(str,"Stopped");
+            printf("[%d] %s %s [%d]\n",count, str, procs[i].name, procs[i].pid);
+        }
+    }
 }
 
 void str_replace_ep(char *target, const char *needle, const char *replacement)
@@ -174,7 +191,7 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 //  par = getpid();
                 //  setpgid(par,par);
                 procs[proc_count].pid = forkret;
-                procs[proc_count].over = 0;
+                procs[proc_count].over = -1;
                 strcpy(procs[proc_count].name, c_args[0]);
                 proc_count++;
                 printf("[%d]\n", forkret);
