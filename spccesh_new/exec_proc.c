@@ -83,6 +83,14 @@ void jobs_f() {
     }
 }
 
+void overkill_f() {
+    for(int i=0;i<MAX_BG; i++) {
+        if(procs[i].over == -1) {
+            kill(procs[i].pid, SIGKILL);
+        }
+    }
+}
+
 void str_replace_ep(char *target, const char *needle, const char *replacement)
 {
     char buffer[1024] = {0};

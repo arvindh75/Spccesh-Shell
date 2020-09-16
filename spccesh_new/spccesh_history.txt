@@ -1,20 +1,20 @@
-jobs                         
-
-ls                         
-
-kill -9 1311925                       
+overkill                         
 
 jobs                         
-
-exit                         
-
-ls ../                        
-
-gcc -o a ../main2.c                      
 
 vim&                         
 
 jobs                         
 
-quit                         
+overkill                         
+
+jobs                         
+
+emacs&                         
+
+overkill                         
+
+jobs                         
+
+exit                         
  

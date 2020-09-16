@@ -3,6 +3,7 @@
 
 //void proc_end(int, char*, char*, char*, char*, char*);
 void proc_end(int);
+void overkill_f();
 void jobs_f();
 void str_replace_ep(char *, const char *, const char *);
 void exec_proc_f(char*, char*, char*, char*, char*, char*);

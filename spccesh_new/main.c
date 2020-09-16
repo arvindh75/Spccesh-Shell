@@ -147,6 +147,11 @@ int main()
                     {
                         jobs_f();
                     }
+                    
+                    else if (!strcmp(inp, "overkill"))
+                    {
+                        overkill_f();
+                    }
 
                     else
                     {
