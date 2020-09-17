@@ -1,20 +1,20 @@
-vim&                         
-
-kjob 1315109 9                       
-
-kjob 1315110 1                       
-
-ps                         
-
-jobs                         
-
-overkill                         
-
-jobs                         
+ls > hello.txt                       
 
 exit                         
 
-kjob 78q s akjsa                      
+ls                         
 
-quit                         
+exit                         
+
+ls                         
+
+ls > hello.txt                       
+
+ls < hello.txt                       
+
+ls >> hello.txt                       
+
+ls hello.txt                        
+
+exit                         
  

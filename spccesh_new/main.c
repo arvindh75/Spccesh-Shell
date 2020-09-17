@@ -13,6 +13,7 @@
 
 #include "setenv.h"
 #include "unsetenv.h"
+#include "rdir.h"
 
 void str_replace_main(char* target, const char* needle, const char* replacement)
 {
@@ -84,86 +85,97 @@ int main()
             num_args++;
             token = strtok(NULL, ";");
         }
-
+        int rd=0;
         for(j=0;j<num_args;j++) {
+            rd=0;
             if(args[j] != NULL) {
-                char inp_his[100];
-                strcpy(inp_his,args[j]);
-                char* inp = strtok(args[j], " \t");
-                if (inp != NULL)
-                {
+                for(int p=0;p<strlen(args[j]);p++) {
+                    if(args[j][p] == '>' || args[j][p] == '<') {
+                        rd=1;
+                        char inp_his[100];
+                        strcpy(inp_his,args[j]);
+                        rdir_f(args[j],home_m, cwd, tcwd);
+                        add_his_f(home_m, inp_his, 0);
+                    }
+                }
+                if(rd == 0) {
+                    char inp_his[100];
+                    strcpy(inp_his,args[j]);
+                    char* inp = strtok(args[j], " \t");
+                    if (inp != NULL)
+                    {
+                        if ((!strcmp(inp, "exit")) || (!strcmp(inp, "quit")))
+                        {
+                            exit_loop = exit_f();
+                        }
 
-                    if ((!strcmp(inp, "exit")) || (!strcmp(inp, "quit")))
-                    {
-                        exit_loop = exit_f();
-                    }
+                        else if (!strcmp(inp, "cd"))
+                        {
+                            cd_f(home_m);
+                        }
 
-                    else if (!strcmp(inp, "cd"))
-                    {
-                        cd_f(home_m);
-                    }
+                        else if (!strcmp(inp, "pwd"))
+                        {
+                            pwd_f(tcwd);
+                        }
 
-                    else if (!strcmp(inp, "pwd"))
-                    {
-                        pwd_f(tcwd);
-                    }
+                        else if (!strcmp(inp, "echo"))
+                        {
+                            echo_f();
+                        }
 
-                    else if (!strcmp(inp, "echo"))
-                    {
-                        echo_f();
-                    }
+                        else if (!strcmp(inp, "ls"))
+                        {
+                            ls_f(home_m, cwd, tcwd);
+                        }
 
-                    else if (!strcmp(inp, "ls"))
-                    {
-                        ls_f(home_m, cwd, tcwd);
-                    }
+                        else if (!strcmp(inp, "pinfo"))
+                        {
+                            pinfo_f(inp, home_m);
+                        }
 
-                    else if (!strcmp(inp, "pinfo"))
-                    {
-                        pinfo_f(inp, home_m);
-                    }
+                        else if (!strcmp(inp, "history"))
+                        {
+                            add_his_f(home_m, inp_his, 1);
+                        }
 
-                    else if (!strcmp(inp, "history"))
-                    {
-                        add_his_f(home_m, inp_his, 1);
-                    }
+                        else if (!strcmp(inp, "nightswatch"))
+                        {
+                            nw_f();
+                        }
 
-                    else if (!strcmp(inp, "nightswatch"))
-                    {
-                        nw_f();
-                    }
+                        else if (!strcmp(inp, "setenv"))
+                        {
+                            setenv_f();
+                        }
 
-                    else if (!strcmp(inp, "setenv"))
-                    {
-                        setenv_f();
-                    }
+                        else if (!strcmp(inp, "unsetenv"))
+                        {
+                            unsetenv_f();
+                        }
 
-                    else if (!strcmp(inp, "unsetenv"))
-                    {
-                        unsetenv_f();
-                    }
+                        else if (!strcmp(inp, "jobs"))
+                        {
+                            jobs_f();
+                        }
 
-                    else if (!strcmp(inp, "jobs"))
-                    {
-                        jobs_f();
-                    }
-                    
-                    else if (!strcmp(inp, "overkill"))
-                    {
-                        overkill_f();
-                    }
-                    
-                    else if (!strcmp(inp, "kjob"))
-                    {
-                        kjob_f();
-                    }
+                        else if (!strcmp(inp, "overkill"))
+                        {
+                            overkill_f();
+                        }
 
-                    else
-                    {
-                        exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
+                        else if (!strcmp(inp, "kjob"))
+                        {
+                            kjob_f();
+                        }
+
+                        else
+                        {
+                            exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
+                        }
+
+                        add_his_f(home_m, inp_his, 0);
                     }
-                    
-                   add_his_f(home_m, inp_his, 0);
                 }
             }
         }
