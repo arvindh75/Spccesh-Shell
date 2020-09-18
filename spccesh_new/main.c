@@ -15,6 +15,7 @@
 #include "unsetenv.h"
 #include "rdir.h"
 #include <fcntl.h>
+#include <stdio.h>
 #include <unistd.h>
 
 void str_replace_main(char* target, const char* needle, const char* replacement)
@@ -55,8 +56,8 @@ int main()
     char* input = malloc(sizeof(char)*MAX_BUF_LEN);
     int num_args = 0;
     int exit_read = 0;
-    int stdin_save = dup(STDIN_FILENO);
-    int stdout_save = dup(STDOUT_FILENO);
+    int stdin_save = dup(0);
+    int stdout_save = dup(1);
     char temp_rdir[100];
     char temp_rdir2[100];
     char args_rdir[100];
@@ -65,6 +66,10 @@ int main()
     char right2[100];
     int fd,fd2,fd3;
     int mulrd=0;
+    int pip=0;
+    int rd=0;
+    int pipea[2];
+    char inp_his[100];
     char** args = malloc((sizeof(char)*MAX_BUF_LEN)*MAX_BUF_LEN); 
     if (getcwd(home_m, PATH_MAX) == NULL)
     {
@@ -97,9 +102,9 @@ int main()
             num_args++;
             token = strtok(NULL, ";");
         }
-        int rd=0;
         for(j=0;j<num_args;j++) {
             rd=0;
+            pip=0;
             fd=-1;
             fd2=-1;
             fd3=-1;
@@ -109,9 +114,57 @@ int main()
                     if(args[j][p] == '>' || args[j][p] == '<') {
                         rd=1;    
                     }
+                    if(args[j][p] == '|') {
+                        pip=1;
+                    }
+                }
+                if(pip == 1) {
+                    if(pipe(pipea) < 0) {
+                        printf("Error piping.\n");
+                        continue;
+                    }
+                    strcpy(args_rdir,args[j]);
+                    strcpy(temp_rdir,args_rdir);
+                    strcpy(temp_rdir2,args_rdir);
+                    char* retp = strstr(args_rdir, "| ");
+                    if(retp) {
+                        str_replace_rdir(args_rdir, retp, "");
+                        
+                        if(dup2(pipea[1], STDOUT_FILENO) == -1) {
+                            perror("Duplicating file descriptor.");
+                            continue;
+                        } 
+                         
+                        char* inp = strtok(args_rdir, " \t");
+                        exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
+                        dup2(stdout_save, STDOUT_FILENO);
+                        close(pipea[1]);
+                        
+                        //char pipe_content[102];
+                        //read(pipea[0], pipe_content, 100);
+                        //printf("Contents of fildes[0]: \n%s\n\n", pipe_content);
+
+
+                        if(dup2(pipea[0], STDIN_FILENO) == -1) {
+                            perror("Duplicating file descriptor.");
+                            continue;
+                        }
+                        //[char* xy[2];
+                        //xy[0] = retp+2;
+                        //xy[1]=NULL;
+                        //printf("%s\n", xy[0]);
+                        //if (execvp(xy[0], xy) == -1) {
+                        //}    printf("Command not found.\n");
+                        //}
+                        char* inp2 = strtok(retp+2, " \t");
+                        exec_proc_f(inp2, home_m, username, hostname, cwd, tcwd);
+                        dup2(stdout_save, STDOUT_FILENO);
+                        dup2(stdin_save, STDIN_FILENO);
+                        close(pipea[0]);
+                        //pip=0;
+                    }
                 }
                 if(rd == 1) {
-                    char inp_his[100];
                     strcpy(inp_his,args[j]);
                     strcpy(args_rdir,args[j]);
                     strcpy(temp_rdir,args_rdir);
@@ -211,8 +264,7 @@ int main()
                     //rdir_f(args[j],home_m, cwd, tcwd);
                     add_his_f(home_m, inp_his, 0);
                 }
-                if(rd == 0) {
-                    char inp_his[100];
+                if(rd == 0 && pip == 0) {
                     strcpy(inp_his,args[j]);
                     char* inp = strtok(args[j], " \t");
                     if (inp != NULL)

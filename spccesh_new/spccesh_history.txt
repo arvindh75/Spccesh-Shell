@@ -1,20 +1,21 @@
-sort                         
+ls                         
+
+rm "$ ls"                       
 
 cat test.txt                        
 
-quit                         
+exit                         
+
+wc                         
 
 exit                         
 
-sort < test.txt                       
-
-history                         
-
-sort < test.txt >> test2.txt                     
-
-cat test2.txt                        
-
-history                         
+wc                         
 
 exit                         
+
+cat test.txt                        
+
+[C[                         
+ exit                         
  
