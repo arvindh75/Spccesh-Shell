@@ -109,26 +109,60 @@ int main()
                     strcpy(args_rdir,args[j]);
                     strcpy(temp_rdir,args_rdir);
                     strcpy(temp_rdir2,args_rdir);
-                    char* ret = strstr(args_rdir, "> ");
-                    if(ret) {
-                        str_replace_rdir(temp_rdir2,ret, "");
+                    char* ret0 = strstr(args_rdir, ">> ");
+                    if(ret0) {
+                        str_replace_rdir(temp_rdir2,ret0, "");
                         //printf("RET:%s\n", ret+2);
                         //printf("TEM2:%s\n", temp2);
                         strcpy(left,temp_rdir2);
-                        strcpy(right,ret+2);
+                        strcpy(right,ret0+3);
+                        //printf("LEFT:%s\n", left);
+                        //printf("RIGHT:%s\n", right);
+                        fd = open(right, O_WRONLY | O_CREAT | O_APPEND, 0644);
+                        if(dup2(fd, STDOUT_FILENO) == -1) {
+                            perror("Duplicating file descriptor.");
+                            continue;
+                        }
+                        strcpy(args[j], left);
                     }
-                    char* ret2 = strstr(args_rdir, " <");
-                    if(ret2) {
-                        str_replace_rdir(temp_rdir2,ret2, "");
-                        strcpy(right,temp_rdir2);
-                        strcpy(left,ret2+2);
+                    else {
+                        char* ret = strstr(args_rdir, "> ");
+                        if(ret) {
+                            str_replace_rdir(temp_rdir2,ret, "");
+                            //printf("RET:%s\n", ret+2);
+                            //printf("TEM2:%s\n", temp2);
+                            strcpy(left,temp_rdir2);
+                            strcpy(right,ret+2);
+                            //printf("LEFT:%s\n", left);
+                            //printf("RIGHT:%s\n", right);
+                            fd = open(right, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                            if(dup2(fd, STDOUT_FILENO) == -1) {
+                                perror("Duplicating file descriptor.");
+                                continue;
+                            }
+                            strcpy(args[j], left);
+                        }
+                        else {
+                            char* ret2 = strstr(args_rdir, "< ");
+                            if(ret2) {
+                                str_replace_rdir(temp_rdir2,ret2, "");
+                                strcpy(left,temp_rdir2);
+                                strcpy(right,ret2+2);
+                                //printf("LEFT:%s\n", left);
+                                //printf("RIGHT:%s\n", right);
+                                fd = open(right, O_RDONLY);
+                                if(fd < 0) {
+                                    printf("Cannot open file %s\n", right);
+                                    continue;
+                                }
+                                if(dup2(fd, STDIN_FILENO) == -1) {
+                                    perror("Duplicating file descriptor.");
+                                    continue;
+                                }
+                                strcpy(args[j], left);
+                            }
+                        }
                     }
-                    fd = open(right, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-                    if(dup2(fd, STDOUT_FILENO) == -1) {
-                        perror("Duplicating file descriptor.");
-                        continue;
-                    }
-                    strcpy(args[j], left);
                     rd=0;
                     //rdir_f(args[j],home_m, cwd, tcwd);
                     //add_his_f(home_m, inp_his, 0);

@@ -1,20 +1,20 @@
-ls                         
+echo there                        
 
-cat right.txt                        
-
-ls                         
-
-cat "right.txt\"                        
-
-cat right.txt\                        
+cat hello.txt                        
 
 exit                         
 
-ls                         
+echo hello                        
 
-cat left.txt                        
+cat hello.txt                        
 
-cat right.txt                        
+echo there                        
+
+cat hello.txt                        
+
+sort                         
+
+sort < test.txt                       
 
 exit                         
  
