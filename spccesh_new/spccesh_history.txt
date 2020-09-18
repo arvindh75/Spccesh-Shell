@@ -1,20 +1,20 @@
+ls > hi                       
+
+exit                         
+
 ls > hello.txt                       
+
+cat hello.txt                        
 
 exit                         
 
 ls                         
 
+cat hello.txt                        
+
 exit                         
 
-ls                         
-
-ls > hello.txt                       
-
-ls < hello.txt                       
-
-ls >> hello.txt                       
-
-ls hello.txt                        
+pwd                         
 
 exit                         
  

@@ -14,6 +14,8 @@
 #include "setenv.h"
 #include "unsetenv.h"
 #include "rdir.h"
+#include <fcntl.h>
+#include <unistd.h>
 
 void str_replace_main(char* target, const char* needle, const char* replacement)
 {
@@ -53,6 +55,13 @@ int main()
     char* input = malloc(sizeof(char)*MAX_BUF_LEN);
     int num_args = 0;
     int exit_read = 0;
+    int stdin_save = dup(STDIN_FILENO);
+    int stdout_save = dup(STDOUT_FILENO);
+    char temp_rdir[100];
+    char temp_rdir2[100];
+    char args_rdir[100];
+    char left[100];
+    char right[100];
     char** args = malloc((sizeof(char)*MAX_BUF_LEN)*MAX_BUF_LEN); 
     if (getcwd(home_m, PATH_MAX) == NULL)
     {
@@ -91,12 +100,30 @@ int main()
             if(args[j] != NULL) {
                 for(int p=0;p<strlen(args[j]);p++) {
                     if(args[j][p] == '>' || args[j][p] == '<') {
-                        rd=1;
-                        char inp_his[100];
-                        strcpy(inp_his,args[j]);
-                        rdir_f(args[j],home_m, cwd, tcwd);
-                        add_his_f(home_m, inp_his, 0);
+                        rd=1;    
                     }
+                }
+                if(rd == 1) {
+                    strcpy(args_rdir,args[j]);
+                    strcpy(temp_rdir,args_rdir);
+                    strcpy(temp_rdir2,args_rdir);
+                    char* ret = strstr(args_rdir, "> ");
+                    if(ret) {
+                        str_replace_rdir(temp_rdir2,ret, "");
+                        //printf("RET:%s\n", ret+2);
+                        //printf("TEM2:%s\n", temp2);
+                        strcpy(left,temp_rdir2);
+                        strcpy(right,ret+2);
+                    }
+                    int fd = open(right, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                    if(dup2(fd, STDOUT_FILENO) == -1) {
+                        perror("Duplicating file descriptor.");
+                        continue;
+                    }
+                    rd=0;
+                    strcpy(args[j], left);
+                    //rdir_f(args[j],home_m, cwd, tcwd);
+                    //add_his_f(home_m, inp_his, 0);
                 }
                 if(rd == 0) {
                     char inp_his[100];
@@ -176,6 +203,8 @@ int main()
 
                         add_his_f(home_m, inp_his, 0);
                     }
+                    dup2(stdin_save, STDIN_FILENO);
+                    dup2(stdout_save, STDOUT_FILENO);
                 }
             }
         }
