@@ -1,20 +1,20 @@
-echo there                        
+sort                         
 
-cat hello.txt                        
+cat test.txt                        
+
+quit                         
 
 exit                         
 
-echo hello                        
-
-cat hello.txt                        
-
-echo there                        
-
-cat hello.txt                        
-
-sort                         
-
 sort < test.txt                       
+
+history                         
+
+sort < test.txt >> test2.txt                     
+
+cat test2.txt                        
+
+history                         
 
 exit                         
  
