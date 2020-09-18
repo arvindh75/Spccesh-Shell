@@ -62,6 +62,7 @@ int main()
     char args_rdir[100];
     char left[100];
     char right[100];
+    int fd;
     char** args = malloc((sizeof(char)*MAX_BUF_LEN)*MAX_BUF_LEN); 
     if (getcwd(home_m, PATH_MAX) == NULL)
     {
@@ -97,6 +98,7 @@ int main()
         int rd=0;
         for(j=0;j<num_args;j++) {
             rd=0;
+            fd=-1;
             if(args[j] != NULL) {
                 for(int p=0;p<strlen(args[j]);p++) {
                     if(args[j][p] == '>' || args[j][p] == '<') {
@@ -115,13 +117,19 @@ int main()
                         strcpy(left,temp_rdir2);
                         strcpy(right,ret+2);
                     }
-                    int fd = open(right, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                    char* ret2 = strstr(args_rdir, " <");
+                    if(ret2) {
+                        str_replace_rdir(temp_rdir2,ret2, "");
+                        strcpy(right,temp_rdir2);
+                        strcpy(left,ret2+2);
+                    }
+                    fd = open(right, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                     if(dup2(fd, STDOUT_FILENO) == -1) {
                         perror("Duplicating file descriptor.");
                         continue;
                     }
-                    rd=0;
                     strcpy(args[j], left);
+                    rd=0;
                     //rdir_f(args[j],home_m, cwd, tcwd);
                     //add_his_f(home_m, inp_his, 0);
                 }
@@ -205,6 +213,9 @@ int main()
                     }
                     dup2(stdin_save, STDIN_FILENO);
                     dup2(stdout_save, STDOUT_FILENO);
+                    fflush(stdout);
+                    if(fd != -1)
+                        close(fd);
                 }
             }
         }

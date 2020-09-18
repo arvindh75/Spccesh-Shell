@@ -1,20 +1,20 @@
-ls > hi                       
+ls                         
 
-exit                         
+cat right.txt                        
 
-ls > hello.txt                       
+ls                         
 
-cat hello.txt                        
+cat "right.txt\"                        
+
+cat right.txt\                        
 
 exit                         
 
 ls                         
 
-cat hello.txt                        
+cat left.txt                        
 
-exit                         
-
-pwd                         
+cat right.txt                        
 
 exit                         
  
