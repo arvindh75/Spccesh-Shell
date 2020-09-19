@@ -1,20 +1,20 @@
 cat test.txt                        
 
-exit                         
-
-wc                         
-
-exit                         
-
-wc                         
-
-exit                         
+head                         
 
 cat test.txt                        
 
- exit                         
+tail -5                        
 
-cat test.txt                        
+head -2                        
+
+tail -1                        
+
+cat lines.txt                        
+
+sort < lines.txt > sort2.txt                     
+
+cat sort2.txt                        
 
 exit                         
  
