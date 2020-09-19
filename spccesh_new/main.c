@@ -14,9 +14,7 @@
 #include "setenv.h"
 #include "unsetenv.h"
 #include "rdir.h"
-#include <fcntl.h>
-#include <stdio.h>
-#include <unistd.h>
+#include <ctype.h>
 
 void str_replace_main(char* target, const char* needle, const char* replacement)
 {
@@ -38,6 +36,16 @@ void str_replace_main(char* target, const char* needle, const char* replacement)
         tmp = p + needle_len;
     }
     strcpy(target, buffer);
+}
+
+void trim(char * s) {
+    char * p = s;
+    int l = strlen(p);
+
+    while(isspace(p[l - 1])) p[--l] = 0;
+    while(* p && isspace(* p)) ++p, --l;
+
+    memmove(s, p, l + 1);
 }
 
 #define MAX_BUF_LEN 500
@@ -70,6 +78,7 @@ int main()
     int rd=0;
     int pipea[2];
     char inp_his[100];
+    char pipcom[200][100];
     char** args = malloc((sizeof(char)*MAX_BUF_LEN)*MAX_BUF_LEN); 
     if (getcwd(home_m, PATH_MAX) == NULL)
     {
@@ -119,6 +128,52 @@ int main()
                     }
                 }
                 if(pip == 1) {
+                    int in = 0;
+                    char* p=strtok(args[j],"|");
+                    while (p) {
+                        strcpy(pipcom[in], p);
+                        p = strtok(NULL, "|");
+                        in++;
+                    }
+                    for(int il=0;il<in;il++) {
+                        trim(pipcom[il]);
+                    }
+                    int inputp = dup(0);
+                    for(int it=0; it<in; it++) {
+                        if(it == in-1) {
+                            stdin_save = dup(0);
+                            stdout_save = dup(1);
+                            dup2(inputp, 0);
+                            dup2(1,1);
+                            //input,1;
+                            char* inp = strtok(pipcom[it], " \t");
+                            //exec_main(pipcom[it], inputp, 1);
+                            exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
+                            dup2(stdin_save, 0);
+                            dup2(stdout_save, 1);
+                            close(stdin_save);
+                            close(stdout_save);
+                        }
+                        else {
+                            pipe(pipea);
+                            stdin_save = dup(0);
+                            stdout_save = dup(1);
+                            dup2(inputp, 0);
+                            dup2(pipea[1],1);
+                            //input,pipea[1];
+                            char* inp = strtok(pipcom[it], " \t");
+                            //exec_main(pipcom[it], inputp, 0);
+                            exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
+                            dup2(stdin_save, 0);
+                            dup2(stdout_save, 1);
+                            close(stdin_save);
+                            close(stdout_save);
+                            close(pipea[1]);
+                            inputp = pipea[0];
+                        }
+                    }
+                }
+                if(pip == 2) {
                     if(pipe(pipea) < 0) {
                         printf("Error piping.\n");
                         continue;
