@@ -61,7 +61,7 @@ int main()
     int len = 0;
     int c;
     int j;
-    char input[10000];
+    char input[1000000];
     int num_args = 0;
     int exit_read = 0;
     int stdin_save = dup(0);
@@ -84,7 +84,7 @@ int main()
     char* ret2;
     char* ret0, *ret;
     char* inp;
-    int p, in, il, inputp, it;
+    int p, in, il, inputp, it, pq, leninp;
     char** args = malloc((sizeof(char)*MAX_BUF_LEN)*MAX_BUF_LEN); 
     if (getcwd(home_m, PATH_MAX) == NULL)
     {
@@ -94,22 +94,30 @@ int main()
     setname_f(username, hostname);
     while (exit_loop == 0)
     {
-        len=0;
+        dup2(stdin_save, 0);
+        dup2(stdout_save, 1);
+        fflush(stdin);
+        fflush(stderr);
+        fflush(stdout);
+        leninp=0;
         num_args=0;
         exit_read=0;
         prompt_f(home_m, username, hostname, cwd, tcwd);
         while(exit_read == 0) {
             c = getchar();
             if(c != '\n') {
-                input[len] = c;
-                len++;
+                input[leninp] = c;
+                leninp++;
             }
             else {
-                input[len] = '\0';
-                len++;
+                input[leninp] = '\0';
+                leninp++;
                 exit_read=1;
             }
         }
+        fflush(stdin);
+        fflush(stderr);
+        fflush(stdout);
         str_replace_main(input,"&","&;");
         token = strtok(input, ";");
         while(token!=NULL) {
@@ -124,8 +132,8 @@ int main()
             fd2=-1;
             fd3=-1;
             mulrd=-1;
-            if(args[j] != NULL) {
-                for(p=0;p<strlen(args[j]);p++) {
+            if(args[j][0] != 0) {
+                for(p=0;p<200;p++) {
                     if(args[j][p] == '>' || args[j][p] == '<') {
                         rd=1;    
                     }
@@ -146,6 +154,21 @@ int main()
                     }
                     inputp = dup(0);
                     for(it=0; it<in; it++) {
+                        rd=0;
+                        fd=-1;
+                        fd2=-1;
+                        fd3=-1;
+                        mulrd=-1;
+                        fprintf(stderr,"\033[1;31m");
+                        fprintf(stderr, "\n155");
+                        for(pq=0;pq<100;pq++) {
+                            //fprintf(stderr, "\n156: pq:% it:d%c\n\n",pipcom[it][pq]);
+                            if(pipcom[it][pq] == '>' || pipcom[it][pq] == '<') {
+                                fprintf(stderr, "\n157: Changing rd rd=%d\n\n", rd);
+                                rd=1;    
+                            }
+                        }
+                        fprintf(stderr,"\033[0m");
                         if(it == in-1) {
                             stdin_save = dup(0);
                             stdout_save = dup(1);
@@ -259,12 +282,14 @@ int main()
                                         }
                                     }
                                 }
-
                                 rd=0;
                                 //rdir_f(args[j],home_m, cwd, tcwd);
                                 add_his_f(home_m, inp_his, 0);
                             }
                             if(rd == 0) {
+                                fprintf(stderr,"\033[1;31m");
+                                fprintf(stderr, "\n278:%s\n\n",args[j]);
+                                fprintf(stderr,"\033[0m");
                                 strcpy(inp_his,args[j]);
                                 inp="";
                                 inp = strtok(args[j], " \t");
@@ -365,6 +390,9 @@ int main()
                             //char* inp = strtok(pipcom[it], " \t");
                             //exec_main(pipcom[it], inputp, 0);
                             //exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
+                            fprintf(stderr,"\033[1;31m");
+                            fprintf(stderr, "\n381:%s rd=%d\n\n",args[j], rd);
+                            fprintf(stderr,"\033[0m");
                             if(rd == 1) {
                                 strcpy(inp_his,args[j]);
                                 strcpy(args_rdir,args[j]);
@@ -471,6 +499,9 @@ int main()
                                 add_his_f(home_m, inp_his, 0);
                             }
                             if(rd == 0) {
+                                fprintf(stderr,"\033[1;31m");
+                                fprintf(stderr, "\n487:%s\n\n",args[j]);
+                                fprintf(stderr,"\033[0m");
                                 strcpy(inp_his,args[j]);
                                 inp="";
                                 inp = strtok(args[j], " \t");
@@ -565,6 +596,10 @@ int main()
                     }
                 }
                 else {
+                    fprintf(stderr,"\033[1;31m");
+                    fprintf(stderr, "\nA:%s\n\n",args[j]);
+                    fprintf(stderr, "\nPIP=0:\n\n");
+                    fprintf(stderr,"\033[0m");
                     if(rd == 1) {
                         strcpy(inp_his,args[j]);
                         strcpy(args_rdir,args[j]);
@@ -670,7 +705,11 @@ int main()
                         //rdir_f(args[j],home_m, cwd, tcwd);
                         add_his_f(home_m, inp_his, 0);
                     }
-                    if(rd == 0 && pip == 0) {
+                    if(rd == 0) {
+                        fprintf(stderr,"\033[1;31m");
+                        fprintf(stderr, "\nA:%s\n\n",args[j]);
+                        fprintf(stderr, "\nPIP=0:\n\n");
+                        fprintf(stderr,"\033[0m");
                         strcpy(inp_his,args[j]);
                         inp="";
                         inp = strtok(args[j], " \t");

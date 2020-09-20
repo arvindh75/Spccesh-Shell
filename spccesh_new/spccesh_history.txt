@@ -1,20 +1,20 @@
-ls                         
+cat test2.txt                        
 
-ls &                        
+cat < test.txt                       
 
- cd                         
-
-ls &                        
-
- cd ..                        
+wc -l > test2.txt                      
 
 ls                         
 
-cat loop.c                        
+ cat < test.txt                       
 
-pwd                         
+ls                         
 
-grep a                        
+cat < test.txt > testcopy.txt                     
 
-exit                         
+cat testcopy.txt                        
+
+wc                         
+
+cat hello                        
  
