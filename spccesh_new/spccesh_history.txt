@@ -1,21 +1,20 @@
-cat test.txt                        
+jobs                         
 
-wc -l                        
+ps                         
 
-cat < test.txt                       
+vim&                         
 
-wc > testline.txt                       
+kill -20 827216                       
 
-cat testline.txt                        
+ps                         
 
-cat test.txt >> testline.txt                      
+jobs                         
 
- l                         
+ps                         
 
-cat testline.txt                        
+bg 2                        
 
-ls                         
+ps                         
 
-c                         
- exit                         
+jobs                         
  

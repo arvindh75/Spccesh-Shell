@@ -368,6 +368,11 @@ int main()
                                     {
                                         kjob_f();
                                     }
+                                    
+                                    else if (!strcmp(inp, "bg"))
+                                    {
+                                        contbg_f();
+                                    }
 
                                     else
                                     {
@@ -586,6 +591,11 @@ int main()
                                         kjob_f();
                                     }
 
+                                    else if (!strcmp(inp, "bg"))
+                                    {
+                                        contbg_f();
+                                    }
+
                                     else
                                     {
                                         exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
@@ -792,6 +802,11 @@ int main()
                             else if (!strcmp(inp, "kjob"))
                             {
                                 kjob_f();
+                            }
+                            
+                            else if (!strcmp(inp, "bg"))
+                            {
+                                contbg_f();
                             }
 
                             else

@@ -3,6 +3,7 @@
 
 //void proc_end(int, char*, char*, char*, char*, char*);
 void proc_end(int);
+void contbg_f();
 void kjob_f();
 void overkill_f();
 void jobs_f();

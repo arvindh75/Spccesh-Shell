@@ -91,6 +91,18 @@ void overkill_f() {
     }
 }
 
+void contbg_f() {
+    char* temp="";
+    temp = strtok(NULL, " \t");
+    int pidbg = atoi(temp);
+    if(procs[pidbg-1].over == 0) {
+        printf("Job not found.\n");
+        return;
+    }
+    kill(procs[pidbg-1].pid, 25);
+    procs[pidbg-1].over = -1;
+}
+
 void kjob_f() {
     char *temp = "";
     char args[LS_SIZE][COM_LEN];
