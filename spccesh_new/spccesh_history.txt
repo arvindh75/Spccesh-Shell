@@ -1,20 +1,20 @@
-cat test.txt                        
+ls                         
 
-head                         
+ls &                        
 
-cat test.txt                        
+ cd                         
 
-tail -5                        
+ls &                        
 
-head -2                        
+ cd ..                        
 
-tail -1                        
+ls                         
 
-cat lines.txt                        
+cat loop.c                        
 
-sort < lines.txt > sort2.txt                     
+pwd                         
 
-cat sort2.txt                        
+grep a                        
 
 exit                         
  

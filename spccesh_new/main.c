@@ -61,7 +61,7 @@ int main()
     int len = 0;
     int c;
     int j;
-    char* input = malloc(sizeof(char)*MAX_BUF_LEN);
+    char input[10000];
     int num_args = 0;
     int exit_read = 0;
     int stdin_save = dup(0);
@@ -79,6 +79,12 @@ int main()
     int pipea[2];
     char inp_his[100];
     char pipcom[200][100];
+    char* token;
+    char* ppip;
+    char* ret2;
+    char* ret0, *ret;
+    char* inp;
+    int p, in, il, inputp, it;
     char** args = malloc((sizeof(char)*MAX_BUF_LEN)*MAX_BUF_LEN); 
     if (getcwd(home_m, PATH_MAX) == NULL)
     {
@@ -105,7 +111,7 @@ int main()
             }
         }
         str_replace_main(input,"&","&;");
-        char* token = strtok(input, ";");
+        token = strtok(input, ";");
         while(token!=NULL) {
             args[num_args] = token;
             num_args++;
@@ -119,7 +125,7 @@ int main()
             fd3=-1;
             mulrd=-1;
             if(args[j] != NULL) {
-                for(int p=0;p<strlen(args[j]);p++) {
+                for(p=0;p<strlen(args[j]);p++) {
                     if(args[j][p] == '>' || args[j][p] == '<') {
                         rd=1;    
                     }
@@ -128,18 +134,18 @@ int main()
                     }
                 }
                 if(pip == 1) {
-                    int in = 0;
-                    char* p=strtok(args[j],"|");
-                    while (p) {
-                        strcpy(pipcom[in], p);
-                        p = strtok(NULL, "|");
+                    in = 0;
+                    ppip=strtok(args[j],"|");
+                    while (ppip) {
+                        strcpy(pipcom[in], ppip);
+                        ppip = strtok(NULL, "|");
                         in++;
                     }
-                    for(int il=0;il<in;il++) {
+                    for(il=0;il<in;il++) {
                         trim(pipcom[il]);
                     }
-                    int inputp = dup(0);
-                    for(int it=0; it<in; it++) {
+                    inputp = dup(0);
+                    for(it=0; it<in; it++) {
                         if(it == in-1) {
                             stdin_save = dup(0);
                             stdout_save = dup(1);
@@ -158,14 +164,16 @@ int main()
                                 strcpy(args_rdir,args[j]);
                                 strcpy(temp_rdir,args_rdir);
                                 strcpy(temp_rdir2,args_rdir);
-                                char* ret2 = strstr(args_rdir, "< ");
+                                ret2="";
+                                ret2 = strstr(args_rdir, "< ");
                                 if(ret2) {
                                     str_replace_rdir(temp_rdir2,ret2, "");
                                     strcpy(left,temp_rdir2);
                                     strcpy(right,ret2+2);
                                     strcpy(args[j], left);
 
-                                    char* ret0 = strstr(args_rdir, ">> ");
+                                    ret0="";
+                                    ret0 = strstr(args_rdir, ">> ");
                                     if(ret0) {
                                         //printf("RET:%s\n", ret+2);
                                         //printf("TEM2:%s\n", temp2);
@@ -173,7 +181,8 @@ int main()
                                         mulrd=1;
                                     }
                                     else {
-                                        char *ret = strstr(args_rdir, "> ");
+                                        ret="";
+                                        ret = strstr(args_rdir, "> ");
                                         if(ret) {
                                             //printf("RET:%s\n", ret+2);
                                             //printf("TEM2:%s\n", temp2);
@@ -213,7 +222,8 @@ int main()
                                     }
                                 }
                                 else {
-                                    char* ret0 = strstr(args_rdir, ">> ");
+                                    ret0="";
+                                    ret0 = strstr(args_rdir, ">> ");
                                     if(ret0) {
                                         str_replace_rdir(temp_rdir2,ret0, "");
                                         //printf("RET:%s\n", ret+2);
@@ -230,7 +240,8 @@ int main()
                                         strcpy(args[j], left);
                                     }
                                     else {
-                                        char* ret = strstr(args_rdir, "> ");
+                                        ret="";
+                                        ret = strstr(args_rdir, "> ");
                                         if(ret) {
                                             str_replace_rdir(temp_rdir2,ret, "");
                                             //printf("RET:%s\n", ret+2);
@@ -255,7 +266,8 @@ int main()
                             }
                             if(rd == 0) {
                                 strcpy(inp_his,args[j]);
-                                char* inp = strtok(args[j], " \t");
+                                inp="";
+                                inp = strtok(args[j], " \t");
                                 if (inp != NULL)
                                 {
                                     if ((!strcmp(inp, "exit")) || (!strcmp(inp, "quit")))
@@ -358,14 +370,16 @@ int main()
                                 strcpy(args_rdir,args[j]);
                                 strcpy(temp_rdir,args_rdir);
                                 strcpy(temp_rdir2,args_rdir);
-                                char* ret2 = strstr(args_rdir, "< ");
+                                ret2="";
+                                ret2 = strstr(args_rdir, "< ");
                                 if(ret2) {
                                     str_replace_rdir(temp_rdir2,ret2, "");
                                     strcpy(left,temp_rdir2);
                                     strcpy(right,ret2+2);
                                     strcpy(args[j], left);
 
-                                    char* ret0 = strstr(args_rdir, ">> ");
+                                    ret0="";
+                                    ret0 = strstr(args_rdir, ">> ");
                                     if(ret0) {
                                         //printf("RET:%s\n", ret+2);
                                         //printf("TEM2:%s\n", temp2);
@@ -373,7 +387,8 @@ int main()
                                         mulrd=1;
                                     }
                                     else {
-                                        char *ret = strstr(args_rdir, "> ");
+                                        ret="";
+                                        ret = strstr(args_rdir, "> ");
                                         if(ret) {
                                             //printf("RET:%s\n", ret+2);
                                             //printf("TEM2:%s\n", temp2);
@@ -413,7 +428,8 @@ int main()
                                     }
                                 }
                                 else {
-                                    char* ret0 = strstr(args_rdir, ">> ");
+                                    ret0="";
+                                    ret0 = strstr(args_rdir, ">> ");
                                     if(ret0) {
                                         str_replace_rdir(temp_rdir2,ret0, "");
                                         //printf("RET:%s\n", ret+2);
@@ -430,7 +446,8 @@ int main()
                                         strcpy(args[j], left);
                                     }
                                     else {
-                                        char* ret = strstr(args_rdir, "> ");
+                                        ret="";
+                                        ret = strstr(args_rdir, "> ");
                                         if(ret) {
                                             str_replace_rdir(temp_rdir2,ret, "");
                                             //printf("RET:%s\n", ret+2);
@@ -455,7 +472,8 @@ int main()
                             }
                             if(rd == 0) {
                                 strcpy(inp_his,args[j]);
-                                char* inp = strtok(args[j], " \t");
+                                inp="";
+                                inp = strtok(args[j], " \t");
                                 if (inp != NULL)
                                 {
                                     if ((!strcmp(inp, "exit")) || (!strcmp(inp, "quit")))
@@ -552,14 +570,16 @@ int main()
                         strcpy(args_rdir,args[j]);
                         strcpy(temp_rdir,args_rdir);
                         strcpy(temp_rdir2,args_rdir);
-                        char* ret2 = strstr(args_rdir, "< ");
+                        ret2="";
+                        ret2 = strstr(args_rdir, "< ");
                         if(ret2) {
                             str_replace_rdir(temp_rdir2,ret2, "");
                             strcpy(left,temp_rdir2);
                             strcpy(right,ret2+2);
                             strcpy(args[j], left);
 
-                            char* ret0 = strstr(args_rdir, ">> ");
+                            ret0="";
+                            ret0 = strstr(args_rdir, ">> ");
                             if(ret0) {
                                 //printf("RET:%s\n", ret+2);
                                 //printf("TEM2:%s\n", temp2);
@@ -567,7 +587,8 @@ int main()
                                 mulrd=1;
                             }
                             else {
-                                char *ret = strstr(args_rdir, "> ");
+                                ret="";
+                                ret = strstr(args_rdir, "> ");
                                 if(ret) {
                                     //printf("RET:%s\n", ret+2);
                                     //printf("TEM2:%s\n", temp2);
@@ -607,7 +628,8 @@ int main()
                             }
                         }
                         else {
-                            char* ret0 = strstr(args_rdir, ">> ");
+                            ret0="";
+                            ret0 = strstr(args_rdir, ">> ");
                             if(ret0) {
                                 str_replace_rdir(temp_rdir2,ret0, "");
                                 //printf("RET:%s\n", ret+2);
@@ -624,7 +646,8 @@ int main()
                                 strcpy(args[j], left);
                             }
                             else {
-                                char* ret = strstr(args_rdir, "> ");
+                                ret="";
+                                ret = strstr(args_rdir, "> ");
                                 if(ret) {
                                     str_replace_rdir(temp_rdir2,ret, "");
                                     //printf("RET:%s\n", ret+2);
@@ -649,7 +672,8 @@ int main()
                     }
                     if(rd == 0 && pip == 0) {
                         strcpy(inp_his,args[j]);
-                        char* inp = strtok(args[j], " \t");
+                        inp="";
+                        inp = strtok(args[j], " \t");
                         if (inp != NULL)
                         {
                             if ((!strcmp(inp, "exit")) || (!strcmp(inp, "quit")))
