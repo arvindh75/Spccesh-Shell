@@ -1,20 +1,20 @@
-cat test2.txt                        
+vim&                         
 
-cat < test.txt                       
+ps                         
 
-wc -l > test2.txt                      
-
-ls                         
-
- cat < test.txt                       
+pinfo 724686                        
 
 ls                         
 
-cat < test.txt > testcopy.txt                     
+cd ..                        
 
-cat testcopy.txt                        
+cd ~                        
 
-wc                         
+jobs                         
 
-cat hello                        
+kill -9 724686                       
+
+jobs                         
+
+quit                         
  

@@ -61,11 +61,13 @@ int main()
     int len = 0;
     int c;
     int j;
-    char input[1000000];
+    char input[100000];
     int num_args = 0;
     int exit_read = 0;
     int stdin_save = dup(0);
     int stdout_save = dup(1);
+    int stdin_save1 = dup(0);
+    int stdout_save1 = dup(1);
     char temp_rdir[100];
     char temp_rdir2[100];
     char args_rdir[100];
@@ -94,17 +96,21 @@ int main()
     setname_f(username, hostname);
     while (exit_loop == 0)
     {
-        dup2(stdin_save, 0);
-        dup2(stdout_save, 1);
-        fflush(stdin);
-        fflush(stderr);
-        fflush(stdout);
+        //dup2(stdin_save, 0);
+        //dup2(stdout_save, 1);
+        //fflush(stdin);
+        //fflush(stderr);
+        //fflush(stdout);
         leninp=0;
         num_args=0;
         exit_read=0;
         prompt_f(home_m, username, hostname, cwd, tcwd);
+        //fprintf(stderr,"\033[1;31m");
         while(exit_read == 0) {
             c = getchar();
+            if(c > 127 || c < 0)
+                continue;
+            //fprintf(stderr, "\n109:%c %d\n",c, leninp);
             if(c != '\n') {
                 input[leninp] = c;
                 leninp++;
@@ -115,9 +121,10 @@ int main()
                 exit_read=1;
             }
         }
-        fflush(stdin);
-        fflush(stderr);
-        fflush(stdout);
+        //ffprintf(stderr,"\033[0m");
+        //fflush(stdin);
+        //fflush(stderr);
+        //fflush(stdout);
         str_replace_main(input,"&","&;");
         token = strtok(input, ";");
         while(token!=NULL) {
@@ -133,6 +140,8 @@ int main()
             fd3=-1;
             mulrd=-1;
             if(args[j][0] != 0) {
+                dup2(stdin_save1, 0);
+                dup2(stdout_save1, 1);
                 for(p=0;p<200;p++) {
                     if(args[j][p] == '>' || args[j][p] == '<') {
                         rd=1;    
@@ -374,10 +383,15 @@ int main()
                                 if(fd3 != -1)
                                     close(fd3);
                             }
+                            //close(pipea[1]);
                             dup2(stdin_save, 0);
                             dup2(stdout_save, 1);
                             close(stdin_save);
                             close(stdout_save);
+                            close(pipea[0]);
+                            close(pipea[1]);
+                            fflush(stdin);
+                            fflush(stdout);
                         }
                         else {
                             pipe(pipea);
@@ -787,8 +801,8 @@ int main()
                             if(fd==-1 && fd2==-1 && fd3==-1)
                                 add_his_f(home_m, inp_his, 0);
                         }
-                        dup2(stdin_save, STDIN_FILENO);
-                        dup2(stdout_save, STDOUT_FILENO);
+                        //dup2(stdin_save, STDIN_FILENO);
+                        //dup2(stdout_save, STDOUT_FILENO);
                         fflush(stdout);
                         if(fd != -1)
                             close(fd);
