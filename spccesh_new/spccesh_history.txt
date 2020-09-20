@@ -1,20 +1,21 @@
-vim&                         
+cat test.txt                        
 
-ps                         
+wc -l                        
 
-pinfo 724686                        
+cat < test.txt                       
+
+wc > testline.txt                       
+
+cat testline.txt                        
+
+cat test.txt >> testline.txt                      
+
+ l                         
+
+cat testline.txt                        
 
 ls                         
 
-cd ..                        
-
-cd ~                        
-
-jobs                         
-
-kill -9 724686                       
-
-jobs                         
-
-quit                         
+c                         
+ exit                         
  

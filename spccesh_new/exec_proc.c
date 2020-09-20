@@ -223,10 +223,10 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
         }
     }
     c_args[count] = NULL;
-    fprintf(stderr,"\033[1;31m");
-    for(int g=0;g<count+1;g++)
-        fprintf(stderr, "ARGS[%d]:%s\n",g,c_args[g]);
-    fprintf(stderr,"\033[0m");
+    //fprintf(stderr,"\033[1;31m");
+    //for(int g=0;g<count+1;g++)
+    //    fprintf(stderr, "ARGS[%d]:%s\n",g,c_args[g]);
+    // fprintf(stderr,"\033[0m");
     if (c_args[0] == NULL)
     {
         printf("\nCommand not found!\n");

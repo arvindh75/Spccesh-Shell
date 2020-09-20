@@ -168,16 +168,16 @@ int main()
                         fd2=-1;
                         fd3=-1;
                         mulrd=-1;
-                        fprintf(stderr,"\033[1;31m");
-                        fprintf(stderr, "\n155");
+                        //fprintf(stderr,"\033[1;31m");
+                        //fprintf(stderr, "\n155");
                         for(pq=0;pq<100;pq++) {
                             //fprintf(stderr, "\n156: pq:% it:d%c\n\n",pipcom[it][pq]);
                             if(pipcom[it][pq] == '>' || pipcom[it][pq] == '<') {
-                                fprintf(stderr, "\n157: Changing rd rd=%d\n\n", rd);
+                                //fprintf(stderr, "\n157: Changing rd rd=%d\n\n", rd);
                                 rd=1;    
                             }
                         }
-                        fprintf(stderr,"\033[0m");
+                        //fprintf(stderr,"\033[0m");
                         if(it == in-1) {
                             stdin_save = dup(0);
                             stdout_save = dup(1);
@@ -296,9 +296,9 @@ int main()
                                 add_his_f(home_m, inp_his, 0);
                             }
                             if(rd == 0) {
-                                fprintf(stderr,"\033[1;31m");
-                                fprintf(stderr, "\n278:%s\n\n",args[j]);
-                                fprintf(stderr,"\033[0m");
+                                //fprintf(stderr,"\033[1;31m");
+                                //fprintf(stderr, "\n278:%s\n\n",args[j]);
+                                //fprintf(stderr,"\033[0m");
                                 strcpy(inp_his,args[j]);
                                 inp="";
                                 inp = strtok(args[j], " \t");
@@ -404,9 +404,9 @@ int main()
                             //char* inp = strtok(pipcom[it], " \t");
                             //exec_main(pipcom[it], inputp, 0);
                             //exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
-                            fprintf(stderr,"\033[1;31m");
-                            fprintf(stderr, "\n381:%s rd=%d\n\n",args[j], rd);
-                            fprintf(stderr,"\033[0m");
+                            //fprintf(stderr,"\033[1;31m");
+                            //fprintf(stderr, "\n381:%s rd=%d\n\n",args[j], rd);
+                            //fprintf(stderr,"\033[0m");
                             if(rd == 1) {
                                 strcpy(inp_his,args[j]);
                                 strcpy(args_rdir,args[j]);
@@ -513,9 +513,9 @@ int main()
                                 add_his_f(home_m, inp_his, 0);
                             }
                             if(rd == 0) {
-                                fprintf(stderr,"\033[1;31m");
-                                fprintf(stderr, "\n487:%s\n\n",args[j]);
-                                fprintf(stderr,"\033[0m");
+                                //fprintf(stderr,"\033[1;31m");
+                                //fprintf(stderr, "\n487:%s\n\n",args[j]);
+                                //fprintf(stderr,"\033[0m");
                                 strcpy(inp_his,args[j]);
                                 inp="";
                                 inp = strtok(args[j], " \t");
@@ -610,10 +610,10 @@ int main()
                     }
                 }
                 else {
-                    fprintf(stderr,"\033[1;31m");
-                    fprintf(stderr, "\nA:%s\n\n",args[j]);
-                    fprintf(stderr, "\nPIP=0:\n\n");
-                    fprintf(stderr,"\033[0m");
+                    //fprintf(stderr,"\033[1;31m");
+                    //fprintf(stderr, "\nA:%s\n\n",args[j]);
+                    //fprintf(stderr, "\nPIP=0:\n\n");
+                    //fprintf(stderr,"\033[0m");
                     if(rd == 1) {
                         strcpy(inp_his,args[j]);
                         strcpy(args_rdir,args[j]);
@@ -720,10 +720,10 @@ int main()
                         add_his_f(home_m, inp_his, 0);
                     }
                     if(rd == 0) {
-                        fprintf(stderr,"\033[1;31m");
-                        fprintf(stderr, "\nA:%s\n\n",args[j]);
-                        fprintf(stderr, "\nPIP=0:\n\n");
-                        fprintf(stderr,"\033[0m");
+                        //fprintf(stderr,"\033[1;31m");
+                        //fprintf(stderr, "\nA:%s\n\n",args[j]);
+                        //fprintf(stderr, "\nPIP=0:\n\n");
+                        //fprintf(stderr,"\033[0m");
                         strcpy(inp_his,args[j]);
                         inp="";
                         inp = strtok(args[j], " \t");
