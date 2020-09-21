@@ -368,10 +368,15 @@ int main()
                                     {
                                         kjob_f();
                                     }
-                                    
+
                                     else if (!strcmp(inp, "bg"))
                                     {
                                         contbg_f();
+                                    }
+
+                                    else if (!strcmp(inp, "fg"))
+                                    {
+                                        bgfg_f();
                                     }
 
                                     else
@@ -596,6 +601,11 @@ int main()
                                         contbg_f();
                                     }
 
+                                    else if (!strcmp(inp, "fg"))
+                                    {
+                                        bgfg_f();
+                                    }
+
                                     else
                                     {
                                         exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
@@ -803,10 +813,15 @@ int main()
                             {
                                 kjob_f();
                             }
-                            
+
                             else if (!strcmp(inp, "bg"))
                             {
                                 contbg_f();
+                            }
+                            
+                            else if (!strcmp(inp, "fg"))
+                            {
+                                bgfg_f();
                             }
 
                             else

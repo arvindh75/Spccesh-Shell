@@ -5,6 +5,7 @@
 void proc_end(int);
 void contbg_f();
 void kjob_f();
+void bgfg_f();
 void overkill_f();
 void jobs_f();
 void str_replace_ep(char *, const char *, const char *);

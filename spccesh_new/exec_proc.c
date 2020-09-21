@@ -103,6 +103,45 @@ void contbg_f() {
     procs[pidbg-1].over = -1;
 }
 
+void bgfg_f() {
+    char* temp="";
+    temp = strtok(NULL, " \t");
+    int pidbg = atoi(temp);
+    int restpid = getpgid(getpid());
+    if(procs[pidbg-1].over == 0) {
+        printf("Job not found.\n");
+        return;
+    }
+    //fprintf(stderr, "CHILD PID: %d\n", procs[pidbg-1].pid);
+    //fprintf(stderr, "CHILD GROUP PID: %d\n", getpgid(procs[pidbg-1].pid));
+    int status;
+    signal(SIGTTIN, SIG_IGN);
+    signal(SIGTTOU, SIG_IGN);
+    if (!tcsetpgrp(STDIN_FILENO, getpgid(procs[pidbg-1].pid))) {
+        //perror("tcsetpgrp");
+    }
+    //if (!tcsetpgrp(STDOUT_FILENO, getpgid(procs[pidbg-1].pid))) {
+        //perror("tcsetpgrp stdout");
+    //}
+    kill(procs[pidbg-1].pid, SIGCONT);
+    waitpid(procs[pidbg-1].pid, &status, WUNTRACED);
+    while (!WIFEXITED(status) && !WIFSIGNALED(status))
+    {
+        waitpid(procs[pidbg-1].pid, &status, WUNTRACED);
+    } 
+    if (!tcsetpgrp(STDIN_FILENO, getpgrp())) {
+        //perror("tcsetpgrp");
+    }
+    //if (!tcsetpgrp(STDOUT_FILENO, getpgrp())) {
+        //perror("tcsetpgrp stdout");
+    //}
+    signal(SIGTTIN, SIG_DFL);
+    signal(SIGTTOU, SIG_DFL);
+    fflush(stdin);
+    fflush(stdout);
+    fflush(stderr);
+}
+
 void kjob_f() {
     char *temp = "";
     char args[LS_SIZE][COM_LEN];
@@ -254,12 +293,11 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                     printf("\nCommand not found!\n");
                     exit(EXIT_FAILURE);
                 }
-                exit(EXIT_SUCCESS);
+                //exit(EXIT_SUCCESS);
             }
             else {
                 // MIGHT BE NECESSARY
-                //  par = getpid();
-                //  setpgid(par,par);
+                setpgid(forkret,forkret);
                 procs[proc_count].pid = forkret;
                 procs[proc_count].over = -1;
                 strcpy(procs[proc_count].name, c_args[0]);
@@ -281,6 +319,8 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
             else
             {
                 int status;
+                signal(SIGTTOU, SIG_IGN);
+                signal(SIGTTIN, SIG_IGN);
                 if (!tcsetpgrp(STDIN_FILENO, getpid())) {
                     //perror("tcsetpgrp");
                 }

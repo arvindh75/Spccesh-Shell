@@ -1,20 +1,20 @@
-jobs                         
+ ps                         
 
-ps                         
+ jobs                         
 
-vim&                         
+fg 2                        
 
-kill -20 827216                       
+fg 3                        
 
-ps                         
+fg 4                        
 
-jobs                         
+exit                         
 
-ps                         
-
-bg 2                        
-
-ps                         
+ ps                         
 
 jobs                         
+
+fg 1                        
+
+exit                         
  
