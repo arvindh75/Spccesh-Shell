@@ -71,17 +71,42 @@ void proc_end(int num) {
 
 void jobs_f() {
     int count=0;
+    char fpath[100];
+    char tpath[100];
     char str[25];
+    char buff[1000];
+    char status[100];
+    FILE* f;
+    int x;
     for(int i=0;i<MAX_BG;i++) {
-        if(procs[i].over == -1){
-            count++;
-            strcpy(str,"Running");
-            printf("[%d] %s %s [%d]\n",count, str, procs[i].name, procs[i].pid);
-        }
-        if(procs[i].over == 1){
-            count++;
-            strcpy(str,"Stopped");
-            printf("[%d] %s %s [%d]\n",count, str, procs[i].name, procs[i].pid);
+        if(procs[i].over != 0) {
+            x=1;
+            sprintf(fpath, "/proc/%d",procs[i].pid);
+            strcpy(tpath, fpath);
+
+            strcat(tpath, "/stat");
+            f = fopen(tpath, "r");
+            if(f == NULL) {
+                //perror("\npinfo ");
+                continue;
+            }
+            while(x <= 3) {
+                fscanf(f,"%s",buff);
+                if(x == 3)
+                    strcpy(status, buff);
+                x++;
+            }
+            if(status[1] == 'S'){
+                count++;
+                strcpy(str,"Running");
+                printf("[%d] %s %s [%d]\n",count, str, procs[i].name, procs[i].pid);
+            }
+            if(status[0] == 'T'){
+                count++;
+                strcpy(str,"Stopped");
+                printf("[%d] %s %s [%d]\n",count, str, procs[i].name, procs[i].pid);
+            }
+            fclose(f);
         }
     }
 }
@@ -124,7 +149,7 @@ void bgfg_f() {
         //perror("tcsetpgrp");
     }
     //if (!tcsetpgrp(STDOUT_FILENO, getpgid(procs[pidbg-1].pid))) {
-        //perror("tcsetpgrp stdout");
+    //perror("tcsetpgrp stdout");
     //}
     kill(procs[pidbg-1].pid, SIGCONT);
     waitpid(procs[pidbg-1].pid, &status, WUNTRACED);
@@ -132,7 +157,7 @@ void bgfg_f() {
         //perror("tcsetpgrp");
     }
     //if (!tcsetpgrp(STDOUT_FILENO, getpgrp())) {
-        //perror("tcsetpgrp stdout");
+    //perror("tcsetpgrp stdout");
     //}
     signal(SIGTTIN, SIG_DFL);
     signal(SIGTTOU, SIG_DFL);
@@ -366,10 +391,10 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                     //perror("tcsetpgrp");
                 }
                 //if (!tcsetpgrp(STDOUT_FILENO, forkret)) {
-                    //perror("tcsetpgrp");
+                //perror("tcsetpgrp");
                 //}
                 //if (!tcsetpgrp(STDOUT_FILENO, getpid())) {
-                    //perror("tcsetpgrp stdout");
+                //perror("tcsetpgrp stdout");
                 //}
                 waitpid(forkret, &status, WUNTRACED);
                 if (WIFSTOPPED(status)) //&& WIFSIGNALED(status))
@@ -391,7 +416,7 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 signal(SIGTTOU, SIG_DFL);
                 signal(SIGTTIN, SIG_DFL);
                 //if (!tcsetpgrp(STDOUT_FILENO, getpgrp())) {
-                    //perror("tcsetpgrp");
+                //perror("tcsetpgrp");
                 //}
                 fflush(stdin);
                 fflush(stdout);
