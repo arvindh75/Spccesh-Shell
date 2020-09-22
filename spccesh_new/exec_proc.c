@@ -14,6 +14,7 @@ char* hostname_t;
 char* cwd_t;
 char* tcwd_t;
 int shell_id;
+char cur_com[100];
 
 struct bgp {
     int pid;
@@ -127,10 +128,6 @@ void bgfg_f() {
     //}
     kill(procs[pidbg-1].pid, SIGCONT);
     waitpid(procs[pidbg-1].pid, &status, WUNTRACED);
-    while (!WIFEXITED(status) && !WIFSIGNALED(status))
-    {
-        waitpid(procs[pidbg-1].pid, &status, WUNTRACED);
-    } 
     if (!tcsetpgrp(STDIN_FILENO, getpgrp())) {
         //perror("tcsetpgrp");
     }
@@ -147,12 +144,29 @@ void bgfg_f() {
 void ctrlc(int num) {
     //fprintf(stderr,"%s\n","here ctrlc");
     if(!tcsetpgrp(STDIN_FILENO, getpgid(shell_id))) {
+        perror("Restoring STDIN");
+    }
+    if(!tcsetpgrp(STDOUT_FILENO, getpgid(shell_id))) {
+        perror("Restoring STDOUT");
+    }
+    kill(getpid(), 9);
+}
+
+void ctrlz(int num) {
+    setpgid(shell_id, shell_id);
+    fprintf(stderr,"%s\n","here ctrlc");
+    if(!tcsetpgrp(STDIN_FILENO, getpgid(shell_id))) {
         //perror("Restoring STDIN");
     }
     if(!tcsetpgrp(STDOUT_FILENO, getpgid(shell_id))) {
         //perror("Restoring STDOUT");
     }
-    kill(getpid(), 9);
+    procs[proc_count].pid = getpid();
+    procs[proc_count].over = 1;
+    strcpy(procs[proc_count].name,cur_com);
+    proc_count++;
+    kill(getpid(), 24);
+    //fprintf(stderr,"%s\n","here ctrlc");
 }
 
 void kjob_f() {
@@ -298,11 +312,15 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
     }
     else
     {
+        strcpy(cur_com, c_args[0]);
         if(bg == 1) {
             int forkret = fork();
             if (forkret == 0)
             {
                 setpgid(0,0);
+                signal(SIGTSTP, SIG_DFL);
+                signal(SIGINT, SIG_DFL);
+                signal(SIGSTOP, SIG_DFL);
                 if(execvp(c_args[0], c_args) == -1) {
                     printf("\nCommand not found!\n");
                     exit(EXIT_FAILURE);
@@ -325,43 +343,56 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
             if (forkret == 0)
             {
                 setpgid(0,0);
-                signal(SIGINT, ctrlc);
+                //signal(SIGTTOU, SIG_DFL);
+                signal(SIGTSTP, SIG_DFL);
+                signal(SIGINT, SIG_DFL);
+                signal(SIGSTOP, SIG_DFL);
+                //signal(SIGTTIN, SIG_DFL);
+                //     signal(SIGINT, ctrlc);
+                //     signal(SIGTSTP, ctrlz);
                 //fprintf(stderr, "%s %d %d %d\n", "HERE", getpid(), getpgrp(), shell_id);
                 if(execvp(c_args[0], c_args) == -1) {
                     printf("\nCommand not found!\n");
                     exit(1);
                 }
-                //fprintf(stderr, "%s %d %d\n", "HERE2", getpid(), getpgrp());
-                //fprintf(stderr, "%s %d %d\n", "HERE4", getpid(), getpgrp());
-                exit(0);
             }
             else
             {
                 int status;
+                setpgid(forkret,forkret);
                 signal(SIGTTOU, SIG_IGN);
                 signal(SIGTTIN, SIG_IGN);
-                if (!tcsetpgrp(STDIN_FILENO, forkret)) {
+                if (tcsetpgrp(STDIN_FILENO, forkret) == -1) {
                     //perror("tcsetpgrp");
                 }
-                if (!tcsetpgrp(STDOUT_FILENO, forkret)) {
+                //if (!tcsetpgrp(STDOUT_FILENO, forkret)) {
                     //perror("tcsetpgrp");
-                }
+                //}
                 //if (!tcsetpgrp(STDOUT_FILENO, getpid())) {
                     //perror("tcsetpgrp stdout");
                 //}
                 waitpid(forkret, &status, WUNTRACED);
-                while (!WIFEXITED(status) && !WIFSIGNALED(status))
+                if (WIFSTOPPED(status)) //&& WIFSIGNALED(status))
                 {
-                    waitpid(forkret, &status, WUNTRACED);
+                    //printf("HERE\n");
+                    procs[proc_count].pid = forkret;
+                    procs[proc_count].over = 1;
+                    strcpy(procs[proc_count].name,cur_com);
+                    proc_count++;
                 } 
-                if (!tcsetpgrp(STDIN_FILENO, getpgrp())) {
-                    //perror("tcsetpgrp");
-                }
-                if (!tcsetpgrp(STDOUT_FILENO, getpgrp())) {
-                    //perror("tcsetpgrp");
+                //while (!WIFEXITED(status) && !WIFSIGNALED(status))
+                //{
+                //    waitpid(forkret, &status, WUNTRACED);
+                //} 
+
+                if (tcsetpgrp(STDIN_FILENO, getpgrp()) == -1) {
+                    perror("tcsetpgrp");
                 }
                 signal(SIGTTOU, SIG_DFL);
                 signal(SIGTTIN, SIG_DFL);
+                //if (!tcsetpgrp(STDOUT_FILENO, getpgrp())) {
+                    //perror("tcsetpgrp");
+                //}
                 fflush(stdin);
                 fflush(stdout);
                 fflush(stderr);

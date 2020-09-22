@@ -97,6 +97,7 @@ int main()
     setname_f(username, hostname);
     signal(SIGINT, SIG_IGN);
     signal(SIGTSTP, SIG_IGN);
+    signal(SIGSTOP, SIG_IGN);
     while (exit_loop == 0)
     {
         //dup2(stdin_save, 0);

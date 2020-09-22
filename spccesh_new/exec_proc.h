@@ -5,6 +5,7 @@
 void proc_end(int);
 void contbg_f();
 void kjob_f();
+void ctrlz(int);
 void ctrlc(int);
 void bgfg_f();
 void overkill_f();

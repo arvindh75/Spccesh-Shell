@@ -1,20 +1,20 @@
- vim                         
+vim&                         
 
- ls                         
+jpbs                         
 
-quit                         
+jobs                         
 
- ls                         
-
-la                         
-
-ls                         
+fg 2                        
 
 vim                         
 
- quit                         
+jobs                         
 
- ls                         
+ fg 4                        
 
-quit                         
+ps                         
+
+jobs                         
+
+exit                         
  
