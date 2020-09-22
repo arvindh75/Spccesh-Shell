@@ -1,20 +1,20 @@
-jobs                         
+cd ..                        
+
+cd -                        
+
+cd ~                        
+
+cd -                        
 
 exit                         
 
-vim&                         
+cd -                        
 
- jobs                         
+cd ..                        
 
-fg 3                        
+cd -                        
 
-jobs                         
-
-vim&                         
-
-jobs                         
-
-kill -9 249500 249501 249505                     
+ls                         
 
 exit                         
  

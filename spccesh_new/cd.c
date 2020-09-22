@@ -1,5 +1,6 @@
 #include "headers.h"
 #include "cd.h"
+#include <linux/limits.h>
 
 void str_replace_cd(char* target, const char* needle, const char* replacement)
 {
@@ -23,24 +24,38 @@ void str_replace_cd(char* target, const char* needle, const char* replacement)
     strcpy(target, buffer);
 }
 
-void cd_f(char* home) { 
+void cd_f(char* home, char* prwd) { 
     char fPath[2000];
     char news[1000];
-    char* p ;
+    char* p;
+    char temp[PATH_MAX];
+    //printf("PRWD: %s\n", prwd);
     if(!(p = strtok(NULL, " \t")))
     {
         p = "~";
     }
     strcpy(news,p);
-    if(p[0] == '~')
-    {
+    if(p[0] == '~'){
         strcpy(news, home);
         strcat(news, p+1);
     }
+    if(p[0] == '-') {
+        strcpy(news, prwd);
+        strcat(news, p+1);
+        printf("%s\n", prwd);
+    }
     strcpy(fPath, news);
     str_replace_cd(fPath,"\"","");
+    if(getcwd(temp, PATH_MAX) == NULL) {
+        perror("getcwd()");
+    }
+    //(printf("PREV: %s\n", temp);
     if(chdir(fPath) < 0)
     {
         printf("cd: Not a valid path\n");
+    }
+    else {
+        strcpy(prwd,temp);
+        //printf("PREV2: %s\n", prwd);
     }
 }

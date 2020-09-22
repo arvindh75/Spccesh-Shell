@@ -58,6 +58,7 @@ int main()
     char hostname[HOST_NAME_MAX];  
     char username[LOGIN_NAME_MAX]; 
     char cwd[PATH_MAX];            
+    char prwd[PATH_MAX];            
     char tcwd[PATH_MAX];           
     int len = 0;
     int c;
@@ -89,8 +90,10 @@ int main()
     char* inp;
     int p, in, il, inputp, it, pq, leninp;
     char** args = malloc((sizeof(char)*MAX_BUF_LEN)*MAX_BUF_LEN); 
-    if (getcwd(home_m, PATH_MAX) == NULL)
-    {
+    if (getcwd(home_m, PATH_MAX) == NULL){
+        perror("getcwd()");
+    }
+    if (getcwd(prwd, PATH_MAX) == NULL){
         perror("getcwd()");
     }
     printf("\e[1;1H\e[2J"); // Clear Screen
@@ -315,7 +318,7 @@ int main()
 
                                     else if (!strcmp(inp, "cd"))
                                     {
-                                        cd_f(home_m);
+                                        cd_f(home_m, prwd);
                                     }
 
                                     else if (!strcmp(inp, "pwd"))
@@ -542,7 +545,7 @@ int main()
 
                                     else if (!strcmp(inp, "cd"))
                                     {
-                                        cd_f(home_m);
+                                        cd_f(home_m, prwd);
                                     }
 
                                     else if (!strcmp(inp, "pwd"))
@@ -760,7 +763,7 @@ int main()
 
                             else if (!strcmp(inp, "cd"))
                             {
-                                cd_f(home_m);
+                                cd_f(home_m, prwd);
                             }
 
                             else if (!strcmp(inp, "pwd"))
