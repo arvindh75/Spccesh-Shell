@@ -1,20 +1,20 @@
-cd v                        
+cd -                        
 
-cd ..                        
-
-hjw                         
-
-ls b                        
+ls                         
 
 exit                         
 
-ls b                        
+vim                         
 
-pinfo 765212                        
+ls                         
 
-ps                         
+vim                         
 
-nighstwatch 89923                        
+ ls                         
 
-nightswatch 872                        
+exit                         
+
+ ls                         
+
+exit                         
  

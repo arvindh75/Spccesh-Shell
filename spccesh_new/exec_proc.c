@@ -414,7 +414,11 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                     procs[proc_count].over = 1;
                     strcpy(procs[proc_count].name,cur_com);
                     proc_count++;
+                    strcpy(suc,"f");
                 } 
+                if(WIFSIGNALED(status)) {
+                    strcpy(suc,"f");
+                }
                 //while (!WIFEXITED(status) && !WIFSIGNALED(status))
                 //{
                 //    waitpid(forkret, &status, WUNTRACED);

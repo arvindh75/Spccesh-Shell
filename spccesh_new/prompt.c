@@ -2,7 +2,7 @@
 #include "prompt.h"
 
 void red() {
-  printf("\033[0;31m");
+  printf("\033[1;31m");
 }
 
 void blue() {
@@ -55,10 +55,14 @@ void prompt_f(char* home, char* username, char* hostname, char* cwd, char* tcwd,
     str_replace(cwd, home, "~");
     //(printf("SUCCESS: %s\n",suc);
     if(suc[0] == 's') {
+      green();
       printf(":') ");
+      reset();
     }
     else {
+      red();
       printf(":'( ");
+      reset();
     }
     green();
     printf("<");
