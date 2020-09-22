@@ -1,6 +1,7 @@
 #include "headers.h"
 #include "exec_proc.h"
 #include "prompt.h"
+#include <signal.h>
 #include <termios.h>
 #include <unistd.h>
 #define MAX_BG 100
@@ -12,6 +13,7 @@ char* hostname_t;
 
 char* cwd_t;
 char* tcwd_t;
+int shell_id;
 
 struct bgp {
     int pid;
@@ -142,6 +144,17 @@ void bgfg_f() {
     fflush(stderr);
 }
 
+void ctrlc(int num) {
+    //fprintf(stderr,"%s\n","here ctrlc");
+    if(!tcsetpgrp(STDIN_FILENO, getpgid(shell_id))) {
+        //perror("Restoring STDIN");
+    }
+    if(!tcsetpgrp(STDOUT_FILENO, getpgid(shell_id))) {
+        //perror("Restoring STDOUT");
+    }
+    kill(getpid(), 9);
+}
+
 void kjob_f() {
     char *temp = "";
     char args[LS_SIZE][COM_LEN];
@@ -214,6 +227,7 @@ void str_replace_ep(char *target, const char *needle, const char *replacement)
 
 void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cwd, char* tcwd)
 {
+    shell_id = getpid();
     home_t = home;
     username_t = username;
     hostname_t = hostname;
@@ -310,10 +324,15 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
             int forkret = fork();
             if (forkret == 0)
             {
+                setpgid(0,0);
+                signal(SIGINT, ctrlc);
+                //fprintf(stderr, "%s %d %d %d\n", "HERE", getpid(), getpgrp(), shell_id);
                 if(execvp(c_args[0], c_args) == -1) {
                     printf("\nCommand not found!\n");
                     exit(1);
                 }
+                //fprintf(stderr, "%s %d %d\n", "HERE2", getpid(), getpgrp());
+                //fprintf(stderr, "%s %d %d\n", "HERE4", getpid(), getpgrp());
                 exit(0);
             }
             else
@@ -321,17 +340,31 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 int status;
                 signal(SIGTTOU, SIG_IGN);
                 signal(SIGTTIN, SIG_IGN);
-                if (!tcsetpgrp(STDIN_FILENO, getpid())) {
+                if (!tcsetpgrp(STDIN_FILENO, forkret)) {
                     //perror("tcsetpgrp");
                 }
-                if (!tcsetpgrp(STDOUT_FILENO, getpid())) {
-                    //perror("tcsetpgrp stdout");
+                if (!tcsetpgrp(STDOUT_FILENO, forkret)) {
+                    //perror("tcsetpgrp");
                 }
+                //if (!tcsetpgrp(STDOUT_FILENO, getpid())) {
+                    //perror("tcsetpgrp stdout");
+                //}
                 waitpid(forkret, &status, WUNTRACED);
                 while (!WIFEXITED(status) && !WIFSIGNALED(status))
                 {
                     waitpid(forkret, &status, WUNTRACED);
                 } 
+                if (!tcsetpgrp(STDIN_FILENO, getpgrp())) {
+                    //perror("tcsetpgrp");
+                }
+                if (!tcsetpgrp(STDOUT_FILENO, getpgrp())) {
+                    //perror("tcsetpgrp");
+                }
+                signal(SIGTTOU, SIG_DFL);
+                signal(SIGTTIN, SIG_DFL);
+                fflush(stdin);
+                fflush(stdout);
+                fflush(stderr);
             }
         }
     }

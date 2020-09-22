@@ -15,6 +15,7 @@
 #include "unsetenv.h"
 #include "rdir.h"
 #include <ctype.h>
+#include <signal.h>
 
 void str_replace_main(char* target, const char* needle, const char* replacement)
 {
@@ -94,6 +95,8 @@ int main()
     }
     printf("\e[1;1H\e[2J"); // Clear Screen
     setname_f(username, hostname);
+    signal(SIGINT, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
     while (exit_loop == 0)
     {
         //dup2(stdin_save, 0);

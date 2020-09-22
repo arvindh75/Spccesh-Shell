@@ -1,20 +1,20 @@
- ps                         
+ vim                         
 
- jobs                         
+ ls                         
 
-fg 2                        
+quit                         
 
-fg 3                        
+ ls                         
 
-fg 4                        
+la                         
 
-exit                         
+ls                         
 
- ps                         
+vim                         
 
-jobs                         
+ quit                         
 
-fg 1                        
+ ls                         
 
-exit                         
+quit                         
  

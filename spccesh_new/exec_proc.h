@@ -5,6 +5,7 @@
 void proc_end(int);
 void contbg_f();
 void kjob_f();
+void ctrlc(int);
 void bgfg_f();
 void overkill_f();
 void jobs_f();
