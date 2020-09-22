@@ -1,7 +1,7 @@
 #include "headers.h"
 #include "setenv.h"
 
-void setenv_f() { 
+void setenv_f(char* suc) { 
     char* temp = "";
     char args[LS_SIZE][COM_LEN];
     for(int j=0; j < LS_SIZE; j++)
@@ -38,10 +38,12 @@ void setenv_f() {
     }
     if(count > 2) {
         printf("Arguments provided are incorrect. Only 2 arguments allowed!\n");
+        strcpy(suc,"f");
         return;
     }
     if(setenv(var_name, var_val,1) == -1) {
         perror("setenv()");
+        strcpy(suc,"f");
     }
     printf("\n");
 }

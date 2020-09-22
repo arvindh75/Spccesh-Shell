@@ -23,7 +23,7 @@ void str_replace_pinfo(char* target, const char* needle, const char* replacement
     strcpy(target, buffer);
 }
 
-void pinfo_f(char * inp, char* home) {
+void pinfo_f(char * inp, char* home, char* suc) {
     pid_t id;
     int cnt=0;
     FILE* f;
@@ -66,6 +66,7 @@ void pinfo_f(char * inp, char* home) {
                 f = fopen(tpath, "r");
                 if(f == NULL) {
                     perror("\npinfo ");
+                    strcpy(suc,"f");
                     continue;
                 }
                 printf("\nPid -- %d\n", id);
@@ -82,6 +83,7 @@ void pinfo_f(char * inp, char* home) {
                 ret = readlink(tpath, buff, 1000);
                 if(ret == -1) {
                     printf("Error finding the executable\n");
+                    strcpy(suc,"f");
                 }
                 else {
                     buff[ret] = '\0';
@@ -106,6 +108,7 @@ void pinfo_f(char * inp, char* home) {
         f = fopen(tpath, "r");
         if(f == NULL) {
             perror("pinfo ");
+            strcpy(suc,"f");
             return;
         }
         printf("\nPid -- %d\n", id);
@@ -122,6 +125,7 @@ void pinfo_f(char * inp, char* home) {
         ret = readlink(tpath, buff, 1000);
         if(ret == -1) {
             printf("Error finding the executable\n");
+            strcpy(suc,"f");
         }
         else {
             buff[ret] = '\0';

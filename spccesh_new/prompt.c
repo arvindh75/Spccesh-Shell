@@ -47,12 +47,19 @@ void str_replace(char* target, const char* needle, const char* replacement)
     strcpy(target, buffer);
 }
 
-void prompt_f(char* home, char* username, char* hostname, char* cwd, char* tcwd) {
+void prompt_f(char* home, char* username, char* hostname, char* cwd, char* tcwd, char* suc) {
     if(getcwd(cwd, PATH_MAX) == NULL) {
         perror("getcwd()");
     }
     strcpy(tcwd,cwd);
     str_replace(cwd, home, "~");
+    //(printf("SUCCESS: %s\n",suc);
+    if(suc[0] == 's') {
+      printf(":') ");
+    }
+    else {
+      printf(":'( ");
+    }
     green();
     printf("<");
     reset();

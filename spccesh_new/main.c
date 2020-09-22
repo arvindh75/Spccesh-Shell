@@ -88,6 +88,10 @@ int main()
     char* ret2;
     char* ret0, *ret;
     char* inp;
+    char suc[5];
+    char prev_suc[5];
+    strcpy(suc,"s");
+    strcpy(prev_suc, suc);
     int p, in, il, inputp, it, pq, leninp;
     char** args = malloc((sizeof(char)*MAX_BUF_LEN)*MAX_BUF_LEN); 
     if (getcwd(home_m, PATH_MAX) == NULL){
@@ -103,6 +107,7 @@ int main()
     signal(SIGSTOP, SIG_IGN);
     while (exit_loop == 0)
     {
+        strcpy(suc,"s");
         //dup2(stdin_save, 0);
         //dup2(stdout_save, 1);
         //fflush(stdin);
@@ -111,7 +116,7 @@ int main()
         leninp=0;
         num_args=0;
         exit_read=0;
-        prompt_f(home_m, username, hostname, cwd, tcwd);
+        prompt_f(home_m, username, hostname, cwd, tcwd, prev_suc);
         //fprintf(stderr,"\033[1;31m");
         while(exit_read == 0) {
             c = getchar();
@@ -239,16 +244,19 @@ int main()
                                     fd = open(right, O_RDONLY);
                                     if(fd < 0) {
                                         printf("Cannot open file%s\n", right);
+                                        strcpy(suc,"f");
                                         continue;
                                     }
                                     if(dup2(fd, STDIN_FILENO) == -1) {
                                         perror("Duplicating file descriptor.");
+                                        strcpy(suc,"f");
                                         continue;
                                     }
                                     if(mulrd == 1) {
                                         fd2 = open(right2, O_WRONLY | O_CREAT | O_APPEND, 0644);
                                         if(dup2(fd2, STDOUT_FILENO) == -1) {
                                             perror("Duplicating file descriptor.");
+                                            strcpy(suc,"f");
                                             continue;
                                         }
                                     }
@@ -256,6 +264,7 @@ int main()
                                         fd3 = open(right2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                                         if(dup2(fd3, STDOUT_FILENO) == -1) {
                                             perror("Duplicating file descriptor.");
+                                            strcpy(suc,"f");
                                             continue;
                                         }
                                     }
@@ -274,6 +283,7 @@ int main()
                                         fd = open(right, O_WRONLY | O_CREAT | O_APPEND, 0644);
                                         if(dup2(fd, STDOUT_FILENO) == -1) {
                                             perror("Duplicating file descriptor.");
+                                            strcpy(suc,"f");
                                             continue;
                                         }
                                         strcpy(args[j], left);
@@ -292,6 +302,7 @@ int main()
                                             fd = open(right, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                                             if(dup2(fd, STDOUT_FILENO) == -1) {
                                                 perror("Duplicating file descriptor.");
+                                                strcpy(suc,"f");
                                                 continue;
                                             }
                                             strcpy(args[j], left);
@@ -300,7 +311,7 @@ int main()
                                 }
                                 rd=0;
                                 //rdir_f(args[j],home_m, cwd, tcwd);
-                                add_his_f(home_m, inp_his, 0);
+                                add_his_f(home_m, inp_his, 0, suc);
                             }
                             if(rd == 0) {
                                 //fprintf(stderr,"\033[1;31m");
@@ -318,80 +329,80 @@ int main()
 
                                     else if (!strcmp(inp, "cd"))
                                     {
-                                        cd_f(home_m, prwd);
+                                        cd_f(home_m, prwd, suc);
                                     }
 
                                     else if (!strcmp(inp, "pwd"))
                                     {
-                                        pwd_f(tcwd);
+                                        pwd_f(tcwd, suc);
                                     }
 
                                     else if (!strcmp(inp, "echo"))
                                     {
-                                        echo_f();
+                                        echo_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "ls"))
                                     {
-                                        ls_f(home_m, cwd, tcwd);
+                                        ls_f(home_m, cwd, tcwd, suc);
                                     }
 
                                     else if (!strcmp(inp, "pinfo"))
                                     {
-                                        pinfo_f(inp, home_m);
+                                        pinfo_f(inp, home_m, suc);
                                     }
 
                                     else if (!strcmp(inp, "history"))
                                     {
-                                        add_his_f(home_m, inp_his, 1);
+                                        add_his_f(home_m, inp_his, 1, suc);
                                     }
 
                                     else if (!strcmp(inp, "nightswatch"))
                                     {
-                                        nw_f();
+                                        nw_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "setenv"))
                                     {
-                                        setenv_f();
+                                        setenv_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "unsetenv"))
                                     {
-                                        unsetenv_f();
+                                        unsetenv_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "jobs"))
                                     {
-                                        jobs_f();
+                                        jobs_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "overkill"))
                                     {
-                                        overkill_f();
+                                        overkill_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "kjob"))
                                     {
-                                        kjob_f();
+                                        kjob_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "bg"))
                                     {
-                                        contbg_f();
+                                        contbg_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "fg"))
                                     {
-                                        bgfg_f();
+                                        bgfg_f(suc);
                                     }
 
                                     else
                                     {
-                                        exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
+                                        exec_proc_f(inp, home_m, username, hostname, cwd, tcwd, suc);
                                     }
                                     if(fd==-1 && fd2==-1 && fd3==-1)
-                                        add_his_f(home_m, inp_his, 0);
+                                        add_his_f(home_m, inp_his, 0, suc);
                                 }
                                 if(fd != -1)
                                     close(fd);
@@ -465,16 +476,19 @@ int main()
                                     fd = open(right, O_RDONLY);
                                     if(fd < 0) {
                                         printf("Cannot open file%s\n", right);
+                                        strcpy(suc,"f");
                                         continue;
                                     }
                                     if(dup2(fd, STDIN_FILENO) == -1) {
                                         perror("Duplicating file descriptor.");
+                                        strcpy(suc,"f");
                                         continue;
                                     }
                                     if(mulrd == 1) {
                                         fd2 = open(right2, O_WRONLY | O_CREAT | O_APPEND, 0644);
                                         if(dup2(fd2, STDOUT_FILENO) == -1) {
                                             perror("Duplicating file descriptor.");
+                                            strcpy(suc,"f");
                                             continue;
                                         }
                                     }
@@ -482,6 +496,7 @@ int main()
                                         fd3 = open(right2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                                         if(dup2(fd3, STDOUT_FILENO) == -1) {
                                             perror("Duplicating file descriptor.");
+                                            strcpy(suc,"f");
                                             continue;
                                         }
                                     }
@@ -500,6 +515,7 @@ int main()
                                         fd = open(right, O_WRONLY | O_CREAT | O_APPEND, 0644);
                                         if(dup2(fd, STDOUT_FILENO) == -1) {
                                             perror("Duplicating file descriptor.");
+                                            strcpy(suc,"f");
                                             continue;
                                         }
                                         strcpy(args[j], left);
@@ -518,6 +534,7 @@ int main()
                                             fd = open(right, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                                             if(dup2(fd, STDOUT_FILENO) == -1) {
                                                 perror("Duplicating file descriptor.");
+                                                strcpy(suc,"f");
                                                 continue;
                                             }
                                             strcpy(args[j], left);
@@ -527,7 +544,7 @@ int main()
 
                                 rd=0;
                                 //rdir_f(args[j],home_m, cwd, tcwd);
-                                add_his_f(home_m, inp_his, 0);
+                                add_his_f(home_m, inp_his, 0, suc);
                             }
                             if(rd == 0) {
                                 //fprintf(stderr,"\033[1;31m");
@@ -545,80 +562,80 @@ int main()
 
                                     else if (!strcmp(inp, "cd"))
                                     {
-                                        cd_f(home_m, prwd);
+                                        cd_f(home_m, prwd,suc);
                                     }
 
                                     else if (!strcmp(inp, "pwd"))
                                     {
-                                        pwd_f(tcwd);
+                                        pwd_f(tcwd, suc);
                                     }
 
                                     else if (!strcmp(inp, "echo"))
                                     {
-                                        echo_f();
+                                        echo_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "ls"))
                                     {
-                                        ls_f(home_m, cwd, tcwd);
+                                        ls_f(home_m, cwd, tcwd, suc);
                                     }
 
                                     else if (!strcmp(inp, "pinfo"))
                                     {
-                                        pinfo_f(inp, home_m);
+                                        pinfo_f(inp, home_m, suc);
                                     }
 
                                     else if (!strcmp(inp, "history"))
                                     {
-                                        add_his_f(home_m, inp_his, 1);
+                                        add_his_f(home_m, inp_his, 1, suc);
                                     }
 
                                     else if (!strcmp(inp, "nightswatch"))
                                     {
-                                        nw_f();
+                                        nw_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "setenv"))
                                     {
-                                        setenv_f();
+                                        setenv_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "unsetenv"))
                                     {
-                                        unsetenv_f();
+                                        unsetenv_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "jobs"))
                                     {
-                                        jobs_f();
+                                        jobs_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "overkill"))
                                     {
-                                        overkill_f();
+                                        overkill_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "kjob"))
                                     {
-                                        kjob_f();
+                                        kjob_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "bg"))
                                     {
-                                        contbg_f();
+                                        contbg_f(suc);
                                     }
 
                                     else if (!strcmp(inp, "fg"))
                                     {
-                                        bgfg_f();
+                                        bgfg_f(suc);
                                     }
 
                                     else
                                     {
-                                        exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
+                                        exec_proc_f(inp, home_m, username, hostname, cwd, tcwd, suc);
                                     }
                                     if(fd==-1 && fd2==-1 && fd3==-1)
-                                        add_his_f(home_m, inp_his, 0);
+                                        add_his_f(home_m, inp_his, 0, suc);
                                 }
                                 if(fd != -1)
                                     close(fd);
@@ -682,16 +699,19 @@ int main()
                             fd = open(right, O_RDONLY);
                             if(fd < 0) {
                                 printf("Cannot open file%s\n", right);
+                                strcpy(suc,"f");
                                 continue;
                             }
                             if(dup2(fd, STDIN_FILENO) == -1) {
                                 perror("Duplicating file descriptor.");
+                                strcpy(suc,"f");
                                 continue;
                             }
                             if(mulrd == 1) {
                                 fd2 = open(right2, O_WRONLY | O_CREAT | O_APPEND, 0644);
                                 if(dup2(fd2, STDOUT_FILENO) == -1) {
                                     perror("Duplicating file descriptor.");
+                                    strcpy(suc,"f");
                                     continue;
                                 }
                             }
@@ -699,6 +719,7 @@ int main()
                                 fd3 = open(right2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                                 if(dup2(fd3, STDOUT_FILENO) == -1) {
                                     perror("Duplicating file descriptor.");
+                                    strcpy(suc,"f");
                                     continue;
                                 }
                             }
@@ -717,6 +738,7 @@ int main()
                                 fd = open(right, O_WRONLY | O_CREAT | O_APPEND, 0644);
                                 if(dup2(fd, STDOUT_FILENO) == -1) {
                                     perror("Duplicating file descriptor.");
+                                    strcpy(suc,"f");
                                     continue;
                                 }
                                 strcpy(args[j], left);
@@ -735,6 +757,7 @@ int main()
                                     fd = open(right, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                                     if(dup2(fd, STDOUT_FILENO) == -1) {
                                         perror("Duplicating file descriptor.");
+                                        strcpy(suc,"f");
                                         continue;
                                     }
                                     strcpy(args[j], left);
@@ -744,7 +767,7 @@ int main()
 
                         rd=0;
                         //rdir_f(args[j],home_m, cwd, tcwd);
-                        add_his_f(home_m, inp_his, 0);
+                        add_his_f(home_m, inp_his, 0, suc);
                     }
                     if(rd == 0) {
                         //fprintf(stderr,"\033[1;31m");
@@ -763,80 +786,80 @@ int main()
 
                             else if (!strcmp(inp, "cd"))
                             {
-                                cd_f(home_m, prwd);
+                                cd_f(home_m, prwd, suc);
                             }
 
                             else if (!strcmp(inp, "pwd"))
                             {
-                                pwd_f(tcwd);
+                                pwd_f(tcwd, suc);
                             }
 
                             else if (!strcmp(inp, "echo"))
                             {
-                                echo_f();
+                                echo_f(suc);
                             }
 
                             else if (!strcmp(inp, "ls"))
                             {
-                                ls_f(home_m, cwd, tcwd);
+                                ls_f(home_m, cwd, tcwd, suc);
                             }
 
                             else if (!strcmp(inp, "pinfo"))
                             {
-                                pinfo_f(inp, home_m);
+                                pinfo_f(inp, home_m, suc);
                             }
 
                             else if (!strcmp(inp, "history"))
                             {
-                                add_his_f(home_m, inp_his, 1);
+                                add_his_f(home_m, inp_his, 1, suc);
                             }
 
                             else if (!strcmp(inp, "nightswatch"))
                             {
-                                nw_f();
+                                nw_f(suc);
                             }
 
                             else if (!strcmp(inp, "setenv"))
                             {
-                                setenv_f();
+                                setenv_f(suc);
                             }
 
                             else if (!strcmp(inp, "unsetenv"))
                             {
-                                unsetenv_f();
+                                unsetenv_f(suc);
                             }
 
                             else if (!strcmp(inp, "jobs"))
                             {
-                                jobs_f();
+                                jobs_f(suc);
                             }
 
                             else if (!strcmp(inp, "overkill"))
                             {
-                                overkill_f();
+                                overkill_f(suc);
                             }
 
                             else if (!strcmp(inp, "kjob"))
                             {
-                                kjob_f();
+                                kjob_f(suc);
                             }
 
                             else if (!strcmp(inp, "bg"))
                             {
-                                contbg_f();
+                                contbg_f(suc);
                             }
                             
                             else if (!strcmp(inp, "fg"))
                             {
-                                bgfg_f();
+                                bgfg_f(suc);
                             }
 
                             else
                             {
-                                exec_proc_f(inp, home_m, username, hostname, cwd, tcwd);
+                                exec_proc_f(inp, home_m, username, hostname, cwd, tcwd, suc);
                             }
                             if(fd==-1 && fd2==-1 && fd3==-1)
-                                add_his_f(home_m, inp_his, 0);
+                                add_his_f(home_m, inp_his, 0, suc);
                         }
                         //dup2(stdin_save, STDIN_FILENO);
                         //dup2(stdout_save, STDOUT_FILENO);
@@ -852,6 +875,7 @@ int main()
             }
         }
         printf("\n");
+        strcpy(prev_suc,suc);
     }
     return 0;
 }

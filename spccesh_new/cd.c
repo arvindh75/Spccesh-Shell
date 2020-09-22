@@ -24,7 +24,7 @@ void str_replace_cd(char* target, const char* needle, const char* replacement)
     strcpy(target, buffer);
 }
 
-void cd_f(char* home, char* prwd) { 
+void cd_f(char* home, char* prwd, char* suc) { 
     char fPath[2000];
     char news[1000];
     char* p;
@@ -48,11 +48,13 @@ void cd_f(char* home, char* prwd) {
     str_replace_cd(fPath,"\"","");
     if(getcwd(temp, PATH_MAX) == NULL) {
         perror("getcwd()");
+        strcpy(suc,"f");
     }
     //(printf("PREV: %s\n", temp);
     if(chdir(fPath) < 0)
     {
         printf("cd: Not a valid path\n");
+        strcpy(suc,"f");
     }
     else {
         strcpy(prwd,temp);

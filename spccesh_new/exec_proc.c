@@ -15,6 +15,7 @@ char* cwd_t;
 char* tcwd_t;
 int shell_id;
 char cur_com[100];
+char scu[100];
 
 struct bgp {
     int pid;
@@ -54,7 +55,7 @@ void proc_end(int num) {
             fprintf(stderr,"\033[0m");
             fprintf(stderr,"\n");
         }
-        prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t);
+        prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t, scu);
         fflush(stdout);
     }
     else {
@@ -63,13 +64,13 @@ void proc_end(int num) {
         fprintf(stderr, "\n%s with pid [%d] exited abnormally.\n",name, pid);
         fprintf(stderr,"\033[0m");
         fprintf(stderr,"\n");
-        prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t);
+        prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t, scu);
         fflush(stdout);
     }
     return;
 }
 
-void jobs_f() {
+void jobs_f(char* suc) {
     int count=0;
     char fpath[100];
     char tpath[100];
@@ -111,7 +112,7 @@ void jobs_f() {
     }
 }
 
-void overkill_f() {
+void overkill_f(char* suc) {
     for(int i=0;i<MAX_BG; i++) {
         if(procs[i].over == -1) {
             kill(procs[i].pid, 9);
@@ -119,25 +120,27 @@ void overkill_f() {
     }
 }
 
-void contbg_f() {
+void contbg_f(char* suc) {
     char* temp="";
     temp = strtok(NULL, " \t");
     int pidbg = atoi(temp);
     if(procs[pidbg-1].over == 0) {
         printf("Job not found.\n");
+        strcpy(suc,"f");
         return;
     }
     kill(procs[pidbg-1].pid, 25);
     procs[pidbg-1].over = -1;
 }
 
-void bgfg_f() {
+void bgfg_f(char* suc) {
     char* temp="";
     temp = strtok(NULL, " \t");
     int pidbg = atoi(temp);
     int restpid = getpgid(getpid());
     if(procs[pidbg-1].over == 0) {
         printf("Job not found.\n");
+        strcpy(suc,"f");
         return;
     }
     //fprintf(stderr, "CHILD PID: %d\n", procs[pidbg-1].pid);
@@ -194,7 +197,7 @@ void ctrlz(int num) {
     //fprintf(stderr,"%s\n","here ctrlc");
 }
 
-void kjob_f() {
+void kjob_f(char* suc) {
     char *temp = "";
     char args[LS_SIZE][COM_LEN];
     for (int j = 0; j < LS_SIZE; j++)
@@ -222,6 +225,7 @@ void kjob_f() {
         if(args[j][0] >= 48 && args[j][0] <=57) {
             if(count_args > 1) {
                 printf("Wrong Arguments!\n");
+                strcpy(suc,"f");
                 return;
             }
             if(count_args == 0) {
@@ -235,6 +239,7 @@ void kjob_f() {
     }
     if(pid == -1 || signum == -1) {
         printf("Wrong Arguments!\n");
+        strcpy(suc,"f");
         return;
     }
     kill(pid, signum);
@@ -264,8 +269,9 @@ void str_replace_ep(char *target, const char *needle, const char *replacement)
     strcpy(target, buffer);
 }
 
-void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cwd, char* tcwd)
+void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cwd, char* tcwd, char* suc)
 {
+    strcpy(scu,suc);
     shell_id = getpid();
     home_t = home;
     username_t = username;
@@ -334,6 +340,7 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
     if (c_args[0] == NULL)
     {
         printf("\nCommand not found!\n");
+        strcpy(suc,"f");
     }
     else
     {
@@ -348,6 +355,7 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 signal(SIGSTOP, SIG_DFL);
                 if(execvp(c_args[0], c_args) == -1) {
                     printf("\nCommand not found!\n");
+                    strcpy(suc,"f");
                     exit(EXIT_FAILURE);
                 }
                 //exit(EXIT_SUCCESS);
@@ -378,6 +386,7 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 //fprintf(stderr, "%s %d %d %d\n", "HERE", getpid(), getpgrp(), shell_id);
                 if(execvp(c_args[0], c_args) == -1) {
                     printf("\nCommand not found!\n");
+                    strcpy(suc,"f");
                     exit(1);
                 }
             }
@@ -388,7 +397,8 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 signal(SIGTTOU, SIG_IGN);
                 signal(SIGTTIN, SIG_IGN);
                 if (tcsetpgrp(STDIN_FILENO, forkret) == -1) {
-                    //perror("tcsetpgrp");
+                    strcpy(suc,"f");
+                    perror("tcsetpgrp");
                 }
                 //if (!tcsetpgrp(STDOUT_FILENO, forkret)) {
                 //perror("tcsetpgrp");
@@ -412,6 +422,7 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
 
                 if (tcsetpgrp(STDIN_FILENO, getpgrp()) == -1) {
                     perror("tcsetpgrp");
+                    strcpy(suc,"f");
                 }
                 signal(SIGTTOU, SIG_DFL);
                 signal(SIGTTIN, SIG_DFL);

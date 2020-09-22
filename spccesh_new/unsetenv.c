@@ -1,7 +1,7 @@
 #include "headers.h"
 #include "unsetenv.h"
 
-void unsetenv_f() { 
+void unsetenv_f(char* suc) { 
     char* temp = "";
     char args[LS_SIZE][COM_LEN];
     for(int j=0; j < LS_SIZE; j++)
@@ -34,10 +34,12 @@ void unsetenv_f() {
     }
     if(count > 1) {
         printf("Arguments provided are incorrect. Only 1 argument allowed!\n");
+        strcpy(suc,"f");
         return;
     }
     if(unsetenv(var_name) == -1) {
         perror("unsetenv()");
+        strcpy(suc,"f");
     }
     printf("\n");
 }

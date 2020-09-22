@@ -1,7 +1,7 @@
 #include "headers.h"
 #include "echo.h"
 
-void echo_f() { 
+void echo_f(char* suc) { 
     char* temp = "";
     char args[LS_SIZE][COM_LEN];
     for(int j=0; j < LS_SIZE; j++)

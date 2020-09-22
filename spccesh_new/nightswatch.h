@@ -3,6 +3,6 @@
 
 void str_replace_nsw(char *, const char *, const char *);
 int wait_f(int);
-void nw_f();
+void nw_f(char *);
 
 #endif

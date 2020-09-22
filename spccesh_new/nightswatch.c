@@ -45,7 +45,7 @@ int wait_f(int sec) {
     return 1;
 }
 
-void nw_f() { 
+void nw_f(char* suc) { 
     FILE* f;
     char args[LS_SIZE][100];
     char* temp = "";
@@ -95,18 +95,22 @@ void nw_f() {
     }
     if(!num_arg || !n_arg) {
         printf("Correct Arguments are not provided!\n");
+        strcpy(suc,"f");
     }
     else if(!inter && !nb) {
         printf("Can execute only [interrupt/newborn]\n");
+        strcpy(suc,"f");
     }
     else if(inter && nb) {
         printf("Provide only ONE of [interrupt/newborn]\n");
+        strcpy(suc,"f");
     }
     else {
         if(inter) { 
             f = fopen("/proc/interrupts", "r");
             if(!f) {
                 printf("Cannot open interrupts file!\n");
+                strcpy(suc,"f");
             }
             else {
                 fgets(cpus, sizeof(cpus),f);
@@ -126,6 +130,7 @@ void nw_f() {
                     f = fopen("/proc/interrupts", "r");
                     if(!f) {
                         printf("Cannot open interrupts file!\n");
+                        strcpy(suc,"f");
                     }
                     else {
                         fgets(cpus, sizeof(cpus),f);
@@ -149,6 +154,7 @@ void nw_f() {
             f = fopen("/proc/loadavg", "r");
             if(!f) {
                 printf("Cannot open loadavg file!\n");
+                strcpy(suc,"f");
             }
             else {
                 fgets(newp, sizeof(newp),f);
@@ -165,6 +171,7 @@ void nw_f() {
                     f = fopen("/proc/loadavg", "r");
                     if(!f) {
                         printf("Cannot open loadavg file!\n");
+                        strcpy(suc,"f");
                     }
                     else {
                         fgets(newp, sizeof(newp),f);

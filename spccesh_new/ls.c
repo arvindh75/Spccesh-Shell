@@ -23,7 +23,7 @@ void str_replace_ls(char* target, const char* needle, const char* replacement)
     strcpy(target, buffer);
 }
 
-void ls_f(char* home, char* cwd, char* tcwd) { 
+void ls_f(char* home, char* cwd, char* tcwd, char* suc) { 
     int maxlen=0;
     int a_ls=0;
     int l_ls=0;
@@ -41,6 +41,7 @@ void ls_f(char* home, char* cwd, char* tcwd) {
     char args[LS_SIZE][COM_LEN];
     if(getcwd(cwd, PATH_MAX) == NULL) {
         perror("getcwd()");
+        strcpy(suc,"f");
     }
     strcpy(tcwd,cwd);
     str_replace_ls(cwd, home, "~");
@@ -77,6 +78,7 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                     }
                     else if(args[j][i] != '-'){
                         printf("Flag not found!\n");
+                        strcpy(suc,"f");
                         return;
                     }
                 }
@@ -95,6 +97,7 @@ void ls_f(char* home, char* cwd, char* tcwd) {
                 mydir = opendir(ls_dir);
                 if(mydir == NULL) {
                     printf("\nCannot open the Directory %s",ls_dir);
+                    strcpy(suc,"f");
                     continue;
                 }
                 ldir = opendir(ls_dir);

@@ -1,7 +1,7 @@
 #include "headers.h"
 #include "history.h"
 
-void add_his_f(char* home, char* inp, int dis) {
+void add_his_f(char* home, char* inp, int dis, char* suc) {
     FILE* f;
     char args[LS_SIZE][100];
     char pathh[100];
@@ -39,12 +39,14 @@ void add_his_f(char* home, char* inp, int dis) {
             no_arg=0;
             if(number > 10 || number <=0) {
                 printf("\nArgument must be less than or equal to 10 and positive!\n");
+                strcpy(suc,"f");
                 return;
             }
         }
         else if (args[j][0] != 0){
             if(dis == 1 && !val_num) {
                 printf("\nWrong Arguments!\n");
+                strcpy(suc,"f");
                 return;
             }
         }
@@ -105,6 +107,7 @@ void add_his_f(char* home, char* inp, int dis) {
     f= fopen(pathh, "a");
     if(f == NULL) {
         perror("History File");
+        strcpy(suc,"f");
         return;
     }
     else {
@@ -162,6 +165,7 @@ void add_his_f(char* home, char* inp, int dis) {
             f= fopen(pathh, "w");
             if(f == NULL) {
                 perror("History File");
+                strcpy(suc,"f");
                 return;
             }
             for(int i=1;i<10;) {

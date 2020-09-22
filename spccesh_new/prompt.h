@@ -7,7 +7,7 @@ void green();
 void cyan();
 void yellow();
 void reset();
-void prompt_f(char *, char *, char *, char *, char *);
+void prompt_f(char *, char *, char *, char *, char *, char *);
 void str_replace(char *, const char *, const char *);
 
 #endif

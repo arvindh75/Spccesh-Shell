@@ -1,20 +1,20 @@
-cd ..                        
-
-cd -                        
-
-cd ~                        
-
-cd -                        
-
-exit                         
-
-cd -                        
+cd v                        
 
 cd ..                        
 
-cd -                        
+hjw                         
 
-ls                         
+ls b                        
 
 exit                         
+
+ls b                        
+
+pinfo 765212                        
+
+ps                         
+
+nighstwatch 89923                        
+
+nightswatch 872                        
  
