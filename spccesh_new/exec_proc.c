@@ -171,6 +171,11 @@ void bgfg_f(char* suc) {
         strcpy(suc,"f");
         end_cnt++;
     }
+    if (WIFEXITED(status)) {
+        int es = WEXITSTATUS(status);
+        if(es == 1) 
+            strcpy(suc,"f");
+    }
     if (tcsetpgrp(STDIN_FILENO, getpgrp()) == -1) {
         perror("tcsetpgrp");
         strcpy(suc,"f");
