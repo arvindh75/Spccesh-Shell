@@ -1,20 +1,20 @@
-cd -                        
+vim&                         
+
+jobs                         
+
+kill-9 6880 6881                       
+
+kill -9 6880 6881                      
 
 ls                         
 
-exit                         
+jobs                         
 
-vim                         
+ bg 1                        
 
-ls                         
+fg 1                        
 
-vim                         
-
- ls                         
-
-exit                         
-
- ls                         
+jobs                         
 
 exit                         
  

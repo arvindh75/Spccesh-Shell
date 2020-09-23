@@ -16,6 +16,7 @@ char* tcwd_t;
 int shell_id;
 char cur_com[100];
 char scu[100];
+int end_cnt=0;
 
 struct bgp {
     int pid;
@@ -67,6 +68,7 @@ void proc_end(int num) {
         prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t, scu);
         fflush(stdout);
     }
+    end_cnt+=1;
     return;
 }
 
@@ -123,7 +125,7 @@ void overkill_f(char* suc) {
 void contbg_f(char* suc) {
     char* temp="";
     temp = strtok(NULL, " \t");
-    int pidbg = atoi(temp);
+    int pidbg = atoi(temp) + end_cnt;
     if(procs[pidbg-1].over == 0) {
         printf("Job not found.\n");
         strcpy(suc,"f");
@@ -136,7 +138,10 @@ void contbg_f(char* suc) {
 void bgfg_f(char* suc) {
     char* temp="";
     temp = strtok(NULL, " \t");
-    int pidbg = atoi(temp);
+    for(int i=0;i<10;i++) {
+        printf("%d %s %d %d\n",i, procs[i].name, procs[i].pid, procs[i].over);
+    }
+    int pidbg = atoi(temp) + end_cnt;
     int restpid = getpgid(getpid());
     if(procs[pidbg-1].over == 0) {
         printf("Job not found.\n");
@@ -148,16 +153,27 @@ void bgfg_f(char* suc) {
     int status;
     signal(SIGTTIN, SIG_IGN);
     signal(SIGTTOU, SIG_IGN);
-    if (!tcsetpgrp(STDIN_FILENO, getpgid(procs[pidbg-1].pid))) {
-        //perror("tcsetpgrp");
+    if (tcsetpgrp(STDIN_FILENO, getpgid(procs[pidbg-1].pid)) == -1) {
+        perror("tcsetpgrp");
+        strcpy(suc,"f");
     }
     //if (!tcsetpgrp(STDOUT_FILENO, getpgid(procs[pidbg-1].pid))) {
     //perror("tcsetpgrp stdout");
     //}
     kill(procs[pidbg-1].pid, SIGCONT);
     waitpid(procs[pidbg-1].pid, &status, WUNTRACED);
-    if (!tcsetpgrp(STDIN_FILENO, getpgrp())) {
-        //perror("tcsetpgrp");
+    if (WIFSTOPPED(status)) //&& WIFSIGNALED(status))
+    {
+        //printf("HERE\n");
+        strcpy(suc,"f");
+    } 
+    if(WIFSIGNALED(status)) {
+        strcpy(suc,"f");
+        end_cnt++;
+    }
+    if (tcsetpgrp(STDIN_FILENO, getpgrp()) == -1) {
+        perror("tcsetpgrp");
+        strcpy(suc,"f");
     }
     //if (!tcsetpgrp(STDOUT_FILENO, getpgrp())) {
     //perror("tcsetpgrp stdout");
