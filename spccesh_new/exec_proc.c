@@ -435,6 +435,11 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 if(WIFSIGNALED(status)) {
                     strcpy(suc,"f");
                 }
+                if (WIFEXITED(status)) {
+                    int es = WEXITSTATUS(status);
+                    if(es == 1) 
+                        strcpy(suc,"f");
+                }
                 //while (!WIFEXITED(status) && !WIFSIGNALED(status))
                 //{
                 //    waitpid(forkret, &status, WUNTRACED);

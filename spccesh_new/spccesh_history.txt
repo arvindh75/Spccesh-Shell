@@ -1,20 +1,20 @@
-vim&                         
+pinfo                         
+
+ps                         
+
+exit                         
+
+kek                         
+
+ps                         
 
 jobs                         
 
-kill-9 6880 6881                       
-
-kill -9 6880 6881                      
+bg 1                        
 
 ls                         
 
-jobs                         
-
- bg 1                        
-
-fg 1                        
-
-jobs                         
+cd islka                        
 
 exit                         
  
