@@ -1,20 +1,20 @@
-cat                         
+ls                         
+
+cat hello                        
+
+cat hello.txt                        
 
 exit                         
 
 cat < test.txt                       
 
-cat                         
-
-cat < test.txt                       
-
-cat                         
+wc                         
 
 exit                         
 
 cat < test.txt                       
 
-cat                         
+wc                         
 
-exit                         
+echo hello                        
  

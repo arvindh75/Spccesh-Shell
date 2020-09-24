@@ -141,6 +141,7 @@ int main()
         //fflush(stdout);
         str_replace_main(input,"&","&;");
         token = strtok(input, ";");
+        num_args2=0;
         while(token!=NULL) {
             args2[num_args2] = token;
             num_args2++;
@@ -159,8 +160,11 @@ int main()
             }
             andst=0;
             orst=0;
-            for(int j=0;j<num_args;j++) {
-                //printf("ARG-%s AND:%d OR:%d\n", args[j], andst, orst);
+            //for(int jk=0; jk<num_args;jk++) {
+            //    printf("--%s\n", args[jk]);
+            //}
+            for(j=0;j<num_args;j++) {
+                //(printf("ARG-%s AND:%d OR:%d NUM_ARGS:%d NUM_ARGS2:%d J:%d\n", args[j], andst, orst, num_args,num_args2, j);
                 if(andst == 1) {
                     if(strcmp(suc,"s")) {
                         if(j == num_args -1) {
@@ -204,6 +208,7 @@ int main()
                 }
                 str_replace_main(args[j], "@", "");
                 str_replace_main(args[j], "$", "");
+                trim(args[j]);
                 rd=0;
                 pip=0;
                 fd=-1;
@@ -302,13 +307,36 @@ int main()
                                         }
                                         fd = open(right, O_RDONLY);
                                         if(fd < 0) {
-                                            printf("Cannot open file%s\n", right);
                                             strcpy(suc,"f");
+                                            fflush(stdout);
+                                            if(fd != -1)
+                                                close(fd);
+                                            if(fd2 != -1)
+                                                close(fd2);
+                                            if(fd3 != -1)
+                                                close(fd3);
+                                            dup2(stdin_save, 0);
+                                            dup2(stdout_save, 1);
+                                            close(stdin_save);
+                                            close(stdout_save);
+                                            printf("Cannot open file %s\n", right);
+                                            break;
                                             continue;
                                         }
                                         if(dup2(fd, STDIN_FILENO) == -1) {
                                             perror("Duplicating file descriptor.");
                                             strcpy(suc,"f");
+                                            fflush(stdout);
+                                            if(fd != -1)
+                                                close(fd);
+                                            if(fd2 != -1)
+                                                close(fd2);
+                                            if(fd3 != -1)
+                                                close(fd3);
+                                            dup2(stdin_save, 0);
+                                            dup2(stdout_save, 1);
+                                            close(stdin_save);
+                                            close(stdout_save);
                                             continue;
                                         }
                                         if(mulrd == 1) {
@@ -316,6 +344,17 @@ int main()
                                             if(dup2(fd2, STDOUT_FILENO) == -1) {
                                                 perror("Duplicating file descriptor.");
                                                 strcpy(suc,"f");
+                                                fflush(stdout);
+                                                if(fd != -1)
+                                                    close(fd);
+                                                if(fd2 != -1)
+                                                    close(fd2);
+                                                if(fd3 != -1)
+                                                    close(fd3);
+                                                dup2(stdin_save, 0);
+                                                dup2(stdout_save, 1);
+                                                close(stdin_save);
+                                                close(stdout_save);
                                                 continue;
                                             }
                                         }
@@ -324,6 +363,17 @@ int main()
                                             if(dup2(fd3, STDOUT_FILENO) == -1) {
                                                 perror("Duplicating file descriptor.");
                                                 strcpy(suc,"f");
+                                                fflush(stdout);
+                                                if(fd != -1)
+                                                    close(fd);
+                                                if(fd2 != -1)
+                                                    close(fd2);
+                                                if(fd3 != -1)
+                                                    close(fd3);
+                                                dup2(stdin_save, 0);
+                                                dup2(stdout_save, 1);
+                                                close(stdin_save);
+                                                close(stdout_save);
                                                 continue;
                                             }
                                         }
@@ -343,6 +393,17 @@ int main()
                                             if(dup2(fd, STDOUT_FILENO) == -1) {
                                                 perror("Duplicating file descriptor.");
                                                 strcpy(suc,"f");
+                                                fflush(stdout);
+                                                if(fd != -1)
+                                                    close(fd);
+                                                if(fd2 != -1)
+                                                    close(fd2);
+                                                if(fd3 != -1)
+                                                    close(fd3);
+                                                dup2(stdin_save, 0);
+                                                dup2(stdout_save, 1);
+                                                close(stdin_save);
+                                                close(stdout_save);
                                                 continue;
                                             }
                                             strcpy(args[j], left);
@@ -362,6 +423,17 @@ int main()
                                                 if(dup2(fd, STDOUT_FILENO) == -1) {
                                                     perror("Duplicating file descriptor.");
                                                     strcpy(suc,"f");
+                                                    fflush(stdout);
+                                                    if(fd != -1)
+                                                        close(fd);
+                                                    if(fd2 != -1)
+                                                        close(fd2);
+                                                    if(fd3 != -1)
+                                                        close(fd3);
+                                                    dup2(stdin_save, 0);
+                                                    dup2(stdout_save, 1);
+                                                    close(stdin_save);
+                                                    close(stdout_save);
                                                     continue;
                                                 }
                                                 strcpy(args[j], left);
@@ -534,13 +606,36 @@ int main()
                                         }
                                         fd = open(right, O_RDONLY);
                                         if(fd < 0) {
-                                            printf("Cannot open file%s\n", right);
                                             strcpy(suc,"f");
+                                            fflush(stdout);
+                                            if(fd != -1)
+                                                close(fd);
+                                            if(fd2 != -1)
+                                                close(fd2);
+                                            if(fd3 != -1)
+                                                close(fd3);
+                                            dup2(stdin_save, 0);
+                                            dup2(stdout_save, 1);
+                                            close(stdin_save);
+                                            close(stdout_save);
+                                            printf("Cannot open file %s\n", right);
+                                            break;
                                             continue;
                                         }
                                         if(dup2(fd, STDIN_FILENO) == -1) {
                                             perror("Duplicating file descriptor.");
                                             strcpy(suc,"f");
+                                            fflush(stdout);
+                                            if(fd != -1)
+                                                close(fd);
+                                            if(fd2 != -1)
+                                                close(fd2);
+                                            if(fd3 != -1)
+                                                close(fd3);
+                                            dup2(stdin_save, 0);
+                                            dup2(stdout_save, 1);
+                                            close(stdin_save);
+                                            close(stdout_save);
                                             continue;
                                         }
                                         if(mulrd == 1) {
@@ -548,6 +643,17 @@ int main()
                                             if(dup2(fd2, STDOUT_FILENO) == -1) {
                                                 perror("Duplicating file descriptor.");
                                                 strcpy(suc,"f");
+                                                fflush(stdout);
+                                                if(fd != -1)
+                                                    close(fd);
+                                                if(fd2 != -1)
+                                                    close(fd2);
+                                                if(fd3 != -1)
+                                                    close(fd3);
+                                                dup2(stdin_save, 0);
+                                                dup2(stdout_save, 1);
+                                                close(stdin_save);
+                                                close(stdout_save);
                                                 continue;
                                             }
                                         }
@@ -556,6 +662,17 @@ int main()
                                             if(dup2(fd3, STDOUT_FILENO) == -1) {
                                                 perror("Duplicating file descriptor.");
                                                 strcpy(suc,"f");
+                                                fflush(stdout);
+                                                if(fd != -1)
+                                                    close(fd);
+                                                if(fd2 != -1)
+                                                    close(fd2);
+                                                if(fd3 != -1)
+                                                    close(fd3);
+                                                dup2(stdin_save, 0);
+                                                dup2(stdout_save, 1);
+                                                close(stdin_save);
+                                                close(stdout_save);
                                                 continue;
                                             }
                                         }
@@ -575,6 +692,17 @@ int main()
                                             if(dup2(fd, STDOUT_FILENO) == -1) {
                                                 perror("Duplicating file descriptor.");
                                                 strcpy(suc,"f");
+                                                fflush(stdout);
+                                                if(fd != -1)
+                                                    close(fd);
+                                                if(fd2 != -1)
+                                                    close(fd2);
+                                                if(fd3 != -1)
+                                                    close(fd3);
+                                                dup2(stdin_save, 0);
+                                                dup2(stdout_save, 1);
+                                                close(stdin_save);
+                                                close(stdout_save);
                                                 continue;
                                             }
                                             strcpy(args[j], left);
@@ -594,6 +722,17 @@ int main()
                                                 if(dup2(fd, STDOUT_FILENO) == -1) {
                                                     perror("Duplicating file descriptor.");
                                                     strcpy(suc,"f");
+                                                    fflush(stdout);
+                                                    if(fd != -1)
+                                                        close(fd);
+                                                    if(fd2 != -1)
+                                                        close(fd2);
+                                                    if(fd3 != -1)
+                                                        close(fd3);
+                                                    dup2(stdin_save, 0);
+                                                    dup2(stdout_save, 1);
+                                                    close(stdin_save);
+                                                    close(stdout_save);
                                                     continue;
                                                 }
                                                 strcpy(args[j], left);
@@ -759,13 +898,36 @@ int main()
                                 }
                                 fd = open(right, O_RDONLY);
                                 if(fd < 0) {
-                                    printf("Cannot open file%s\n", right);
                                     strcpy(suc,"f");
+                                    fflush(stdout);
+                                    if(fd != -1)
+                                        close(fd);
+                                    if(fd2 != -1)
+                                        close(fd2);
+                                    if(fd3 != -1)
+                                        close(fd3);
+                                    dup2(stdin_save, 0);
+                                    dup2(stdout_save, 1);
+                                    close(stdin_save);
+                                    close(stdout_save);
+                                    printf("Cannot open file %s\n", right);
+                                            break;
                                     continue;
                                 }
                                 if(dup2(fd, STDIN_FILENO) == -1) {
                                     perror("Duplicating file descriptor.");
                                     strcpy(suc,"f");
+                                    fflush(stdout);
+                                    if(fd != -1)
+                                        close(fd);
+                                    if(fd2 != -1)
+                                        close(fd2);
+                                    if(fd3 != -1)
+                                        close(fd3);
+                                    dup2(stdin_save, 0);
+                                    dup2(stdout_save, 1);
+                                    close(stdin_save);
+                                    close(stdout_save);
                                     continue;
                                 }
                                 if(mulrd == 1) {
@@ -773,6 +935,17 @@ int main()
                                     if(dup2(fd2, STDOUT_FILENO) == -1) {
                                         perror("Duplicating file descriptor.");
                                         strcpy(suc,"f");
+                                        fflush(stdout);
+                                        if(fd != -1)
+                                            close(fd);
+                                        if(fd2 != -1)
+                                            close(fd2);
+                                        if(fd3 != -1)
+                                            close(fd3);
+                                        dup2(stdin_save, 0);
+                                        dup2(stdout_save, 1);
+                                        close(stdin_save);
+                                        close(stdout_save);
                                         continue;
                                     }
                                 }
@@ -781,6 +954,17 @@ int main()
                                     if(dup2(fd3, STDOUT_FILENO) == -1) {
                                         perror("Duplicating file descriptor.");
                                         strcpy(suc,"f");
+                                        fflush(stdout);
+                                        if(fd != -1)
+                                            close(fd);
+                                        if(fd2 != -1)
+                                            close(fd2);
+                                        if(fd3 != -1)
+                                            close(fd3);
+                                        dup2(stdin_save, 0);
+                                        dup2(stdout_save, 1);
+                                        close(stdin_save);
+                                        close(stdout_save);
                                         continue;
                                     }
                                 }
@@ -800,6 +984,17 @@ int main()
                                     if(dup2(fd, STDOUT_FILENO) == -1) {
                                         perror("Duplicating file descriptor.");
                                         strcpy(suc,"f");
+                                        fflush(stdout);
+                                        if(fd != -1)
+                                            close(fd);
+                                        if(fd2 != -1)
+                                            close(fd2);
+                                        if(fd3 != -1)
+                                            close(fd3);
+                                        dup2(stdin_save, 0);
+                                        dup2(stdout_save, 1);
+                                        close(stdin_save);
+                                        close(stdout_save);
                                         continue;
                                     }
                                     strcpy(args[j], left);
@@ -819,6 +1014,17 @@ int main()
                                         if(dup2(fd, STDOUT_FILENO) == -1) {
                                             perror("Duplicating file descriptor.");
                                             strcpy(suc,"f");
+                                            fflush(stdout);
+                                            if(fd != -1)
+                                                close(fd);
+                                            if(fd2 != -1)
+                                                close(fd2);
+                                            if(fd3 != -1)
+                                                close(fd3);
+                                            dup2(stdin_save, 0);
+                                            dup2(stdout_save, 1);
+                                            close(stdin_save);
+                                            close(stdout_save);
                                             continue;
                                         }
                                         strcpy(args[j], left);
@@ -935,9 +1141,11 @@ int main()
                             dup2(stdout_save, 1);
                             close(stdin_save);
                             close(stdout_save);
+                            //printf("HERE________\n");
                         }
                     }
                 }
+                //printf("HERE2________\n");
             }
         }
         printf("\n");
