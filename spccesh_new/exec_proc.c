@@ -418,8 +418,8 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 signal(SIGTTOU, SIG_IGN);
                 signal(SIGTTIN, SIG_IGN);
                 if (tcsetpgrp(STDIN_FILENO, forkret) == -1) {
-                    strcpy(suc,"f");
-                    perror("tcsetpgrp");
+                    //strcpy(suc,"f");
+                    //perror("tcsetpgrp");
                 }
                 //if (!tcsetpgrp(STDOUT_FILENO, forkret)) {
                 //perror("tcsetpgrp");
@@ -451,8 +451,8 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 //} 
 
                 if (tcsetpgrp(STDIN_FILENO, getpgrp()) == -1) {
-                    perror("tcsetpgrp");
-                    strcpy(suc,"f");
+                    //perror("tcsetpgrp");
+                    //strcpy(suc,"f");
                 }
                 signal(SIGTTOU, SIG_DFL);
                 signal(SIGTTIN, SIG_DFL);

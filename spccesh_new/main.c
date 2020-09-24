@@ -147,13 +147,6 @@ int main()
             token = strtok(NULL, ";");
         }
         int hj;
-        //for(hj=0;hj<num_args2;hj++) {
-        //    trim(args[hj]);
-        //    printf("--%s %c\n", args2[hj], args2[hj][strlen(args[hj])-1]);
-        //    str_replace_main(args2[hj], "@", "");
-        //    str_replace_main(args2[hj], "$", "");
-        //    printf("--%s\n", args2[hj]);
-        //}
         for(hj=0;hj<num_args2;hj++) {
             num_args=0;
             str_replace_main(args2[hj],"@","@;");
@@ -211,7 +204,6 @@ int main()
                 }
                 str_replace_main(args[j], "@", "");
                 str_replace_main(args[j], "$", "");
-
                 rd=0;
                 pip=0;
                 fd=-1;
@@ -721,6 +713,8 @@ int main()
                         }
                     }
                     else {
+                        stdin_save = dup(0);
+                        stdout_save = dup(1);
                         //fprintf(stderr,"\033[1;31m");
                         //fprintf(stderr, "\nA:%s\n\n",args[j]);
                         //fprintf(stderr, "\nPIP=0:\n\n");

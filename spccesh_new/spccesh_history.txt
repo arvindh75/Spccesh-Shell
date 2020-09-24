@@ -1,20 +1,20 @@
-cd -                        
-
-cd                         
-
-ls                         
+cat                         
 
 exit                         
 
-ls                         
-
-exit                         
-
-ls > testls.txt                       
-
-ls                         
-
-cat test.txt                        
+cat < test.txt                       
 
 cat                         
+
+cat < test.txt                       
+
+cat                         
+
+exit                         
+
+cat < test.txt                       
+
+cat                         
+
+exit                         
  
