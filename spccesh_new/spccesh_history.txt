@@ -1,20 +1,20 @@
-pinfo                         
+cd -                        
 
-ps                         
-
-exit                         
-
-kek                         
-
-ps                         
-
-jobs                         
-
-bg 1                        
+cd                         
 
 ls                         
 
-cd islka                        
+exit                         
+
+ls                         
 
 exit                         
+
+ls > testls.txt                       
+
+ls                         
+
+cat test.txt                        
+
+cat                         
  
