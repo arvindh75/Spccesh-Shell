@@ -209,6 +209,7 @@ int main()
                 str_replace_main(args[j], "@", "");
                 str_replace_main(args[j], "$", "");
                 trim(args[j]);
+                strcpy(suc,"s");
                 rd=0;
                 pip=0;
                 fd=-1;

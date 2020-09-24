@@ -1,20 +1,20 @@
+echo hello                        
+
 ls                         
 
-cat hello                        
+echo penguins                        
 
-cat hello.txt                        
+ps -Q                        
+
+ls                         
+
+echo penguins                        
+
+ps -Q                        
+
+ls                         
+
+echo successful                        
 
 exit                         
-
-cat < test.txt                       
-
-wc                         
-
-exit                         
-
-cat < test.txt                       
-
-wc                         
-
-echo hello                        
  
