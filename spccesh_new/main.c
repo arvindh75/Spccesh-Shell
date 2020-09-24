@@ -654,6 +654,8 @@ int main()
                     }
                 }
                 else {
+                    stdin_save = dup(0);
+                    stdout_save = dup(1);
                     //fprintf(stderr,"\033[1;31m");
                     //fprintf(stderr, "\nA:%s\n\n",args[j]);
                     //fprintf(stderr, "\nPIP=0:\n\n");
@@ -870,6 +872,10 @@ int main()
                             close(fd2);
                         if(fd3 != -1)
                             close(fd3);
+                        dup2(stdin_save, 0);
+                        dup2(stdout_save, 1);
+                        close(stdin_save);
+                        close(stdout_save);
                     }
                 }
             }

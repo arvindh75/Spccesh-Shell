@@ -1,20 +1,20 @@
-pinfo                         
+cat test.txt                        
 
-ps                         
+cat < test.txt                       
 
-exit                         
+cat < test.txt > hellotext.txt                     
 
-kek                         
+wc -l                        
 
-ps                         
+cat hellotext.txt                        
 
-jobs                         
+wc -l                        
 
-bg 1                        
+cat test.txt                        
 
-ls                         
+wc -l > hellolen.txt                      
 
-cd islka                        
+cat hellolen.txt                        
 
 exit                         
  
