@@ -99,16 +99,18 @@ void jobs_f(char* suc) {
                     strcpy(status, buff);
                 x++;
             }
-            if(status[1] == 'S'){
-                count++;
-                strcpy(str,"Running");
-                printf("[%d] %s %s [%d]\n",count, str, procs[i].name, procs[i].pid);
-            }
-            if(status[0] == 'T'){
+            //printf("\n%s %s [%d]\n\n", procs[i].name, status, procs[i].pid);
+            if(status[0] == 'T'|| status[1] == 'T'){
                 count++;
                 strcpy(str,"Stopped");
                 printf("[%d] %s %s [%d]\n",count, str, procs[i].name, procs[i].pid);
             }
+            else {
+                count++;
+                strcpy(str,"Running");
+                printf("[%d] %s %s [%d]\n",count, str, procs[i].name, procs[i].pid);
+            }
+            
             fclose(f);
         }
     }
@@ -125,7 +127,22 @@ void overkill_f(char* suc) {
 void contbg_f(char* suc) {
     char* temp="";
     temp = strtok(NULL, " \t");
-    int pidbg = atoi(temp) + end_cnt;
+    if(temp[0] <=48 || temp[0] >= 57) {
+        printf("Wrong arguments!\n");
+        strcpy(suc,"f");
+        return;
+    }
+    int lcont=0;
+    int pidbg;
+    for(int i=0;i<MAX_BG; i++) {
+        if(procs[i].over != 1) {
+            lcont++;
+            if (lcont == atoi(temp)) {
+                pidbg = i+1;
+                break;
+            }
+        }
+    }    
     if(procs[pidbg-1].over == 0) {
         printf("Job not found.\n");
         strcpy(suc,"f");
@@ -137,11 +154,33 @@ void contbg_f(char* suc) {
 
 void bgfg_f(char* suc) {
     char* temp="";
+    char fpath[100];
+    char tpath[100];
+    char str[25];
+    char buff[1000];
+    FILE* f;
+
     temp = strtok(NULL, " \t");
-    for(int i=0;i<10;i++) {
-        printf("%d %s %d %d\n",i, procs[i].name, procs[i].pid, procs[i].over);
+    if(temp[0] <=48 || temp[0] >= 57) {
+        printf("Wrong arguments!\n");
+        strcpy(suc,"f");
+        return;
     }
-    int pidbg = atoi(temp) + end_cnt;
+    // for(int i=0;i<10;i++) {
+    //   printf("%d %s %d %d\n",i, procs[i].name, procs[i].pid, procs[i].over);
+    //}
+    int lcont=0;
+    int pidbg;
+    for(int i=0;i<MAX_BG; i++) {
+        if(procs[i].over != 1) {
+            lcont++;
+            if (lcont == atoi(temp)) {
+                pidbg = i+1;
+                break;
+            }
+        }
+    }
+    //printf("PIDBG-1:%d\n", pidbg-1);
     int restpid = getpgid(getpid());
     if(procs[pidbg-1].over == 0) {
         printf("Job not found.\n");
@@ -169,12 +208,14 @@ void bgfg_f(char* suc) {
     } 
     if(WIFSIGNALED(status)) {
         strcpy(suc,"f");
-        end_cnt++;
+        procs[pidbg-1].over = 1;
     }
     if (WIFEXITED(status)) {
         int es = WEXITSTATUS(status);
-        if(es == 1) 
+        if(es == 1) {
             strcpy(suc,"f");
+            procs[pidbg-1].over = 1;
+        }
     }
     if (tcsetpgrp(STDIN_FILENO, getpgrp()) == -1) {
         perror("tcsetpgrp");
@@ -188,6 +229,18 @@ void bgfg_f(char* suc) {
     fflush(stdin);
     fflush(stdout);
     fflush(stderr);
+    sprintf(fpath, "/proc/%d",procs[pidbg-1].pid);
+    strcpy(tpath, fpath);
+
+    strcat(tpath, "/stat");
+    f = fopen(tpath, "r");
+    if(f == NULL) {
+        procs[pidbg-1].over = 1;
+        //perror("\npinfo ");
+    }
+    else {
+        fclose(f);
+    }
 }
 
 void ctrlc(int num) {
@@ -246,6 +299,11 @@ void kjob_f(char* suc) {
         if(args[j][0] >= 48 && args[j][0] <=57) {
             if(count_args > 1) {
                 printf("Wrong Arguments!\n");
+                strcpy(suc,"f");
+                return;
+            }
+            if(args[j][0] <=48 || args[j][0] >= 57) {
+                printf("Wrong arguments!\n");
                 strcpy(suc,"f");
                 return;
             }

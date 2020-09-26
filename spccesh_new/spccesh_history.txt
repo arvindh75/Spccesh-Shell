@@ -1,20 +1,20 @@
-wc -l < 1.txt >> 1.txt                    
+jobs                         
 
-cat 1.txt                        
+fg 4                        
 
-rm 1.txt                        
+jobs                         
 
-exit                         
+fg 2                        
 
-ls > 1.txt                       
+jobs                         
 
-ls -al >> 1.txt                      
+fg 2                        
 
-cat 1.txt                        
+jobs                         
 
-wc -l >> 1.txt                      
+fg 1                        
 
-cat 1.txt                        
+fg 6                        
 
-exit                         
+fg q                        
  
