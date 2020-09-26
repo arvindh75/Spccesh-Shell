@@ -1,20 +1,20 @@
-wc -l < 1.txt >> 1.txt                    
+unsetenv USER                        
 
-cat 1.txt                        
+env                         
 
-ls > >> 2.txt                      
-
-cat 2.txt                        
+exit                         
 
 ls                         
 
-ls > hello.txt                       
+exit                         
 
-cat hello.txt                        
+unsetenv                         
 
-ls > >> 2.txt                      
+ls                         
 
-cat 2.txt                        
+setenv                         
+
+ls                         
 
 exit                         
  

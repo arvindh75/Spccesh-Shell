@@ -129,6 +129,7 @@ int main()
     signal(SIGSTOP, SIG_IGN);
     while (exit_loop == 0)
     {
+        setname_f(username, hostname);
         strcpy(suc,"s");
         //dup2(stdin_save, 0);
         //dup2(stdout_save, 1);
