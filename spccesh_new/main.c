@@ -386,7 +386,7 @@ int main()
                                     }
                                     if(strcmp(rdirout, "\0")) {
                                         if(append == 0)
-                                            fd2 = open(rdirout, O_WRONLY | O_CREAT, 0644);
+                                            fd2 = open(rdirout, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                                         else if (append == 1)
                                             fd2 = open(rdirout, O_WRONLY | O_CREAT | O_APPEND, 0644);
                                         if(fd2 < 0) {
