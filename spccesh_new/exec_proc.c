@@ -118,7 +118,7 @@ void jobs_f(char* suc) {
 
 void overkill_f(char* suc) {
     for(int i=0;i<MAX_BG; i++) {
-        if(procs[i].over == -1) {
+        if(procs[i].over != 0) {
             kill(procs[i].pid, 9);
         }
     }

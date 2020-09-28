@@ -147,6 +147,10 @@ int main()
         //fprintf(stderr,"\033[1;31m");
         while(exit_read == 0) {
             c = getchar();
+            if(c == EOF) {
+                exit_loop=1;
+                break;
+            }
             if(c > 127 || c < 0)
                 continue;
             //fprintf(stderr, "\n109:%c %d\n",c, leninp);

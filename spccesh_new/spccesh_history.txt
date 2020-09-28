@@ -1,6 +1,10 @@
-jobs                         
+overkill                         
 
-fg 4                        
+ls                         
+
+exit                         
+
+vim&                         
 
 jobs                         
 
@@ -8,13 +12,9 @@ fg 2
 
 jobs                         
 
-fg 2                        
+vim&                         
 
 jobs                         
 
-fg 1                        
-
-fg 6                        
-
-fg q                        
+overkil                         
  
