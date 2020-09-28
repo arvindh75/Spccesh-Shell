@@ -82,7 +82,7 @@ void jobs_f(char* suc) {
     FILE* f;
     int x;
     for(int i=0;i<MAX_BG;i++) {
-        if(procs[i].over != 0) {
+        if(procs[i].over == -1) {
             x=1;
             sprintf(fpath, "/proc/%d",procs[i].pid);
             strcpy(tpath, fpath);
@@ -90,6 +90,8 @@ void jobs_f(char* suc) {
             strcat(tpath, "/stat");
             f = fopen(tpath, "r");
             if(f == NULL) {
+                //printf("HERE\n");
+                procs[i].over = 1;
                 //perror("\npinfo ");
                 continue;
             }
@@ -302,11 +304,6 @@ void kjob_f(char* suc) {
                 strcpy(suc,"f");
                 return;
             }
-            if(args[j][0] <=48 || args[j][0] >= 57) {
-                printf("Wrong arguments!\n");
-                strcpy(suc,"f");
-                return;
-            }
             if(count_args == 0) {
                 pid = atoi(args[j]);
             }
@@ -321,7 +318,18 @@ void kjob_f(char* suc) {
         strcpy(suc,"f");
         return;
     }
-    kill(pid, signum);
+    int lcont=0;
+    int pidbg;
+    for(int i=0;i<MAX_BG; i++) {
+        if(procs[i].over != 1) {
+            lcont++;
+            if (lcont == pid) {
+                pidbg = i+1;
+                break;
+            }
+        }
+    }
+    kill(procs[pidbg-1].pid, signum);
 }
 
 void str_replace_ep(char *target, const char *needle, const char *replacement)

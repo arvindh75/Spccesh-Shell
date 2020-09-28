@@ -2,21 +2,19 @@ vim&
 
 jobs                         
 
-overkil                         
+kjob 2 9                       
 
-mooh                         
+jobs                         
 
-ls                         
+fg 2                        
 
-exit                         
+jobs                         
 
-mooh                         
+bg 1                        
 
-ls                         
+jobs                         
 
-mooh                         
+overkill                         
 
-                         
-                          
- ls                         
+quit                         
  
