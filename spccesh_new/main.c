@@ -166,9 +166,9 @@ int main()
             }
         }
         //ffprintf(stderr,"\033[0m");
-        //fflush(stdin);
-        //fflush(stderr);
-        //fflush(stdout);
+        fflush(stdin);
+        fflush(stderr);
+        fflush(stdout);
         str_replace_main(input,"&","&;");
         token = strtok(input, ";");
         num_args2=0;
