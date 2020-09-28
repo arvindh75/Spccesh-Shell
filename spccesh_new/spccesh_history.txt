@@ -1,20 +1,22 @@
-overkill                         
-
-ls                         
-
-exit                         
-
-vim&                         
-
-jobs                         
-
-fg 2                        
-
-jobs                         
-
 vim&                         
 
 jobs                         
 
 overkil                         
+
+mooh                         
+
+ls                         
+
+exit                         
+
+mooh                         
+
+ls                         
+
+mooh                         
+
+                         
+                          
+ ls                         
  

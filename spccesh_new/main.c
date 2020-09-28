@@ -149,7 +149,8 @@ int main()
             c = getchar();
             if(c == EOF) {
                 exit_loop=1;
-                break;
+                return 0;
+                //break;
             }
             if(c > 127 || c < 0)
                 continue;
@@ -247,6 +248,7 @@ int main()
                 fd3=-1;
                 mulrd=-1;
                 if(args[j][0] != 0) {
+                    strcpy(suc,"s");
                     dup2(stdin_save1, 0);
                     dup2(stdout_save1, 1);
                     for(p=0;p<200;p++) {
@@ -270,6 +272,7 @@ int main()
                         }
                         inputp = dup(0);
                         for(it=0; it<in; it++) {
+                            strcpy(suc,"s");
                             rd=0;
                             fd=-1;
                             fd2=-1;
