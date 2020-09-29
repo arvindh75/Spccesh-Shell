@@ -1,20 +1,20 @@
+jobs                         
+
 quit                         
 
-bg 1                        
+ls                         
 
-vim&                         
+wc -l                        
 
-overkill                         
+ls                         
 
-bg 1                        
+quit                         
 
-vim&                         
+ls                         
 
-bg 1                        
+wc                         
 
-jobs                         
+ls                         
 
-kjob 1 9                       
-
-jobs                         
+wc -l                        
  

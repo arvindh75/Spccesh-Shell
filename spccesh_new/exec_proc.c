@@ -149,12 +149,12 @@ void contbg_f(char* suc) {
                 break;
             }
         }
-    }    
-    if(procs[pidbg-1].over == 0) {
+    } 
+    if(procs[pidbg-1].over == 0 || procs[pidbg-1].over == 1) {
         printf("Job not found.\n");
         strcpy(suc,"f");
         return;
-    }
+    }   
     kill(procs[pidbg-1].pid, 18);
     procs[pidbg-1].over = -1;
 }
