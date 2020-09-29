@@ -1,0 +1,23 @@
+sort1.txt           echo.h              testls.txt          setname.h           
+spccesh             exec_proc.c         prompt.h            unsetenv.h          
+pwd.o               echo.o              history.o           nightswatch.c       
+pwd.h               README.md           setname.c           setenv.h            
+exit.c              testline.txt        rdir.c              makefile            
+setname.o           headers.h           spccesh_history.txt nightswatch.o       
+pwd.c               exec_proc.o         unsetenv.o          setenv.c            
+a.out               sort2.txt           cd.c                cd.h                
+exit.o              echo.c              pinfo.c             main.o              
+ls.c                setenv.o            ls.h                pinfo.h             
+main.c              history.c           test.txt            nightswatch.h       
+sortest.txt         lines.txt           cd.o                unsetenv.c          
+prompt.c            history.h           exec_proc.h         pinfo.o             
+ls.o                rdir.o              rdir.h              prompt.o            
+exit.h              
+
+[1;32m:') [0m[1;32m<[0m[1;34marvindh-spcce[0m[1;32m@[0m[1;34marvindh-inspiron7572[0m[1;32m:[0m[1;34m~[0m[1;32m> $ [0m
+[1;32m:') [0m[1;32m<[0m[1;34marvindh-spcce[0m[1;32m@[0m[1;34marvindh-inspiron7572[0m[1;32m:[0m[1;34m~[0m[1;32m> $ [0m
+[1;32m:') [0m[1;32m<[0m[1;34marvindh-spcce[0m[1;32m@[0m[1;34marvindh-inspiron7572[0m[1;32m:[0m[1;34m~[0m[1;32m> $ [0m
+[1;32m:') [0m[1;32m<[0m[1;34marvindh-spcce[0m[1;32m@[0m[1;34marvindh-inspiron7572[0m[1;32m:[0m[1;34m~[0m[1;32m> $ [0m
+[1;32m:') [0m[1;32m<[0m[1;34marvindh-spcce[0m[1;32m@[0m[1;34marvindh-inspiron7572[0m[1;32m:[0m[1;34m~[0m[1;32m> $ [0m
+[1;32m:') [0m[1;32m<[0m[1;34marvindh-spcce[0m[1;32m@[0m[1;34marvindh-inspiron7572[0m[1;32m:[0m[1;34m~[0m[1;32m> $ [0m
+[1;32m:') [0m[1;32m<[0m[1;34marvindh-spcce[0m[1;32m@[0m[1;34marvindh-inspiron7572[0m[1;32m:[0m[1;34m~[0m[1;32m> $ [0m

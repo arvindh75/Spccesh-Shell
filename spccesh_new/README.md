@@ -18,11 +18,14 @@ A basic shell that executes bash commands. It can create and run Foreground and 
 - `prompt.c` : Prints Hostname and Username.
 - `pwd.c` : Implements *pwd* command.
 - `setname.c` : Extracts Hostname and Username.
+- `setenv.c` : Implements *setenv* command.
+- `unsetenv.c` : Implements *unsetenv* command.
 
 ## Procedure
 Execute `make` in the cloned directory. Spccesh can be run by executing `./spccesh`.
 
 ## Implementation
 - `history` : History can display maximum of 10 commands and it displays only the **previous** commands (excluding the current one like ZSH). Continuously repeated commands are stored only once in the history.
+- `bg` and `fg` : If multiple arguments are provided, only the first argument is taken and error is not reported.
 
 ### The shell was developed in Linux(Manjaro), some features may not work in other distros or other OS(s).

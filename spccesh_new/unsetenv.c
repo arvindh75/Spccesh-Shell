@@ -32,7 +32,7 @@ void unsetenv_f(char* suc) {
             count++;
         }
     }
-    if(count > 1) {
+    if(count > 1 || count == 0) {
         printf("Arguments provided are incorrect. Only 1 argument allowed!\n");
         strcpy(suc,"f");
         return;
