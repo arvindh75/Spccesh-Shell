@@ -1,20 +1,40 @@
+<<<<<<< HEAD
 vim&                         
 
 jobs                         
 
 fg 1                        
+=======
+cat test.txt                        
 
-jobs                         
+cat < test.txt                       
 
+cat < test.txt > hellotext.txt                     
+
+wc -l                        
+
+cat hellotext.txt                        
+>>>>>>> master
+
+wc -l                        
+
+<<<<<<< HEAD
 overkill                         
+=======
+cat test.txt                        
+>>>>>>> master
 
-ls                         
+wc -l > hellolen.txt                      
 
+<<<<<<< HEAD
  jobs                         
 
 overkill                         
 
 ls                         
+=======
+cat hellolen.txt                        
+>>>>>>> master
 
 exit                         
  

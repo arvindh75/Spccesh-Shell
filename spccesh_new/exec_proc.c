@@ -6,234 +6,272 @@
 #include <unistd.h>
 #define MAX_BG 100
 
-char* home_t;
+char *home_t;
 
-char* username_t;
-char* hostname_t; 
+char *username_t;
+char *hostname_t;
 
-char* cwd_t;
-char* tcwd_t;
+char *cwd_t;
+char *tcwd_t;
 int shell_id;
 char cur_com[100];
 char scu[100];
-int end_cnt=0;
+int end_cnt = 0;
 
-struct bgp {
+struct bgp
+{
     int pid;
     int over;
     char name[32];
 } procs[MAX_BG];
 
-int proc_count =0;
+int proc_count = 0;
 
-void proc_end(int num) {
+void proc_end(int num)
+{
     int status;
-    pid_t pid = waitpid(-1,&status, WNOHANG);
-    if(pid <= 0)
+    pid_t pid = waitpid(-1, &status, WNOHANG);
+    if (pid <= 0)
         return;
     char name[100];
     int index;
-    for(int i=0;i<MAX_BG;i++) {
-        if(procs[i].over == -1) {
-            if(procs[i].pid == pid) {
+    for (int i = 0; i < MAX_BG; i++)
+    {
+        if (procs[i].over == -1)
+        {
+            if (procs[i].pid == pid)
+            {
                 strcpy(name, procs[i].name);
-                index=i;
+                index = i;
             }
         }
     }
-    if(WIFEXITED(status)) {
-        if(WEXITSTATUS(status) == EXIT_SUCCESS) {
-            procs[index].over=1;
-            fprintf(stderr,"\033[1;32m");
-            fprintf(stderr, "\n%s with pid [%d] exited normally.\n",name, pid);
-            fprintf(stderr,"\033[0m");
-            fprintf(stderr,"\n");
+    if (WIFEXITED(status))
+    {
+        if (WEXITSTATUS(status) == EXIT_SUCCESS)
+        {
+            procs[index].over = 1;
+            fprintf(stderr, "\033[1;32m");
+            fprintf(stderr, "\n%s with pid [%d] exited normally.\n", name, pid);
+            fprintf(stderr, "\033[0m");
+            fprintf(stderr, "\n");
         }
-        else {
-            procs[index].over=1;
-            fprintf(stderr,"\033[1;31m");
-            fprintf(stderr, "\n%s with pid [%d] exited abnormally.\n",name, pid);
-            fprintf(stderr,"\033[0m");
-            fprintf(stderr,"\n");
+        else
+        {
+            procs[index].over = 1;
+            fprintf(stderr, "\033[1;31m");
+            fprintf(stderr, "\n%s with pid [%d] exited abnormally.\n", name, pid);
+            fprintf(stderr, "\033[0m");
+            fprintf(stderr, "\n");
         }
         prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t, scu);
         fflush(stdout);
     }
-    else {
-        procs[index].over=1;
-        fprintf(stderr,"\033[1;31m");
-        fprintf(stderr, "\n%s with pid [%d] exited abnormally.\n",name, pid);
-        fprintf(stderr,"\033[0m");
-        fprintf(stderr,"\n");
+    else
+    {
+        procs[index].over = 1;
+        fprintf(stderr, "\033[1;31m");
+        fprintf(stderr, "\n%s with pid [%d] exited abnormally.\n", name, pid);
+        fprintf(stderr, "\033[0m");
+        fprintf(stderr, "\n");
         prompt_f(home_t, username_t, hostname_t, cwd_t, tcwd_t, scu);
         fflush(stdout);
     }
-    end_cnt+=1;
+    end_cnt += 1;
     return;
 }
 
-void jobs_f(char* suc) {
-    int count=0;
+void jobs_f(char *suc)
+{
+    int count = 0;
     char fpath[100];
     char tpath[100];
     char str[25];
     char buff[1000];
     char status[100];
-    FILE* f;
+    FILE *f;
     int x;
-    for(int i=0;i<MAX_BG;i++) {
-        if(procs[i].over == -1) {
-            x=1;
-            sprintf(fpath, "/proc/%d",procs[i].pid);
+    for (int i = 0; i < MAX_BG; i++)
+    {
+        if (procs[i].over == -1)
+        {
+            x = 1;
+            sprintf(fpath, "/proc/%d", procs[i].pid);
             strcpy(tpath, fpath);
 
             strcat(tpath, "/stat");
             f = fopen(tpath, "r");
-            if(f == NULL) {
+            if (f == NULL)
+            {
                 //printf("HERE\n");
                 procs[i].over = 1;
                 //perror("\npinfo ");
                 continue;
             }
-            while(x <= 3) {
-                fscanf(f,"%s",buff);
-                if(x == 3)
+            while (x <= 3)
+            {
+                fscanf(f, "%s", buff);
+                if (x == 3)
                     strcpy(status, buff);
                 x++;
             }
             //printf("\n%s %s [%d] %d\n\n", procs[i].name, status, procs[i].pid, procs[i].over);
-            if(status[0] == 'T'|| status[1] == 'T'){
+            if (status[0] == 'T' || status[1] == 'T')
+            {
                 count++;
-                strcpy(str,"Stopped");
-                printf("[%d] %s %s [%d]\n",count, str, procs[i].name, procs[i].pid);
+                strcpy(str, "Stopped");
+                printf("[%d] %s %s [%d]\n", count, str, procs[i].name, procs[i].pid);
             }
-            else {
+            else
+            {
                 count++;
-                strcpy(str,"Running");
-                printf("[%d] %s %s [%d]\n",count, str, procs[i].name, procs[i].pid);
+                strcpy(str, "Running");
+                printf("[%d] %s %s [%d]\n", count, str, procs[i].name, procs[i].pid);
             }
-            
+
             fclose(f);
         }
     }
 }
 
-void overkill_f(char* suc) {
-    for(int i=0;i<MAX_BG; i++) {
-        if(procs[i].over != 0) {
+void overkill_f(char *suc)
+{
+    for (int i = 0; i < MAX_BG; i++)
+    {
+        if (procs[i].over != 0)
+        {
             //printf("\n%s [%d] %d\n\n", procs[i].name, procs[i].pid, procs[i].over);
             kill(procs[i].pid, SIGKILL);
         }
     }
 }
 
-void contbg_f(char* suc) {
-    char* temp="";
+void contbg_f(char *suc)
+{
+    char *temp = "";
     temp = strtok(NULL, " \t");
-    if(temp == NULL) {
+    if (temp == NULL)
+    {
         printf("Wrong arguments!\n");
-        strcpy(suc,"f");
+        strcpy(suc, "f");
         return;
     }
-    if(temp[0] <=48 || temp[0] >= 57) {
+    if (temp[0] <= 48 || temp[0] >= 57)
+    {
         printf("Wrong arguments!\n");
-        strcpy(suc,"f");
+        strcpy(suc, "f");
         return;
     }
-    int lcont=0;
+    int lcont = 0;
     int pidbg;
-    for(int i=0;i<MAX_BG; i++) {
-        if(procs[i].over != 1) {
+    for (int i = 0; i < MAX_BG; i++)
+    {
+        if (procs[i].over != 1)
+        {
             lcont++;
-            if (lcont == atoi(temp)) {
-                pidbg = i+1;
+            if (lcont == atoi(temp))
+            {
+                pidbg = i + 1;
                 break;
             }
         }
-    } 
-    if(procs[pidbg-1].over == 0 || procs[pidbg-1].over == 1) {
+    }
+    if (procs[pidbg - 1].over == 0 || procs[pidbg - 1].over == 1)
+    {
         printf("Job not found.\n");
-        strcpy(suc,"f");
+        strcpy(suc, "f");
         return;
-    }   
-    kill(procs[pidbg-1].pid, SIGCONT);
-    procs[pidbg-1].over = -1;
+    }
+    kill(procs[pidbg - 1].pid, SIGCONT);
+    procs[pidbg - 1].over = -1;
 }
 
-void bgfg_f(char* suc) {
-    char* temp="";
+void bgfg_f(char *suc)
+{
+    char *temp = "";
     char fpath[100];
     char tpath[100];
     char str[25];
     char buff[1000];
-    FILE* f;
+    FILE *f;
 
     temp = strtok(NULL, " \t");
-    if(temp == NULL) {
+    if (temp == NULL)
+    {
         printf("Wrong arguments!\n");
-        strcpy(suc,"f");
+        strcpy(suc, "f");
         return;
     }
-    if(temp[0] <=48 || temp[0] >= 57) {
+    if (temp[0] <= 48 || temp[0] >= 57)
+    {
         printf("Wrong arguments!\n");
-        strcpy(suc,"f");
+        strcpy(suc, "f");
         return;
     }
     // for(int i=0;i<10;i++) {
     //   printf("%d %s %d %d\n",i, procs[i].name, procs[i].pid, procs[i].over);
     //}
-    int lcont=0;
+    int lcont = 0;
     int pidbg;
-    for(int i=0;i<MAX_BG; i++) {
-        if(procs[i].over != 1) {
+    for (int i = 0; i < MAX_BG; i++)
+    {
+        if (procs[i].over != 1)
+        {
             lcont++;
-            if (lcont == atoi(temp)) {
-                pidbg = i+1;
+            if (lcont == atoi(temp))
+            {
+                pidbg = i + 1;
                 break;
             }
         }
     }
     //printf("PIDBG-1:%d\n", pidbg-1);
     int restpid = getpgid(getpid());
-    if(procs[pidbg-1].over == 0 || procs[pidbg-1].over == 1) {
+    if (procs[pidbg - 1].over == 0 || procs[pidbg - 1].over == 1)
+    {
         printf("Job not found.\n");
-        strcpy(suc,"f");
+        strcpy(suc, "f");
         return;
     }
-    kill(procs[pidbg-1].pid, SIGCONT);
+    kill(procs[pidbg - 1].pid, SIGCONT);
     //fprintf(stderr, "CHILD PID: %d\n", procs[pidbg-1].pid);
     //fprintf(stderr, "CHILD GROUP PID: %d\n", getpgid(procs[pidbg-1].pid));
     int status;
     signal(SIGTTIN, SIG_IGN);
     signal(SIGTTOU, SIG_IGN);
-    if (tcsetpgrp(STDIN_FILENO, getpgid(procs[pidbg-1].pid)) == -1) {
+    if (tcsetpgrp(STDIN_FILENO, getpgid(procs[pidbg - 1].pid)) == -1)
+    {
         perror("tcsetpgrp");
-        strcpy(suc,"f");
+        strcpy(suc, "f");
     }
     //if (!tcsetpgrp(STDOUT_FILENO, getpgid(procs[pidbg-1].pid))) {
     //perror("tcsetpgrp stdout");
     //}
-    kill(procs[pidbg-1].pid, SIGCONT);
-    waitpid(procs[pidbg-1].pid, &status, WUNTRACED);
+    kill(procs[pidbg - 1].pid, SIGCONT);
+    waitpid(procs[pidbg - 1].pid, &status, WUNTRACED);
     if (WIFSTOPPED(status)) //&& WIFSIGNALED(status))
     {
         //printf("HERE\n");
-        strcpy(suc,"f");
-    } 
-    if(WIFSIGNALED(status)) {
-        strcpy(suc,"f");
-        procs[pidbg-1].over = 1;
+        strcpy(suc, "f");
     }
-    if (WIFEXITED(status)) {
+    if (WIFSIGNALED(status))
+    {
+        strcpy(suc, "f");
+        procs[pidbg - 1].over = 1;
+    }
+    if (WIFEXITED(status))
+    {
         int es = WEXITSTATUS(status);
-        if(es == 1) {
-            strcpy(suc,"f");
-            procs[pidbg-1].over = 1;
+        if (es == 1)
+        {
+            strcpy(suc, "f");
+            procs[pidbg - 1].over = 1;
         }
     }
-    if (tcsetpgrp(STDIN_FILENO, getpgrp()) == -1) {
+    if (tcsetpgrp(STDIN_FILENO, getpgrp()) == -1)
+    {
         perror("tcsetpgrp");
-        strcpy(suc,"f");
+        strcpy(suc, "f");
     }
     //if (!tcsetpgrp(STDOUT_FILENO, getpgrp())) {
     //perror("tcsetpgrp stdout");
@@ -243,49 +281,58 @@ void bgfg_f(char* suc) {
     fflush(stdin);
     fflush(stdout);
     fflush(stderr);
-    sprintf(fpath, "/proc/%d",procs[pidbg-1].pid);
+    sprintf(fpath, "/proc/%d", procs[pidbg - 1].pid);
     strcpy(tpath, fpath);
 
     strcat(tpath, "/stat");
     f = fopen(tpath, "r");
-    if(f == NULL) {
-        procs[pidbg-1].over = 1;
+    if (f == NULL)
+    {
+        procs[pidbg - 1].over = 1;
         //perror("\npinfo ");
     }
-    else {
+    else
+    {
         fclose(f);
     }
 }
 
-void ctrlc(int num) {
+void ctrlc(int num)
+{
     //fprintf(stderr,"%s\n","here ctrlc");
-    if(!tcsetpgrp(STDIN_FILENO, getpgid(shell_id))) {
+    if (!tcsetpgrp(STDIN_FILENO, getpgid(shell_id)))
+    {
         perror("Restoring STDIN");
     }
-    if(!tcsetpgrp(STDOUT_FILENO, getpgid(shell_id))) {
+    if (!tcsetpgrp(STDOUT_FILENO, getpgid(shell_id)))
+    {
         perror("Restoring STDOUT");
     }
     kill(getpid(), 9);
 }
 
-void ctrlz(int num) {
+void ctrlz(int num)
+{
     setpgid(shell_id, shell_id);
-    fprintf(stderr,"%s\n","here ctrlc");
-    if(!tcsetpgrp(STDIN_FILENO, getpgid(shell_id))) {
+    fprintf(stderr, "%s\n", "here ctrlc");
+    if (!tcsetpgrp(STDIN_FILENO, getpgid(shell_id)))
+    {
         //perror("Restoring STDIN");
     }
-    if(!tcsetpgrp(STDOUT_FILENO, getpgid(shell_id))) {
+    if (!tcsetpgrp(STDOUT_FILENO, getpgid(shell_id)))
+    {
         //perror("Restoring STDOUT");
     }
     procs[proc_count].pid = getpid();
     procs[proc_count].over = 1;
-    strcpy(procs[proc_count].name,cur_com);
+    strcpy(procs[proc_count].name, cur_com);
     proc_count++;
     kill(getpid(), 24);
     //fprintf(stderr,"%s\n","here ctrlc");
 }
 
-void kjob_f(char* suc) {
+void kjob_f(char *suc)
+{
     char *temp = "";
     char args[LS_SIZE][COM_LEN];
     for (int j = 0; j < LS_SIZE; j++)
@@ -306,46 +353,56 @@ void kjob_f(char* suc) {
         }
         args[j][i] = '\0';
     }
-    int count_args=0;
+    int count_args = 0;
     int pid = -1;
     int signum = -1;
-    for(int j=0;j<LS_SIZE; j++) {
-        if(args[j][0] >= 48 && args[j][0] <=57) {
-            if(count_args > 1) {
+    for (int j = 0; j < LS_SIZE; j++)
+    {
+        if (args[j][0] >= 48 && args[j][0] <= 57)
+        {
+            if (count_args > 1)
+            {
                 printf("Wrong Arguments!\n");
-                strcpy(suc,"f");
+                strcpy(suc, "f");
                 return;
             }
-            if(count_args == 0) {
+            if (count_args == 0)
+            {
                 pid = atoi(args[j]);
             }
-            if(count_args == 1) {
+            if (count_args == 1)
+            {
                 signum = atoi(args[j]);
             }
             count_args++;
         }
     }
-    if(pid == -1 || signum == -1) {
+    if (pid == -1 || signum == -1)
+    {
         printf("Wrong Arguments!\n");
-        strcpy(suc,"f");
+        strcpy(suc, "f");
         return;
     }
-    int lcont=0;
+    int lcont = 0;
     int pidbg;
-    for(int i=0;i<MAX_BG; i++) {
-        if(procs[i].over != 1) {
+    for (int i = 0; i < MAX_BG; i++)
+    {
+        if (procs[i].over != 1)
+        {
             lcont++;
-            if (lcont == pid) {
-                pidbg = i+1;
+            if (lcont == pid)
+            {
+                pidbg = i + 1;
                 break;
             }
         }
     }
-    if(procs[pidbg-1].over !=0)
-        kill(procs[pidbg-1].pid, signum);
-    else {
+    if (procs[pidbg - 1].over != 0)
+        kill(procs[pidbg - 1].pid, signum);
+    else
+    {
         printf("Job not found!\n");
-        strcpy(suc,"f");
+        strcpy(suc, "f");
         return;
     }
 }
@@ -374,9 +431,9 @@ void str_replace_ep(char *target, const char *needle, const char *replacement)
     strcpy(target, buffer);
 }
 
-void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cwd, char* tcwd, char* suc)
+void exec_proc_f(char *inp, char *home, char *username, char *hostname, char *cwd, char *tcwd, char *suc)
 {
-    strcpy(scu,suc);
+    strcpy(scu, suc);
     shell_id = getpid();
     home_t = home;
     username_t = username;
@@ -391,9 +448,10 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
     char args[LS_SIZE][COM_LEN];
     int count = 0;
     int bg = 0;
-    if(inp[strlen(inp)-1] == 38) {
-        bg=1;
-        inp[strlen(inp)-1]='\0';
+    if (inp[strlen(inp) - 1] == 38)
+    {
+        bg = 1;
+        inp[strlen(inp) - 1] = '\0';
     }
     c_args[0] = inp;
     for (int j = 0; j < LS_SIZE; j++)
@@ -415,25 +473,29 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
         args[j][i] = '\0';
     }
     count = 1;
-    int str_len=0;
+    int str_len = 0;
     for (int j = 0; j < LS_SIZE; j++)
     {
-        if(args[j][0] != 0)
+        if (args[j][0] != 0)
         {
             str_len = strlen(args[j]);
             if (args[j][0] == '~')
             {
                 str_replace_ep(args[j], "~", home);
             }
-            else {
-                if(args[j][str_len-1] == 38) {
-                    bg=1;
-                    args[j][str_len-1]='\0';
+            else
+            {
+                if (args[j][str_len - 1] == 38)
+                {
+                    bg = 1;
+                    args[j][str_len - 1] = '\0';
                 }
-                else if(args[j][0] == 38) {
-                    bg=1;
+                else if (args[j][0] == 38)
+                {
+                    bg = 1;
                 }
-                else {
+                else
+                {
                     c_args[count++] = args[j];
                 }
             }
@@ -447,29 +509,32 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
     if (c_args[0] == NULL)
     {
         printf("\nCommand not found!\n");
-        strcpy(suc,"f");
+        strcpy(suc, "f");
     }
     else
     {
         strcpy(cur_com, c_args[0]);
-        if(bg == 1) {
+        if (bg == 1)
+        {
             int forkret = fork();
             if (forkret == 0)
             {
-                setpgid(0,0);
+                setpgid(0, 0);
                 signal(SIGTSTP, SIG_DFL);
                 signal(SIGINT, SIG_DFL);
                 signal(SIGSTOP, SIG_DFL);
-                if(execvp(c_args[0], c_args) == -1) {
+                if (execvp(c_args[0], c_args) == -1)
+                {
                     printf("\nCommand not found!\n");
-                    strcpy(suc,"f");
+                    strcpy(suc, "f");
                     exit(EXIT_FAILURE);
                 }
                 //exit(EXIT_SUCCESS);
             }
-            else {
+            else
+            {
                 // MIGHT BE NECESSARY
-                setpgid(forkret,forkret);
+                setpgid(forkret, forkret);
                 procs[proc_count].pid = forkret;
                 procs[proc_count].over = -1;
                 strcpy(procs[proc_count].name, c_args[0]);
@@ -478,13 +543,14 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 signal(SIGCHLD, proc_end);
             }
         }
-        else {
+        else
+        {
             stdin_save2 = dup(0);
             stdout_save2 = dup(1);
             int forkret = fork();
             if (forkret == 0)
             {
-                setpgid(0,0);
+                setpgid(0, 0);
                 //signal(SIGTTOU, SIG_DFL);
                 signal(SIGTSTP, SIG_DFL);
                 signal(SIGINT, SIG_DFL);
@@ -493,19 +559,21 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 //     signal(SIGINT, ctrlc);
                 //     signal(SIGTSTP, ctrlz);
                 //fprintf(stderr, "%s %d %d %d\n", "HERE", getpid(), getpgrp(), shell_id);
-                if(execvp(c_args[0], c_args) == -1) {
+                if (execvp(c_args[0], c_args) == -1)
+                {
                     printf("\nCommand not found!\n");
-                    strcpy(suc,"f");
+                    strcpy(suc, "f");
                     exit(1);
                 }
             }
             else
             {
                 int status;
-                setpgid(forkret,forkret);
+                setpgid(forkret, forkret);
                 signal(SIGTTOU, SIG_IGN);
                 signal(SIGTTIN, SIG_IGN);
-                if (tcsetpgrp(STDIN_FILENO, forkret) == -1) {
+                if (tcsetpgrp(STDIN_FILENO, forkret) == -1)
+                {
                     //strcpy(suc,"f");
                     //perror("tcsetpgrp");
                 }
@@ -521,24 +589,27 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                     //printf("HERE\n");
                     procs[proc_count].pid = forkret;
                     procs[proc_count].over = -1;
-                    strcpy(procs[proc_count].name,cur_com);
+                    strcpy(procs[proc_count].name, cur_com);
                     proc_count++;
-                    strcpy(suc,"f");
-                } 
-                if(WIFSIGNALED(status)) {
-                    strcpy(suc,"f");
+                    strcpy(suc, "f");
                 }
-                if (WIFEXITED(status)) {
+                if (WIFSIGNALED(status))
+                {
+                    strcpy(suc, "f");
+                }
+                if (WIFEXITED(status))
+                {
                     int es = WEXITSTATUS(status);
-                    if(es == 1) 
-                        strcpy(suc,"f");
+                    if (es == 1)
+                        strcpy(suc, "f");
                 }
                 //while (!WIFEXITED(status) && !WIFSIGNALED(status))
                 //{
                 //    waitpid(forkret, &status, WUNTRACED);
-                //} 
+                //}
 
-                if (tcsetpgrp(STDIN_FILENO, getpgrp()) == -1) {
+                if (tcsetpgrp(STDIN_FILENO, getpgrp()) == -1)
+                {
                     //perror("tcsetpgrp");
                     //strcpy(suc,"f");
                 }
