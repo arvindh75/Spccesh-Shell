@@ -120,7 +120,7 @@ void jobs_f(char* suc) {
 
 void overkill_f(char* suc) {
     for(int i=0;i<MAX_BG; i++) {
-        if(procs[i].over != 0) {
+        if(procs[i].over == -1) {
             kill(procs[i].pid, 9);
         }
     }
@@ -129,6 +129,11 @@ void overkill_f(char* suc) {
 void contbg_f(char* suc) {
     char* temp="";
     temp = strtok(NULL, " \t");
+    if(temp == NULL) {
+        printf("Wrong arguments!\n");
+        strcpy(suc,"f");
+        return;
+    }
     if(temp[0] <=48 || temp[0] >= 57) {
         printf("Wrong arguments!\n");
         strcpy(suc,"f");
@@ -150,7 +155,7 @@ void contbg_f(char* suc) {
         strcpy(suc,"f");
         return;
     }
-    kill(procs[pidbg-1].pid, 25);
+    kill(procs[pidbg-1].pid, 18);
     procs[pidbg-1].over = -1;
 }
 
@@ -163,6 +168,11 @@ void bgfg_f(char* suc) {
     FILE* f;
 
     temp = strtok(NULL, " \t");
+    if(temp == NULL) {
+        printf("Wrong arguments!\n");
+        strcpy(suc,"f");
+        return;
+    }
     if(temp[0] <=48 || temp[0] >= 57) {
         printf("Wrong arguments!\n");
         strcpy(suc,"f");
@@ -184,11 +194,12 @@ void bgfg_f(char* suc) {
     }
     //printf("PIDBG-1:%d\n", pidbg-1);
     int restpid = getpgid(getpid());
-    if(procs[pidbg-1].over == 0) {
+    if(procs[pidbg-1].over == 0 || procs[pidbg-1].over == 1) {
         printf("Job not found.\n");
         strcpy(suc,"f");
         return;
     }
+    kill(procs[pidbg-1].pid, 18);
     //fprintf(stderr, "CHILD PID: %d\n", procs[pidbg-1].pid);
     //fprintf(stderr, "CHILD GROUP PID: %d\n", getpgid(procs[pidbg-1].pid));
     int status;
@@ -329,7 +340,13 @@ void kjob_f(char* suc) {
             }
         }
     }
-    kill(procs[pidbg-1].pid, signum);
+    if(procs[pidbg-1].over !=0)
+        kill(procs[pidbg-1].pid, signum);
+    else {
+        printf("Job not found!\n");
+        strcpy(suc,"f");
+        return;
+    }
 }
 
 void str_replace_ep(char *target, const char *needle, const char *replacement)
@@ -498,7 +515,7 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
                 {
                     //printf("HERE\n");
                     procs[proc_count].pid = forkret;
-                    procs[proc_count].over = 1;
+                    procs[proc_count].over = -1;
                     strcpy(procs[proc_count].name,cur_com);
                     proc_count++;
                     strcpy(suc,"f");

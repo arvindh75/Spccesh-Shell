@@ -133,7 +133,7 @@ int main()
     signal(SIGSTOP, SIG_IGN);
     while (exit_loop == 0)
     {
-        setname_f(username, hostname);
+        //setname_f(username, hostname);
         strcpy(suc,"s");
         //dup2(stdin_save, 0);
         //dup2(stdout_save, 1);
@@ -632,7 +632,7 @@ int main()
                                     }
                                     if(strcmp(rdirout, "\0")) {
                                         if(append == 0)
-                                            fd2 = open(rdirout, O_WRONLY | O_CREAT, 0644);
+                                            fd2 = open(rdirout, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                                         else if (append == 1)
                                             fd2 = open(rdirout, O_WRONLY | O_CREAT | O_APPEND, 0644);
                                         if(fd2 < 0) {
@@ -870,7 +870,7 @@ int main()
                             }
                             if(strcmp(rdirout, "\0")) {
                                 if(append == 0)
-                                    fd2 = open(rdirout, O_WRONLY | O_CREAT, 0644);
+                                    fd2 = open(rdirout, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                                 else if (append == 1)
                                     fd2 = open(rdirout, O_WRONLY | O_CREAT | O_APPEND, 0644);
                                 if(fd2 < 0) {

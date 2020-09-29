@@ -1,20 +1,20 @@
-cat < test2.txt                       
+quit                         
 
-cat < test.txt                       
+bg 1                        
 
-wc -l > test2.txt                      
+vim&                         
 
-cat test2.txt                        
+overkill                         
 
-cat < test.txt >> test2.txt                     
+bg 1                        
 
-cat test2.txt                        
+vim&                         
 
-cat < test.txt                       
+bg 1                        
 
-wc -l > test2.txt                      
+jobs                         
 
-cat test2.txt                        
+kjob 1 9                       
 
-exit                         
+jobs                         
  
