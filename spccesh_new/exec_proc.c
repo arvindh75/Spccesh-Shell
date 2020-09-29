@@ -101,7 +101,7 @@ void jobs_f(char* suc) {
                     strcpy(status, buff);
                 x++;
             }
-            //printf("\n%s %s [%d]\n\n", procs[i].name, status, procs[i].pid);
+            //printf("\n%s %s [%d] %d\n\n", procs[i].name, status, procs[i].pid, procs[i].over);
             if(status[0] == 'T'|| status[1] == 'T'){
                 count++;
                 strcpy(str,"Stopped");
@@ -120,7 +120,8 @@ void jobs_f(char* suc) {
 
 void overkill_f(char* suc) {
     for(int i=0;i<MAX_BG; i++) {
-        if(procs[i].over == -1) {
+        if(procs[i].over != 0) {
+            //printf("\n%s [%d] %d\n\n", procs[i].name, procs[i].pid, procs[i].over);
             kill(procs[i].pid, SIGKILL);
         }
     }

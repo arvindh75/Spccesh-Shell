@@ -1,20 +1,20 @@
-wc -l                        
+vim&                         
+
+jobs                         
+
+fg 1                        
+
+jobs                         
+
+overkill                         
 
 ls                         
 
-quit                         
+ jobs                         
+
+overkill                         
 
 ls                         
 
-wc                         
-
-ls                         
-
-wc -l                        
-
-quit                         
-
- ps                         
-
-ls                         
+exit                         
  
