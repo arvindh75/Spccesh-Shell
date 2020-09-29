@@ -121,7 +121,7 @@ void jobs_f(char* suc) {
 void overkill_f(char* suc) {
     for(int i=0;i<MAX_BG; i++) {
         if(procs[i].over == -1) {
-            kill(procs[i].pid, 9);
+            kill(procs[i].pid, SIGKILL);
         }
     }
 }
@@ -155,7 +155,7 @@ void contbg_f(char* suc) {
         strcpy(suc,"f");
         return;
     }   
-    kill(procs[pidbg-1].pid, 18);
+    kill(procs[pidbg-1].pid, SIGCONT);
     procs[pidbg-1].over = -1;
 }
 
@@ -199,7 +199,7 @@ void bgfg_f(char* suc) {
         strcpy(suc,"f");
         return;
     }
-    kill(procs[pidbg-1].pid, 18);
+    kill(procs[pidbg-1].pid, SIGCONT);
     //fprintf(stderr, "CHILD PID: %d\n", procs[pidbg-1].pid);
     //fprintf(stderr, "CHILD GROUP PID: %d\n", getpgid(procs[pidbg-1].pid));
     int status;
@@ -385,6 +385,8 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
     tcwd_t = tcwd;
     char *c_args[LS_SIZE];
     char *temp = "";
+    int stdin_save2 = dup(0);
+    int stdout_save2 = dup(1);
     char args[LS_SIZE][COM_LEN];
     int count = 0;
     int bg = 0;
@@ -476,6 +478,8 @@ void exec_proc_f(char *inp, char *home, char* username, char* hostname, char* cw
             }
         }
         else {
+            stdin_save2 = dup(0);
+            stdout_save2 = dup(1);
             int forkret = fork();
             if (forkret == 0)
             {
