@@ -443,8 +443,6 @@ void exec_proc_f(char *inp, char *home, char *username, char *hostname, char *cw
     tcwd_t = tcwd;
     char *c_args[LS_SIZE];
     char *temp = "";
-    int stdin_save2 = dup(0);
-    int stdout_save2 = dup(1);
     char args[LS_SIZE][COM_LEN];
     int count = 0;
     int bg = 0;
@@ -545,8 +543,6 @@ void exec_proc_f(char *inp, char *home, char *username, char *hostname, char *cw
         }
         else
         {
-            stdin_save2 = dup(0);
-            stdout_save2 = dup(1);
             int forkret = fork();
             if (forkret == 0)
             {

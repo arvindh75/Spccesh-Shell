@@ -1,40 +1,20 @@
-<<<<<<< HEAD
-vim&                         
-
-jobs                         
-
-fg 1                        
-=======
 cat test.txt                        
+
+ls                         
+
+wc                         
+
+cat test.xt                        
+
+cat test.txt                        
+
+wc                         
+
+quit                         
 
 cat < test.txt                       
 
-cat < test.txt > hellotext.txt                     
+wc                         
 
-wc -l                        
-
-cat hellotext.txt                        
->>>>>>> master
-
-wc -l                        
-
-<<<<<<< HEAD
-overkill                         
-=======
-cat test.txt                        
->>>>>>> master
-
-wc -l > hellolen.txt                      
-
-<<<<<<< HEAD
- jobs                         
-
-overkill                         
-
-ls                         
-=======
-cat hellolen.txt                        
->>>>>>> master
-
-exit                         
+quit                         
  

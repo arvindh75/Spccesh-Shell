@@ -99,8 +99,6 @@ int main()
     int stdout_save = dup(1);
     int stdin_save1 = dup(0);
     int stdout_save1 = dup(1);
-    int stdin_save2 = dup(0);
-    int stdout_save2 = dup(1);
     char temp_rdir[100];
     char temp_rdir2[100];
     char args_rdir[100];
@@ -330,8 +328,6 @@ int main()
                             {
                                 stdin_save = dup(0);
                                 stdout_save = dup(1);
-                                stdin_save2 = dup(0);
-                                stdout_save2 = dup(1);
                                 dup2(inputp, 0);
                                 dup2(1, 1);
                                 //input,1;
@@ -594,8 +590,6 @@ int main()
                                 pipe(pipea);
                                 stdin_save = dup(0);
                                 stdout_save = dup(1);
-                                stdin_save2 = dup(0);
-                                stdout_save2 = dup(1);
                                 dup2(inputp, 0);
                                 dup2(pipea[1], 1);
                                 //input,pipea[1];
