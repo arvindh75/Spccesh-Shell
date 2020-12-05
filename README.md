@@ -5,6 +5,10 @@
 
 A basic shell that executes bash commands. It can create and run Foreground and Background processes. It can also display history. It is fully written in C.
 
+## Instructions
+- `cd spccesh && make`
+- Run `./spccesh` to start the shell
+
 ## Files
 - `cd.c` : Implements *cd* command.
 - `echo.c` : Implements *echo* command.
