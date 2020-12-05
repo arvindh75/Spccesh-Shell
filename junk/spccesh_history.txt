@@ -1,0 +1,20 @@
+cat < test.txt                       
+
+wc                         
+
+quit                         
+
+sleep &                        
+
+sleep 100 &                       
+
+overkill                         
+
+jobs                         
+
+overkill                         
+
+ls                         
+
+exit                         
+ 
