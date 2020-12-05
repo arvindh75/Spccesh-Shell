@@ -385,7 +385,8 @@ void kjob_f(char *suc)
     }
     int lcont = 0;
     int pidbg;
-    for (int i = 0; i < MAX_BG; i++)
+    int i;
+    for (i = 0; i < MAX_BG; i++)
     {
         if (procs[i].over != 1)
         {
@@ -397,7 +398,7 @@ void kjob_f(char *suc)
             }
         }
     }
-    if (procs[pidbg - 1].over != 0)
+    if (procs[pidbg - 1].over != 0 && i < MAX_BG-1)
         kill(procs[pidbg - 1].pid, signum);
     else
     {
@@ -537,7 +538,7 @@ void exec_proc_f(char *inp, char *home, char *username, char *hostname, char *cw
                 procs[proc_count].over = -1;
                 strcpy(procs[proc_count].name, c_args[0]);
                 proc_count++;
-                printf("[%d]\n", forkret);
+                fprintf(stderr, "[%d]\n", forkret);
                 signal(SIGCHLD, proc_end);
             }
         }
